@@ -213,6 +213,14 @@ def init_db():
             created_at INTEGER
         )
     """)
+    cursor.execute("SELECT COUNT(*) FROM tracked_groups")
+    if cursor.fetchone()[0] == 0:
+        cursor.execute("""
+            INSERT OR IGNORE INTO tracked_groups (chat_id, group_title, token_address, token_symbol, min_buy_usd, last_block, created_at)
+            VALUES (?, ?, ?, ?, ?, 0, ?)
+        """, (-5357034793, 'Group', '0x532f27101965dd16442E59d40670FaF5eBB142E4', 'BRETT', 5.0, int(time.time())))
+    conn.commit()
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS whale_alerts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
