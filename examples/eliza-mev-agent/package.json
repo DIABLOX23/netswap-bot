@@ -1,0 +1,13 @@
+{
+  "name": "eliza-mev-protected-agent",
+  "version": "1.0.0",
+  "description": "The Official MEV-Protected Autonomous Trading Agent Starter Kit for the ai16z Eliza Framework.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@netswap_protocol/agent-wallet": "^1.0.0",
+    "dotenv": "^16.4.5"
+  }
+}
