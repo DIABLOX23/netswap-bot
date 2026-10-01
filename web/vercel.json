@@ -1,0 +1,13 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/slippage-calculator", "destination": "/calculator.html" },
+    { "source": "/mev-checker", "destination": "/audit.html" },
+    { "source": "/uniswap-fee-calculator", "destination": "/calculator.html" },
+    { "source": "/raydium-loss-calculator", "destination": "/calculator.html" },
+    { "source": "/audit", "destination": "/audit.html" },
+    { "source": "/store", "destination": "/store.html" },
+    { "source": "/vault", "destination": "/vault.html" }
+  ]
+}

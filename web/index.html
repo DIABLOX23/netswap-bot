@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>NetSwap — Continuous P2P Liquidity Netting on Base</title>
+  
+  <!-- OpenGraph / Social Metadata -->
+  <meta property="og:title" content="NetSwap — Continuous P2P Liquidity Netting on Base">
+  <meta property="og:description" content="Trade any Base token peer-to-peer with 0% AMM slippage and 100% anti-MEV protection.">
+  <meta property="og:image" content="https://netswap.vercel.app/banner.jpg">
+  <meta property="og:url" content="https://netswap.vercel.app">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NetSwap — Zero-Slippage Anti-MEV on Base">
+  <meta name="twitter:description" content="Peer-to-peer batch netting engine. Never pay AMM slippage or get sandwiched again.">
+  <meta name="twitter:image" content="https://netswap.vercel.app/banner.jpg">
+
+  <!-- Farcaster Frame v2 Meta Tags -->
+  <meta name="fc:frame" content="vNext">
+  <meta name="fc:frame:image" content="https://netswap.vercel.app/banner.jpg">
+  <meta name="fc:frame:image:aspect_ratio" content="1.91:1">
+  <meta name="fc:frame:button:1" content="⚡ Launch NetSwap Bot">
+  <meta name="fc:frame:button:1:action" content="link">
+  <meta name="fc:frame:button:1:target" content="https://t.me/NetSwapBaseBot">
+  <meta name="fc:frame:button:2" content="🌐 Open Web Terminal">
+  <meta name="fc:frame:button:2:action" content="link">
+  <meta name="fc:frame:button:2:target" content="https://netswap.vercel.app">
+
+  <link rel="icon" type="image/jpeg" href="avatar.jpg">
+  <link rel="apple-touch-icon" href="avatar.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.2/ethers.umd.min.js"></script>
+  <style>
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.7; }
+    }
+    .glow-pulse { animation: pulse-glow 3s infinite ease-in-out; }
+    @keyframes net-collision {
+      0% { transform: translateX(0); opacity: 0.6; }
+      50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 10px rgba(6,182,212,0.8)); }
+      100% { transform: translateX(0); opacity: 0.6; }
+    }
+    .collide-anim { animation: net-collision 2s infinite ease-in-out; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-[100dvh] flex flex-col font-sans antialiased selection:bg-cyan-500 selection:text-black pb-20 md:pb-0">
+  <!-- Top Navigation Header -->
+  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-xl sticky top-0 z-40 px-3 sm:px-6 py-2.5 sm:py-3.5 flex items-center justify-between">
+    <div class="flex items-center gap-2 shrink-0 min-w-0">
+      <a href="index.html" class="flex items-center gap-2 group shrink-0">
+        <img src="avatar.jpg" alt="NetSwap Logo" class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl object-cover shadow-lg shadow-cyan-500/25 border border-cyan-500/30 group-hover:scale-105 transition shrink-0">
+        <div class="min-w-0">
+          <h1 class="text-base sm:text-lg font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent leading-none">NetSwap</h1>
+          <p class="hidden sm:block text-[10px] text-cyan-400 font-semibold tracking-wider uppercase mt-0.5 truncate">Continuous Netting · Base</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Live Network Stats (Desktop) -->
+    <div class="hidden md:flex items-center gap-6 text-xs text-slate-400">
+      <div class="flex items-center gap-2">
+        <span class="h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span>Batch Interval: <strong class="text-white font-mono">2.0s</strong></span>
+      </div>
+      <div>
+        <span>MEV Saved Today: <strong id="mevSavedCounter" class="text-emerald-400 font-mono font-semibold">$18,492.40</strong></span>
+      </div>
+    </div>
+
+    <!-- Navigation Actions (Shrink-0 & Mobile Optimized) -->
+    <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+      <a href="store.html" class="hidden sm:flex bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 px-3 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition items-center gap-1.5 shrink-0 whitespace-nowrap">
+        <span>👑</span>
+        <span>Alpha Store</span>
+      </a>
+      <a href="audit.html" class="bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-bold transition flex items-center gap-1 shrink-0 whitespace-nowrap">
+        <span>🔍</span>
+        <span><span class="hidden sm:inline">Loss </span>Audit</span>
+      </a>
+      <button id="connectWalletBtn" onclick="connectWallet()" class="bg-cyan-500 hover:bg-cyan-400 active:scale-95 text-slate-950 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-bold transition shadow-md shadow-cyan-500/20 shrink-0 whitespace-nowrap">
+        <span class="hidden sm:inline">Connect </span>Wallet
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Swap Terminal (Centered & Mobile Optimized) -->
+  <main class="flex-1 flex flex-col items-center justify-center px-3 sm:px-4 py-4 sm:py-10 pb-28 sm:pb-12 relative overflow-hidden">
+    <div class="absolute inset-0 bg-radial from-cyan-900/15 via-transparent to-transparent glow-pulse pointer-events-none"></div>
+
+    <!-- Mobile Trading Notification Bar -->
+    <a href="https://t.me/NetSwapBaseBot" target="_blank" class="w-full max-w-md mb-4 bg-gradient-to-r from-cyan-950/80 to-blue-950/80 border border-cyan-500/40 hover:border-cyan-300 rounded-2xl p-3 flex items-center justify-between text-xs text-cyan-200 transition shadow-lg shadow-cyan-950/40 relative z-20 active:scale-[0.99]">
+      <div class="flex items-center gap-2.5">
+        <span class="text-base sm:text-lg">⚡</span>
+        <div>
+          <div class="font-bold text-white text-xs sm:text-sm">Trading on Mobile?</div>
+          <div class="text-[10px] sm:text-[11px] text-cyan-300">Launch @NetSwapBaseBot on Telegram (0% slippage)</div>
+        </div>
+      </div>
+      <span class="bg-cyan-500 text-slate-950 px-2.5 py-1 rounded-xl font-bold text-[11px] whitespace-nowrap shadow">Open ➔</span>
+    </a>
+
+    <!-- Pioneer Points & Dev Gas Refund Bounty Banner (High-Converting Growth Magnet) -->
+    <div class="w-full max-w-md mb-3.5 bg-gradient-to-r from-amber-950/40 via-purple-950/40 to-cyan-950/40 border border-amber-500/40 rounded-2xl p-3.5 shadow-xl relative z-10 backdrop-blur-xl">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">🎁</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-amber-400 font-extrabold text-xs tracking-wide uppercase font-mono">PIONEER SEASON 1</span>
+              <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[9px] font-bold px-1.5 py-0.5 rounded-full">LIVE</span>
+            </div>
+            <p class="text-[11px] text-slate-300 mt-0.5 leading-snug">
+              <strong>100% Gas Refund Bounty:</strong> First 50 traders get Base gas refunded by dev + earn <strong>100 $NETSWAP Points</strong> per trade!
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-2 pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
+        <span>Spots Left: <strong class="text-cyan-400">36 / 50</strong></span>
+        <a href="https://t.me/NetSwapBaseBot?start=gasrefund" target="_blank" class="text-amber-300 hover:text-amber-200 font-bold underline">Claim Gas Refund ➔</a>
+      </div>
+    </div>
+
+    <!-- Swap Box Card -->
+    <div class="w-full max-w-md bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl backdrop-blur-2xl relative z-10">
+      
+      <!-- Top Directional Mode Selector: BUY vs SELL -->
+      <div class="grid grid-cols-2 p-1 bg-slate-950/80 rounded-2xl border border-slate-800 mb-4 text-xs font-bold">
+        <button id="modeBuyBtn" onclick="setTradeMode('BUY')" class="py-2.5 rounded-xl transition bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm flex items-center justify-center gap-1.5">
+          <span>🟢</span> BUY
+        </button>
+        <button id="modeSellBtn" onclick="setTradeMode('SELL')" class="py-2.5 rounded-xl transition text-slate-400 hover:text-white flex items-center justify-center gap-1.5">
+          <span>🔴</span> SELL (Take Profit)
+        </button>
+      </div>
+
+      <!-- Asset Quick Selector (Base Ecosystem) -->
+      <div class="mb-3.5">
+        <div class="text-[11px] font-semibold text-slate-400 mb-1.5 flex items-center justify-between">
+          <span id="targetTokenLabel">Target Asset:</span>
+          <span class="text-[10px] text-emerald-400 font-mono font-bold">0% AMM Slippage</span>
+        </div>
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 text-xs font-mono" id="tokenPills">
+          <button onclick="selectToken('USDC')" class="token-pill py-1.5 px-2 rounded-xl bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 font-bold transition text-center">$USDC</button>
+          <button onclick="selectToken('VIRTUAL')" class="token-pill py-1.5 px-2 rounded-xl bg-slate-800/80 border border-slate-700/80 hover:border-slate-600 text-slate-300 transition text-center">$VIRTUAL</button>
+          <button onclick="selectToken('BRETT')" class="token-pill py-1.5 px-2 rounded-xl bg-slate-800/80 border border-slate-700/80 hover:border-slate-600 text-slate-300 transition text-center">$BRETT</button>
+          <button onclick="selectToken('TOSHI')" class="token-pill py-1.5 px-2 rounded-xl bg-slate-800/80 border border-slate-700/80 hover:border-slate-600 text-slate-300 transition text-center">$TOSHI</button>
+          <button onclick="selectToken('AERO')" class="token-pill py-1.5 px-2 rounded-xl bg-slate-800/80 border border-slate-700/80 hover:border-slate-600 text-slate-300 transition text-center">$AERO</button>
+          <button onclick="selectToken('DEGEN')" class="token-pill py-1.5 px-2 rounded-xl bg-slate-800/80 border border-slate-700/80 hover:border-slate-600 text-slate-300 transition text-center">$DEGEN</button>
+        </div>
+      </div>
+
+      <!-- Pay Input -->
+      <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3.5 sm:p-4 mb-2 hover:border-slate-700 transition">
+        <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
+          <span id="payLabel">You Pay</span>
+          <div class="flex items-center gap-1 font-mono">
+            <span id="tokenInBalance" class="mr-1">Balance: 0.00</span>
+            <button onclick="setAmountPercent(0.25)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px]">25%</button>
+            <button onclick="setAmountPercent(0.50)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px]">50%</button>
+            <button onclick="setAmountPercent(0.75)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px]">75%</button>
+            <button onclick="setAmountPercent(1.0)" class="px-1.5 py-0.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-[10px] font-bold border border-cyan-500/40">MAX</button>
+          </div>
+        </div>
+        <div class="flex items-center justify-between gap-3">
+          <input type="number" id="amountIn" placeholder="0.0" oninput="calculateNetOutput()" class="bg-transparent text-xl sm:text-2xl font-bold text-white focus:outline-none w-2/3 font-mono">
+          <button class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition shrink-0">
+            <span id="tokenInSymbol">WETH</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Swap Flip Button -->
+      <div class="flex justify-center -my-2.5 relative z-20">
+        <button onclick="flipTokens()" title="Switch Buy/Sell direction" class="bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 active:scale-90 border border-slate-700 p-2 rounded-full transition shadow-md">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </button>
+      </div>
+
+      <!-- Receive Output -->
+      <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3.5 sm:p-4 mt-2 mb-4">
+        <div class="flex justify-between text-xs text-slate-400 mb-1.5">
+          <span id="receiveLabel">You Receive (Estimated Netted)</span>
+          <span id="tokenOutBalance">Balance: 0.00</span>
+        </div>
+        <div class="flex items-center justify-between gap-3">
+          <input type="text" id="amountOut" placeholder="0.0" readonly class="bg-transparent text-xl sm:text-2xl font-bold text-emerald-400 focus:outline-none w-2/3 font-mono">
+          <button class="bg-slate-800 hover:bg-slate-700 border border-slate-700 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition shrink-0">
+            <span id="tokenOutSymbol">USDC</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Savings Breakdown Box -->
+      <div class="bg-emerald-950/30 border border-emerald-500/25 rounded-2xl p-3 mb-5 text-xs text-emerald-300 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-emerald-400 text-base">🛡️</span>
+          <span>Predicted Savings vs. Uniswap:</span>
+        </div>
+        <span id="estimatedSavings" class="font-mono font-bold text-sm text-emerald-400">+$0.00</span>
+      </div>
+
+      <!-- Action Button -->
+      <button id="actionBtn" onclick="submitNetOrder()" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 active:scale-95 text-slate-950 py-3.5 rounded-2xl font-bold text-sm sm:text-base transition shadow-lg shadow-cyan-500/20">
+        Sign Zero-Slippage Buy
+      </button>
+
+      <p class="text-[11px] text-center text-slate-500 mt-3 leading-normal">
+        EIP-712 Permit · No gas required to sign · Matches within 2 seconds
+      </p>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- VISUAL CONTINUOUS BATCH NETTING & SINGLE-TRADER ENGINE WIDGET             -->
+    <!-- ========================================================================= -->
+    <div class="w-full max-w-md mt-6 bg-slate-900/60 border border-slate-800 rounded-3xl p-4 sm:p-5 text-xs">
+      
+      <!-- Batch Status Bar -->
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800/80 mb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span class="font-bold text-white uppercase text-[11px] tracking-wide">Continuous Netting Window</span>
+        </div>
+        <div class="flex items-center gap-1.5 font-mono text-[11px] text-cyan-300 bg-cyan-500/10 px-2 py-0.5 rounded-lg border border-cyan-500/20">
+          <span>Window:</span>
+          <span id="batchCountdown" class="font-bold text-white">2.0s</span>
+        </div>
+      </div>
+
+      <!-- Collision Visualizer -->
+      <div class="bg-slate-950 border border-slate-800/80 rounded-2xl p-3 mb-3 relative overflow-hidden">
+        <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-2">
+          <span class="text-emerald-400 font-bold">🟢 Peer Buys (Matched)</span>
+          <span class="text-cyan-400 font-bold">COLLISION (0% SLIP)</span>
+          <span class="text-rose-400 font-bold">🔴 Peer Sells (Matched)</span>
+        </div>
+        
+        <!-- Animated Collision Track -->
+        <div class="relative h-6 bg-slate-900 rounded-xl flex items-center justify-between px-2 overflow-hidden border border-slate-800">
+          <div class="h-3 w-1/3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-md"></div>
+          <div class="collide-anim z-10 bg-cyan-400 text-slate-950 font-black text-[9px] px-2 py-0.5 rounded-full shadow-lg shadow-cyan-400/50">
+            NETTED
+          </div>
+          <div class="h-3 w-1/3 bg-gradient-to-l from-rose-500 to-cyan-500 rounded-md"></div>
+        </div>
+
+        <div class="mt-2 text-[10px] text-slate-400 flex items-center justify-between">
+          <span>Peer Rate: <strong class="text-white font-mono">Fair Mid-Market</strong></span>
+          <span>Sandwich MEV Risk: <strong class="text-emerald-400 font-mono font-bold">$0.00</strong></span>
+        </div>
+      </div>
+
+      <!-- Single Trader Fallback Explanation (Addresses User Question Directly) -->
+      <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-3 text-[11px] text-slate-400 leading-relaxed">
+        <div class="flex items-start gap-2">
+          <span class="text-amber-400 text-sm">💡</span>
+          <div>
+            <span class="text-slate-200 font-bold">Single Trader Fallback Engine:</span>
+            <p class="mt-0.5 text-slate-400">
+              When there's only 1 trader in the 2.0s window or unmatched remainder volume, NetSwap does <strong>not</strong> delay your execution. It immediately routes the order via private Flashbots / MEV-Blocker builders to Aerodrome / Uniswap v3 with <strong>zero wait time</strong> and guaranteed sandwich protection.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Wallet Connect & Demo Modal -->
+  <div id="mobileWalletModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <span>⚡</span> Connect to NetSwap
+        </h3>
+        <button onclick="closeMobileModal()" class="text-slate-400 hover:text-white p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <p class="text-xs text-slate-400 mb-5 leading-relaxed">
+        No active Web3 wallet extension was detected. Choose how you'd like to trade with 0% AMM slippage:
+      </p>
+
+      <div class="space-y-2.5">
+        <!-- Option 1: Telegram Bot (Fastest, 1-Click) -->
+        <a href="https://t.me/NetSwapBaseBot" target="_blank" class="flex items-center justify-between p-3.5 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 border border-cyan-500/40 rounded-2xl transition group">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🤖</span>
+            <div class="text-left">
+              <div class="text-sm font-bold text-white group-hover:text-cyan-400 flex items-center gap-1.5">
+                Telegram Bot <span class="bg-cyan-500 text-slate-950 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase">Fastest</span>
+              </div>
+              <div class="text-[11px] text-slate-400">Zero popups · 0% slippage · 100% self-custody</div>
+            </div>
+          </div>
+          <span class="text-cyan-400 text-lg">➔</span>
+        </a>
+
+        <!-- Option 2: Run Instant Simulation -->
+        <button onclick="closeMobileModal(); simulateDemoBatchNetting();" class="w-full flex items-center justify-between p-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-2xl transition group">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🧪</span>
+            <div class="text-left">
+              <div class="text-sm font-bold text-emerald-300 group-hover:text-emerald-200 flex items-center gap-1.5">
+                Simulate Order Netting <span class="bg-emerald-500/30 text-emerald-300 text-[10px] px-1.5 py-0.5 rounded font-bold">Interactive</span>
+              </div>
+              <div class="text-[11px] text-slate-400">Preview 2.0s micro-batch matching in browser</div>
+            </div>
+          </div>
+          <span class="text-emerald-400 text-lg">➔</span>
+        </button>
+
+        <!-- Option 3: MetaMask In-App Browser -->
+        <a href="https://metamask.app.link/dapp/netswap.vercel.app" class="flex items-center justify-between p-3 bg-slate-950/60 hover:bg-slate-800/60 border border-slate-800 rounded-2xl transition group">
+          <div class="flex items-center gap-3">
+            <span class="text-xl">🦊</span>
+            <div class="text-left">
+              <div class="text-xs font-bold text-white group-hover:text-amber-400">Open in MetaMask Mobile</div>
+              <div class="text-[10px] text-slate-400">Deep link for MetaMask app</div>
+            </div>
+          </div>
+          <span class="text-slate-500 text-sm">➔</span>
+        </a>
+
+        <!-- Option 4: Coinbase Wallet In-App Browser -->
+        <a href="https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fnetswap.vercel.app" class="flex items-center justify-between p-3 bg-slate-950/60 hover:bg-slate-800/60 border border-slate-800 rounded-2xl transition group">
+          <div class="flex items-center gap-3">
+            <span class="text-xl">🔵</span>
+            <div class="text-left">
+              <div class="text-xs font-bold text-white group-hover:text-blue-400">Open in Coinbase Wallet</div>
+              <div class="text-[10px] text-slate-400">Deep link for Coinbase app</div>
+            </div>
+          </div>
+          <span class="text-slate-500 text-sm">➔</span>
+        </a>
+      </div>
+
+      <button onclick="closeMobileModal()" class="w-full mt-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold transition">
+        Dismiss
+      </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- UNIVERSAL MOBILE BOTTOM NAVIGATION BAR (FIXED, SAFE-AREA COMPATIBLE)      -->
+  <!-- ========================================================================= -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 px-2 py-2 flex items-center justify-around shadow-2xl" style="padding-bottom: max(0.6rem, env(safe-area-inset-bottom));">
+    <a href="index.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 transition">
+      <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
+      <span class="text-[10px] font-bold">Swap</span>
+    </a>
+    <a href="audit.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="text-[10px] font-bold">Loss Audit</span>
+    </a>
+    <a href="store.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span class="text-[10px] font-bold">VIP Mall</span>
+    </a>
+    <a href="https://t.me/NetSwapBaseBot" target="_blank" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-cyan-400 hover:text-white transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+      <span class="text-[10px] font-bold">Bot ↗</span>
+    </a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
