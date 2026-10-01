@@ -3,16 +3,19 @@ pragma solidity ^0.8.20;
 
 /**
  * @title AeternaToken ($AET)
- * @notice The Sovereign Governance & Fee-Siphon Asset of the Aeterna Continuity Protocol.
+ * @notice The Sovereign Governance, Flash Arb Fuel & Value-Accrual Asset of Aeterna Protocol.
  * 
- * Tokenomics:
- * - Total Supply: 1,000,000,000 $AET (Fixed forever. Zero inflation. Zero minting after genesis.)
- * - 80% (800,000,000 $AET): Fair Launch Liquidity Pool (Aerodrome / Uniswap v3)
- * - 10% (100,000,000 $AET): Founder / Core Contributor Treasury (Locked / Secondary OTC)
- * - 10% (100,000,000 $AET): On-Chain Mainnet Security Challenge & Bug Bounty Reserve
+ * Total Supply: 1,000,000,000 $AET (1 Billion Fixed Forever. Zero Inflation.)
  *
- * Value Accrual:
- * - All NetSwap execution fees (3%) & Float Yield Siphons (20%) can be routed to buy back and burn $AET.
+ * Strategic Allocation (The 25% Controlled Gravity Structure):
+ * - 10% (100,000,000 $AET): Core Contributors / Founder Allocation (Personal Deployer)
+ * - 10% (100,000,000 $AET): Strategic Ecosystem Treasury (CEX Listings, Security Bounties, OTC)
+ * - 5%  (50,000,000 $AET):  Flash Arb & Gas Reserve (NetSwap Autonomous Hunter Bot)
+ * - 75% (750,000,000 $AET): Fair Launch Liquidity (Clanker / Aerodrome / Uniswap v3 on Base)
+ *
+ * Deflationary Burn Mechanism:
+ * - NetSwap Flash Arb & Aeterna Cascade execution fees are programmatically routed 
+ *   to buy back and burn $AET, permanently shrinking circulating supply.
  */
 contract AeternaToken {
     string public constant name = "Aeterna Protocol";
@@ -28,26 +31,32 @@ contract AeternaToken {
     event Burn(address indexed from, uint256 value);
 
     constructor(
-        address founderTreasury,
-        address bountyReserve,
-        address liquidityDistributor
+        address coreContributors,
+        address strategicTreasury,
+        address flashArbGasReserve,
+        address fairLaunchLiquidity
     ) {
-        require(founderTreasury != address(0), "Invalid founder address");
-        require(bountyReserve != address(0), "Invalid bounty address");
-        require(liquidityDistributor != address(0), "Invalid LP distributor");
+        require(coreContributors != address(0), "Invalid core contributor address");
+        require(strategicTreasury != address(0), "Invalid strategic treasury address");
+        require(flashArbGasReserve != address(0), "Invalid flash arb reserve address");
+        require(fairLaunchLiquidity != address(0), "Invalid liquidity pool address");
 
-        uint256 founderAmount = (totalSupply * 10) / 100;     // 10% (100M)
-        uint256 bountyAmount = (totalSupply * 10) / 100;      // 10% (100M)
-        uint256 liquidityAmount = totalSupply - founderAmount - bountyAmount; // 80% (800M)
+        uint256 coreAmount = (totalSupply * 10) / 100;       // 10% (100,000,000 $AET)
+        uint256 treasuryAmount = (totalSupply * 10) / 100;   // 10% (100,000,000 $AET)
+        uint256 flashArbAmount = (totalSupply * 5) / 100;    // 5%  (50,000,000 $AET)
+        uint256 liquidityAmount = totalSupply - coreAmount - treasuryAmount - flashArbAmount; // 75% (750,000,000 $AET)
 
-        balanceOf[founderTreasury] = founderAmount;
-        emit Transfer(address(0), founderTreasury, founderAmount);
+        balanceOf[coreContributors] = coreAmount;
+        emit Transfer(address(0), coreContributors, coreAmount);
 
-        balanceOf[bountyReserve] = bountyAmount;
-        emit Transfer(address(0), bountyReserve, bountyAmount);
+        balanceOf[strategicTreasury] = treasuryAmount;
+        emit Transfer(address(0), strategicTreasury, treasuryAmount);
 
-        balanceOf[liquidityDistributor] = liquidityAmount;
-        emit Transfer(address(0), liquidityDistributor, liquidityAmount);
+        balanceOf[flashArbGasReserve] = flashArbAmount;
+        emit Transfer(address(0), flashArbGasReserve, flashArbAmount);
+
+        balanceOf[fairLaunchLiquidity] = liquidityAmount;
+        emit Transfer(address(0), fairLaunchLiquidity, liquidityAmount);
     }
 
     function transfer(address recipient, uint256 amount) external returns (bool) {
@@ -71,6 +80,10 @@ contract AeternaToken {
         return true;
     }
 
+    /**
+     * @notice Permanent burn function. Used by NetSwap Flash Arb & Cascade module
+     *         to consume tokens purchased with protocol profits, deflating total supply.
+     */
     function burn(uint256 amount) external {
         require(balanceOf[msg.sender] >= amount, "ERC20: burn amount exceeds balance");
         balanceOf[msg.sender] -= amount;
