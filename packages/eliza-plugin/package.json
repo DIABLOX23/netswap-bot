@@ -1,0 +1,21 @@
+{
+  "name": "@aeterna/eliza-plugin",
+  "version": "1.0.0",
+  "description": "Official ai16z Eliza framework plugin for MEV-protected autonomous trading & treasury management.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "eliza",
+    "ai16z",
+    "agent-trading",
+    "aeterna",
+    "netswap",
+    "defi-plugin"
+  ],
+  "author": "Aeterna Protocol",
+  "license": "MIT",
+  "dependencies": {
+    "@aeterna/agent-wallet": "^1.0.0",
+    "ethers": "^6.13.0"
+  }
+}

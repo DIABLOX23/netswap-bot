@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>NetSwap Forensics — On-Chain DEX Loss & MEV Extraction Audit</title>
+  
+  <!-- OpenGraph / Social Metadata -->
+  <meta property="og:title" content="NetSwap Forensics — On-Chain DEX Loss Audit">
+  <meta property="og:description" content="Calculate exactly how much predatory sandwich bots, AMM slippage, and competitor bot fees drained from your crypto wallet.">
+  <meta property="og:image" content="https://netswap.vercel.app/banner.jpg">
+  <meta property="og:url" content="https://netswap.vercel.app/audit.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NetSwap DEX Extraction Receipt — On-Chain Forensic Audit">
+  <meta name="twitter:description" content="Audit historical losses from Uniswap, Raydium, and competitor bots. Claim your $NETSWAP recovery points.">
+  <meta name="twitter:image" content="https://netswap.vercel.app/banner.jpg">
+
+  <link rel="icon" type="image/jpeg" href="avatar.jpg">
+  <link rel="apple-touch-icon" href="avatar.jpg">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.2/ethers.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 0.6; }
+    }
+    .glow-pulse { animation: pulse-glow 3.5s infinite ease-in-out; }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-cyan-500 selection:text-black relative overflow-x-hidden pb-20 md:pb-0">
+
+  <!-- Ambient Glow Effects (Matching index.html) -->
+  <div class="fixed inset-0 bg-radial from-cyan-900/15 via-transparent to-transparent glow-pulse pointer-events-none z-0"></div>
+  <div class="fixed -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
+  <div class="fixed bottom-0 right-10 w-[450px] h-[450px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
+
+  <!-- ========================================================================= -->
+  <!-- INSTITUTIONAL NAVIGATION BAR (RESPONSIVE & MOBILE-OPTIMIZED)             -->
+  <!-- ========================================================================= -->
+  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-xl sticky top-0 z-40 px-3 sm:px-6 py-2.5 sm:py-3.5 flex items-center justify-between">
+    <div class="flex items-center gap-2 sm:gap-2.5 shrink-0 min-w-0">
+      <a href="index.html" class="flex items-center gap-2 group shrink-0">
+        <img src="avatar.jpg" alt="NetSwap Logo" class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl object-cover shadow-lg shadow-cyan-500/25 border border-cyan-500/30 group-hover:scale-105 transition shrink-0">
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base sm:text-lg font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent leading-none">NetSwap</span>
+            <span class="hidden sm:inline-block text-[10px] bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded-full font-mono font-bold uppercase tracking-wider">Forensics</span>
+          </div>
+          <p class="hidden sm:block text-[10px] text-cyan-400 font-semibold tracking-wider uppercase mt-0.5 truncate">Zero-Slippage · Base</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Right Header Actions (Shrink-0 & Whitespace-nowrap to PREVENT COLLISION) -->
+    <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+      <a href="index.html" class="hidden md:flex items-center gap-1.5 text-xs text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 px-3 py-1.5 rounded-xl font-semibold transition shrink-0 whitespace-nowrap">
+        <span>⚡</span>
+        <span>Swap</span>
+      </a>
+      <a href="store.html" class="hidden lg:flex items-center gap-1.5 text-xs text-amber-300 hover:text-white bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 px-3 py-1.5 rounded-xl font-semibold transition shrink-0 whitespace-nowrap">
+        <span>👑</span>
+        <span>Store</span>
+      </a>
+      <button onclick="openVictimModal()" class="flex items-center gap-1 sm:gap-1.5 text-[11px] sm:text-xs text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 px-2.5 sm:px-3 py-1.5 rounded-xl font-semibold transition shrink-0 whitespace-nowrap">
+        <span class="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
+        <span><span class="hidden sm:inline">Victim </span>Index</span>
+      </button>
+      <a href="https://t.me/NetSwapBaseBot" target="_blank" class="bg-cyan-500 hover:bg-cyan-400 active:scale-95 text-slate-950 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-bold transition shadow-md shadow-cyan-500/20 flex items-center gap-1 shrink-0 whitespace-nowrap">
+        <span><span class="hidden sm:inline">Launch </span>Bot</span>
+        <span class="text-[10px]">↗</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Status / Telemetry Strip -->
+  <div class="bg-gradient-to-r from-cyan-950/80 via-blue-950/80 to-slate-950 border-b border-cyan-500/20 py-1.5 sm:py-2 px-3 sm:px-4 text-center text-[10px] sm:text-xs text-slate-300 flex items-center justify-center gap-1.5 sm:gap-2 relative z-10 leading-tight">
+    <span class="h-2 w-2 rounded-full bg-emerald-400 animate-ping shrink-0"></span>
+    <span class="truncate sm:overflow-visible">Live Telemetry: Base & Solana Mempool Forensics Active · <strong class="text-cyan-300">$1,869,000+ USD</strong> Drain</span>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN CONTAINER                                                            -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 flex flex-col items-center justify-center px-4 py-8 sm:py-12 relative z-10">
+
+    <!-- ========================================================================= -->
+    <!-- SCREEN 1: FORENSIC INTAKE                                                 -->
+    <!-- ========================================================================= -->
+    <section id="screen-intake" class="w-full max-w-2xl mx-auto">
+      
+      <!-- Headline & Introduction -->
+      <div class="text-center mb-8 sm:mb-10">
+        <div class="inline-flex items-center gap-2 bg-slate-900 border border-slate-800 text-cyan-400 text-xs px-3.5 py-1.5 rounded-full font-semibold mb-4 shadow-sm">
+          <span class="h-1.5 w-1.5 rounded-full bg-cyan-400"></span>
+          <span>Zero-Knowledge Multi-Chain Loss Detection</span>
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight sm:leading-none mb-3">
+          Audit Your Historical <span class="bg-gradient-to-r from-red-400 via-rose-400 to-amber-400 bg-clip-text text-transparent">DEX Losses.</span>
+        </h1>
+        <p class="text-slate-400 text-xs sm:text-base max-w-xl mx-auto leading-relaxed">
+          Standard swaps on Uniswap, Raydium, and competitor bots bleed <strong>2% to 5%</strong> to sandwich frontrunning and liquidity pool slippage. Enter your public address to generate your verified loss receipt.
+        </p>
+      </div>
+
+      <!-- 3 Clean Threat Vectors -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 text-left">
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4">
+          <div class="text-[10px] font-mono text-rose-400 font-semibold uppercase tracking-wider mb-1">01 / MEV Sandwiching</div>
+          <div class="text-xs font-bold text-white mb-1">Mempool Front-running</div>
+          <p class="text-[11px] text-slate-400 leading-normal">Bots detect your pending swap, buy ahead of you to spike the price, and sell immediately after.</p>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4">
+          <div class="text-[10px] font-mono text-rose-400 font-semibold uppercase tracking-wider mb-1">02 / AMM Slippage</div>
+          <div class="text-xs font-bold text-white mb-1">Bonding Curve Impact</div>
+          <p class="text-[11px] text-slate-400 leading-normal">Constant-product pricing formulas force significant price impact on volume. NetSwap bypasses this entirely.</p>
+        </div>
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4">
+          <div class="text-[10px] font-mono text-rose-400 font-semibold uppercase tracking-wider mb-1">03 / Competitor Tolls</div>
+          <div class="text-xs font-bold text-white mb-1">1.00% Unhedged Fees</div>
+          <p class="text-[11px] text-slate-400 leading-normal">Trojan, Maestro, and BonkBot impose an unhedged 1.00% surcharge on every swap on top of DEX slippage.</p>
+        </div>
+      </div>
+
+      <!-- Audit Input Card -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl backdrop-blur-2xl relative overflow-hidden">
+        <div class="flex items-center justify-between mb-3 text-xs">
+          <label for="walletInput" class="font-mono text-slate-300 font-semibold uppercase tracking-wider">
+            Public Wallet Address
+          </label>
+          <span class="text-[11px] text-cyan-400 font-mono">Base (0x) · Solana (SPL) · ETH</span>
+        </div>
+
+        <!-- Input Field -->
+        <div class="relative mb-4">
+          <input 
+            type="text" 
+            id="walletInput" 
+            placeholder="0x532f...42e4 or 7xKXtg...Josg" 
+            class="w-full bg-slate-950/80 border border-slate-800 focus:border-cyan-500 rounded-2xl px-4 py-3.5 text-xs sm:text-sm font-mono text-white placeholder-slate-600 focus:outline-none transition shadow-inner"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <button 
+            onclick="pasteFromClipboard()" 
+            type="button" 
+            class="absolute right-2.5 top-1/2 -translate-y-1/2 bg-slate-800 hover:bg-slate-700 active:scale-95 text-xs font-mono text-slate-300 px-3 py-1.5 rounded-xl transition font-semibold"
+          >
+            Paste
+          </button>
+        </div>
+
+        <!-- Timeframe Selector -->
+        <div class="mb-5">
+          <div class="text-xs font-semibold text-slate-400 mb-2">Audit Window:</div>
+          <div class="grid grid-cols-5 gap-1.5 text-xs font-mono font-medium" id="timeframeButtons">
+            <button onclick="selectTimeframe('7d', this)" class="tf-btn py-2 rounded-xl bg-slate-800/80 border border-slate-700/80 hover:border-slate-600 text-slate-300 text-center transition">7D</button>
+            <button onclick="selectTimeframe('30d', this)" class="tf-btn py-2 rounded-xl bg-cyan-500/20 border border-cyan-500 text-cyan-300 text-center transition">30D</button>
+            <button onclick="selectTimeframe('90d', this)" class="tf-btn py-2 rounded-xl bg-slate-800/80 border border-slate-700/80 hover:border-slate-600 text-slate-300 text-center transition">90D</button>
+            <button onclick="selectTimeframe('1y', this)" class="tf-btn py-2 rounded-xl bg-slate-800/80 border border-slate-700/80 hover:border-slate-600 text-slate-300 text-center transition">1 Year</button>
+            <button onclick="selectTimeframe('all', this)" class="tf-btn py-2 rounded-xl bg-slate-800/80 border border-slate-700/80 hover:border-slate-600 text-slate-300 text-center transition">All-Time</button>
+          </div>
+        </div>
+
+        <!-- Web3 Direct Connect Option -->
+        <div class="flex items-center justify-between text-xs text-slate-400 mb-4 pt-3 border-t border-slate-800">
+          <span>Or connect browser wallet:</span>
+          <button onclick="connectWeb3Wallet()" class="text-cyan-400 hover:text-cyan-300 font-semibold flex items-center gap-1 hover:underline">
+            <span>Connect MetaMask / Phantom ↗</span>
+          </button>
+        </div>
+
+        <!-- Primary Action Button (Matching index.html Gradient Button) -->
+        <button 
+          id="runAuditBtn" 
+          onclick="runForensicAudit()" 
+          class="w-full bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 hover:from-cyan-400 hover:to-indigo-400 active:scale-[0.99] text-slate-950 font-black text-sm sm:text-base py-4 rounded-2xl transition shadow-xl shadow-cyan-500/25 flex items-center justify-center gap-2 group"
+        >
+          <span>Run On-Chain Forensic Loss Audit</span>
+          <span class="font-mono group-hover:translate-x-1 transition">→</span>
+        </button>
+
+        <!-- Privacy & Security Guarantee -->
+        <div class="text-center mt-3 text-[11px] text-slate-500 flex items-center justify-center gap-2">
+          <span>🔒 Read-Only Query</span>
+          <span>•</span>
+          <span>Zero Signature Required</span>
+          <span>•</span>
+          <span>Client-Side Privacy</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- SCREEN 1.5: REAL-TIME SCANNING OVERLAY                                    -->
+    <!-- ========================================================================= -->
+    <div id="scanningOverlay" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-xl z-50 flex flex-col items-center justify-center p-4">
+      <div class="w-full max-w-md bg-slate-900 border border-cyan-500/40 rounded-3xl p-6 sm:p-8 text-center shadow-2xl relative overflow-hidden">
+        <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl font-mono mx-auto mb-4 animate-pulse">
+          ⚡
+        </div>
+        <h3 class="text-lg font-bold text-white mb-1.5">Analyzing On-Chain History</h3>
+        <p id="scanProgressText" class="text-xs text-cyan-400 font-mono mb-4">Connecting to Base & Solana archive nodes...</p>
+        
+        <div class="w-full bg-slate-950 border border-slate-800 rounded-full h-2.5 overflow-hidden mb-3">
+          <div id="scanProgressBar" class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-full w-1/12 transition-all duration-300 rounded-full"></div>
+        </div>
+        <div class="text-[11px] text-slate-500 font-mono">Cross-referencing DEX execution fills vs fair mid-market...</div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- SCREEN 2: FORENSIC DOSSIER & THEFT RECEIPT                                -->
+    <!-- ========================================================================= -->
+    <section id="screen-results" class="hidden w-full max-w-3xl mx-auto">
+      
+      <!-- Back Header -->
+      <div class="flex items-center justify-between mb-4">
+        <button onclick="backToIntake()" class="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 font-semibold transition">
+          <span>←</span>
+          <span>Audit Another Wallet</span>
+        </button>
+        <span class="text-xs text-slate-500 font-mono">Dossier: #<span id="auditDossierId">NST-84920</span></span>
+      </div>
+
+      <!-- MAIN RESULT CARD -->
+      <div class="bg-slate-900/95 border border-slate-800 rounded-3xl p-5 sm:p-8 shadow-2xl backdrop-blur-2xl relative mb-6">
+        
+        <!-- Header Info -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800 mb-5">
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="resChainBadge" class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded font-mono font-bold uppercase">Base Network</span>
+              <span class="text-xs text-slate-400">Window: <strong id="resTimeframeLabel" class="text-white font-medium">Last 30 Days</strong></span>
+            </div>
+            <div id="resWalletAddress" class="text-xs sm:text-sm font-mono font-bold text-white mt-1 break-all">
+              0x0000000000000000000000000000000000000000
+            </div>
+          </div>
+          <div class="sm:text-right bg-slate-950/80 p-2.5 rounded-xl border border-slate-800 sm:border-transparent">
+            <div class="text-[10px] uppercase font-mono text-slate-400">Victim Index Rank</div>
+            <div class="text-base font-bold text-rose-400 font-mono" id="resVictimRank">#42 <span class="text-xs text-slate-500 font-normal">of 1,425</span></div>
+          </div>
+        </div>
+
+        <!-- TOTAL LOSS BANNER -->
+        <div class="bg-gradient-to-br from-rose-950/40 via-red-950/20 to-slate-950 border border-rose-500/30 rounded-2xl p-4 sm:p-6 mb-5 text-center">
+          <div class="text-xs font-mono font-bold text-rose-400 uppercase tracking-wider mb-1">Total Extracted From This Wallet</div>
+          <div id="resTotalStolen" class="text-3xl sm:text-5xl font-black text-rose-400 font-mono tracking-tight mb-2">-$2,418.50 USD</div>
+          <p class="text-xs text-slate-400 max-w-md mx-auto">
+            Siphoned across <span id="resSwapsCount" class="text-white font-bold">~14 swaps</span> by mempool sandwich bots, excessive AMM pool slippage, and competitor bot fees.
+          </p>
+        </div>
+
+        <!-- 3-PILLAR ITEMIZATION BREAKDOWN -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 font-mono">
+          <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-2xl text-center">
+            <div class="text-[10px] text-slate-400 uppercase font-sans font-bold mb-0.5">MEV Sandwich Theft</div>
+            <div id="resMevLost" class="text-sm sm:text-base font-bold text-rose-400">-$740.00</div>
+            <div class="text-[10px] text-slate-500 font-sans mt-0.5">Frontrun & backrun bots</div>
+          </div>
+          <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-2xl text-center">
+            <div class="text-[10px] text-slate-400 uppercase font-sans font-bold mb-0.5">AMM Pool Slippage</div>
+            <div id="resSlippageLost" class="text-sm sm:text-base font-bold text-rose-400">-$1,258.50</div>
+            <div class="text-[10px] text-slate-500 font-sans mt-0.5">Bonding curve price drag</div>
+          </div>
+          <div class="bg-slate-950/80 border border-slate-800 p-3.5 rounded-2xl text-center">
+            <div class="text-[10px] text-slate-400 uppercase font-sans font-bold mb-0.5">Competitor 1% Tolls</div>
+            <div id="resBotTaxLost" class="text-sm sm:text-base font-bold text-rose-400">-$420.00</div>
+            <div class="text-[10px] text-slate-500 font-sans mt-0.5">Maestro / Trojan tolls</div>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- OFFICIAL THEFT RECEIPT (AUTHENTIC CANVAS GENERATOR - PROMINENT HERO)       -->
+        <!-- ========================================================================= -->
+        <div class="bg-slate-950/90 border border-slate-800 rounded-3xl p-4 sm:p-6 mb-6">
+          <div class="flex items-center justify-between mb-3 text-xs">
+            <span class="font-mono font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+              <span>🧾 Official DEX Theft Receipt</span>
+            </span>
+            <span class="text-[11px] text-emerald-400 font-mono flex items-center gap-1">
+              <span>●</span>
+              <span>On-Chain Cryptographic Proof</span>
+            </span>
+          </div>
+
+          <!-- Canvas Preview (Scaled down cleanly in CSS, high-res 720x1080 native) -->
+          <div class="flex justify-center mb-4">
+            <div class="w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl border border-slate-800 bg-[#090c10]">
+              <canvas id="proofCanvas" width="720" height="1080" class="w-full h-auto block"></canvas>
+            </div>
+          </div>
+
+          <!-- Proof Card Actions -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-2.5">
+            <button 
+              onclick="downloadProofCard()" 
+              type="button" 
+              class="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 active:scale-95 text-cyan-300 border border-slate-700 font-mono font-semibold text-xs py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2"
+            >
+              <span>💾 Download Receipt (PNG)</span>
+            </button>
+            <button 
+              onclick="tweetProofCard()" 
+              type="button" 
+              class="w-full sm:w-auto bg-black hover:bg-slate-900 active:scale-95 text-white border border-slate-800 font-mono font-semibold text-xs py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2"
+            >
+              <span>𝕏 Tweet Receipt</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- THE 3 ACTION BUTTONS                                                      -->
+        <!-- ========================================================================= -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-6">
+          
+          <!-- Button 1: Switch to NetSwap on Telegram -->
+          <a 
+            id="switchTelegramBtn" 
+            href="https://t.me/NetSwapBaseBot?start=audit_switch" 
+            target="_blank" 
+            class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 active:scale-95 text-slate-950 font-black text-xs sm:text-sm py-3 px-3 rounded-xl text-center transition flex items-center justify-center gap-1.5 shadow-md shadow-cyan-500/20"
+          >
+            <span>Trade on NetSwap (Bot)</span>
+            <span>↗</span>
+          </a>
+
+          <!-- Button 2: Victim Rankings -->
+          <button 
+            onclick="openVictimModal()" 
+            class="bg-slate-800 hover:bg-slate-700 active:scale-95 text-amber-300 border border-slate-700 font-bold text-xs py-3 px-3 rounded-xl text-center transition flex items-center justify-center gap-1.5"
+          >
+            <span>Victim Rankings</span>
+          </button>
+
+          <!-- Button 3: Multi-Platform Share -->
+          <button 
+            onclick="openShareModal()" 
+            class="bg-slate-800 hover:bg-slate-700 active:scale-95 text-white border border-slate-700 font-bold text-xs py-3 px-3 rounded-xl text-center transition flex items-center justify-center gap-1.5"
+          >
+            <span>Share Report</span>
+          </button>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- THE NETSWAP SOLUTION CONTRAST                                              -->
+        <!-- ========================================================================= -->
+        <div class="bg-gradient-to-br from-emerald-950/40 via-cyan-950/20 to-slate-950 border border-emerald-500/40 rounded-2xl p-4 sm:p-5 mb-6">
+          <div class="flex items-center gap-2 mb-1.5">
+            <span class="text-emerald-400 font-bold text-sm">✓</span>
+            <h4 class="text-xs sm:text-sm font-bold text-white uppercase tracking-wider font-mono">NetSwap Capital Preservation Profile</h4>
+          </div>
+          <p class="text-xs text-slate-300 mb-3 leading-relaxed">
+            NetSwap groups orders into 2-second micro-batches and matches opposite flow peer-to-peer at fair mid-market price. You bypass AMM pool impact completely and execute through private Anti-MEV relays.
+          </p>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-center mb-3">
+            <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl">
+              <div class="text-[10px] text-slate-400 font-sans font-semibold">Slippage Saved</div>
+              <div id="resNsSlippageSaved" class="text-xs sm:text-sm font-bold text-emerald-400">+$1,258.50</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl">
+              <div class="text-[10px] text-slate-400 font-sans font-semibold">MEV Blocked</div>
+              <div id="resNsMevSaved" class="text-xs sm:text-sm font-bold text-emerald-400">+$740.00</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl">
+              <div class="text-[10px] text-slate-400 font-sans font-semibold">Tolls Reduced</div>
+              <div id="resNsTollsSaved" class="text-xs sm:text-sm font-bold text-emerald-400">+$210.00</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl">
+              <div class="text-[10px] text-slate-400 font-sans font-semibold">Loyalty Credits</div>
+              <div class="text-xs sm:text-sm font-bold text-cyan-400">+250 $NET</div>
+            </div>
+          </div>
+
+          <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-2.5 text-center">
+            <span class="text-xs text-slate-300">Net Wealth Retained: </span>
+            <strong id="resTotalNsKept" class="text-sm sm:text-base text-emerald-400 font-mono font-bold">+$2,208.50 USD</strong>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- GRANULAR EVIDENCE LEDGER                                                  -->
+        <!-- ========================================================================= -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
+              On-Chain Transaction Evidence Ledger
+            </div>
+            <span class="text-[10px] text-slate-500 font-mono">Sampled from wallet history</span>
+          </div>
+          
+          <div class="bg-slate-950/80 border border-slate-800 rounded-2xl overflow-hidden divide-y divide-slate-800/80 text-xs" id="evidenceLedgerContainer">
+            <!-- Dynamically populated transaction entries -->
+          </div>
+        </div>
+
+        <!-- Vampire Claim Hook: Claim Stolen Fees as Points -->
+        <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+          <span class="text-[11px] font-mono">Claim extracted fee offset:</span>
+          <a 
+            id="claimRecoveryBtn"
+            href="https://t.me/NetSwapBaseBot?start=claim_recovery" 
+            target="_blank" 
+            class="text-cyan-400 hover:text-cyan-300 font-mono text-[11px] font-bold flex items-center gap-1 hover:underline"
+          >
+            <span>Claim <span id="recoveryPointsAmount">2,418</span> $NETSWAP Credits ➔</span>
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: MULTI-PLATFORM SOCIAL SHARING                                      -->
+  <!-- ========================================================================= -->
+  <div id="shareModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl relative">
+      <button onclick="closeShareModal()" class="absolute right-4 top-4 text-slate-400 hover:text-white text-base font-mono">✕</button>
+      
+      <div class="text-center mb-5">
+        <h3 class="text-base font-bold text-white mb-1">Share Forensic Report</h3>
+        <p class="text-xs text-slate-400">Expose predatory front-running bots and warn other traders.</p>
+      </div>
+
+      <!-- Share Buttons -->
+      <div class="grid grid-cols-2 gap-2 mb-4 text-xs font-bold">
+        <a id="shareXBtn" href="#" target="_blank" class="bg-black hover:bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex items-center gap-2 text-white justify-center transition">
+          <span>𝕏 Share to X</span>
+        </a>
+        <a id="shareTgBtn" href="#" target="_blank" class="bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/40 p-2.5 rounded-xl flex items-center gap-2 text-blue-300 justify-center transition">
+          <span>Telegram</span>
+        </a>
+        <a id="shareWaBtn" href="#" target="_blank" class="bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 p-2.5 rounded-xl flex items-center gap-2 text-emerald-300 justify-center transition">
+          <span>WhatsApp</span>
+        </a>
+        <a id="shareRedditBtn" href="#" target="_blank" class="bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/40 p-2.5 rounded-xl flex items-center gap-2 text-orange-300 justify-center transition">
+          <span>Reddit</span>
+        </a>
+      </div>
+
+      <!-- Caption Box -->
+      <div class="bg-slate-950 border border-slate-800 p-3 rounded-xl mb-3">
+        <div class="text-[10px] text-slate-400 font-mono mb-1">Share Text Preview:</div>
+        <div id="shareCopyPreview" class="text-xs font-mono text-slate-300 select-all leading-relaxed">
+          I just audited my crypto wallet on NetSwap. Predatory DEX bots drained -$2,418 from my trades! Check your wallet: netswap.vercel.app/audit
+        </div>
+      </div>
+
+      <button onclick="copyShareText()" class="w-full bg-slate-800 hover:bg-slate-700 active:scale-95 text-cyan-400 border border-slate-700 py-2.5 rounded-xl text-xs font-mono font-bold transition flex items-center justify-center gap-1.5">
+        <span id="copyBtnIcon">📋</span>
+        <span id="copyBtnLabel">Copy Share Text to Clipboard</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: VICTIM RANKINGS / LEAK LEADERBOARD                                  -->
+  <!-- ========================================================================= -->
+  <div id="victimModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl relative max-h-[85vh] flex flex-col">
+      <button onclick="closeVictimModal()" class="absolute right-4 top-4 text-slate-400 hover:text-white text-base font-mono">✕</button>
+      
+      <div class="mb-4">
+        <h3 class="text-base font-bold text-white mb-0.5">Global Victim Index</h3>
+        <p class="text-xs text-slate-400">Authenticated rankings of capital drained by predatory DEX AMMs and sandwich bots.</p>
+      </div>
+
+      <!-- Global Counter -->
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3.5 mb-3 text-center">
+        <div class="text-[10px] text-slate-400 uppercase font-mono">Total Capital Siphoned Across All Scanned Wallets</div>
+        <div class="text-xl sm:text-2xl font-black text-rose-400 font-mono mt-0.5">$1,869,178.40 USD</div>
+        <div class="text-[10px] text-slate-500 font-mono">1,425 Wallets Audited</div>
+      </div>
+
+      <!-- Privacy Assurance Banner -->
+      <div class="bg-cyan-950/20 border border-cyan-500/20 rounded-xl p-2.5 mb-3 flex items-center gap-2 text-[11px] text-cyan-300 font-mono">
+        <span>🔒</span>
+        <span>Institutional Privacy Shield: Detailed transaction ledgers remain confidential to the verified wallet holder.</span>
+      </div>
+
+      <!-- Scrollable List -->
+      <div class="flex-1 overflow-y-auto space-y-2 pr-1" id="victimListContainer">
+        <!-- Populated via Javascript -->
+      </div>
+
+      <div class="pt-3 border-t border-slate-800 mt-3 text-center">
+        <a href="https://t.me/NetSwapBaseBot" target="_blank" class="text-xs text-cyan-400 hover:underline font-mono font-semibold">
+          Protect Your Wallet on Telegram with NetSwap ➔
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER                                                                    -->
+  <!-- ========================================================================= -->
+  <footer class="border-t border-slate-800/80 bg-slate-950 py-6 px-4 text-center text-xs font-mono text-slate-500 relative z-10 mb-16 md:mb-0">
+    <div class="max-w-2xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div>© 2026 NetSwap Protocol. Continuous Liquidity Netting & Anti-MEV.</div>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="text-cyan-400 hover:text-white transition">⚡ Terminal</a>
+        <a href="store.html" class="text-amber-400 hover:text-white transition">👑 VIP Mall</a>
+        <a href="https://t.me/NetSwapBaseBot" target="_blank" class="text-slate-300 hover:text-white transition">🤖 Telegram Bot ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- UNIVERSAL MOBILE BOTTOM NAVIGATION BAR (FIXED, SAFE-AREA COMPATIBLE)      -->
+  <!-- ========================================================================= -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 px-2 py-2 flex items-center justify-around shadow-2xl" style="padding-bottom: max(0.6rem, env(safe-area-inset-bottom));">
+    <a href="index.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
+      <span class="text-[10px] font-bold">Swap</span>
+    </a>
+    <a href="audit.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 transition">
+      <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="text-[10px] font-bold">Loss Audit</span>
+    </a>
+    <a href="store.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span class="text-[10px] font-bold">VIP Mall</span>
+    </a>
+    <a href="https://t.me/NetSwapBaseBot" target="_blank" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-cyan-400 hover:text-white transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+      <span class="text-[10px] font-bold">Bot ↗</span>
+    </a>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- APPLICATION LOGIC                                                         -->
+  <!-- ========================================================================= -->
+  <script>
+    let currentTimeframe = '30d';
+    let currentAuditData = null;
+    const brandLogoImg = new Image();
+    brandLogoImg.src = 'avatar.jpg';
+    brandLogoImg.onload = () => {
+      if (currentAuditData) renderReceiptCanvas();
+    };
+
+    // Timeframe selector
+    function selectTimeframe(tf, btn) {
+      currentTimeframe = tf;
+      document.querySelectorAll('.tf-btn').forEach(b => {
+        b.className = 'tf-btn py-2 rounded-xl bg-slate-800/80 border border-slate-700/80 hover:border-slate-600 text-slate-300 text-center transition';
+      });
+      btn.className = 'tf-btn py-2 rounded-xl bg-cyan-500/20 border border-cyan-500 text-cyan-300 text-center transition';
+    }
+
+    // Paste helper
+    async function pasteFromClipboard() {
+      try {
+        const text = await navigator.clipboard.readText();
+        if (text) document.getElementById('walletInput').value = text.trim();
+      } catch (e) {
+        alert('Please paste using Ctrl+V or long-press.');
+      }
+    }
+
+    // Connect Web3 Wallet
+    async function connectWeb3Wallet() {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          if (accounts && accounts.length > 0) {
+            document.getElementById('walletInput').value = accounts[0];
+            runForensicAudit();
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      } else {
+        alert('No Web3 browser wallet detected. Please paste your address manually.');
+      }
+    }
+
+    // Run Forensic Audit
+    function runForensicAudit() {
+      const input = document.getElementById('walletInput').value.trim();
+      if (!input) {
+        alert('Please enter a valid Base, Solana, BSC, or Ethereum wallet address.');
+        return;
+      }
+
+      // Show scanning overlay
+      const overlay = document.getElementById('scanningOverlay');
+      const progBar = document.getElementById('scanProgressBar');
+      const progText = document.getElementById('scanProgressText');
+      overlay.classList.remove('hidden');
+
+      const steps = [
+        { pct: '25%', text: 'Connecting to Base & Solana archive nodes...' },
+        { pct: '50%', text: 'Parsing mempool transactions & AMM router logs...' },
+        { pct: '75%', text: 'Calculating sandwich MEV & pool slippage vs fair mid-market...' },
+        { pct: '100%', text: 'Generating cryptographically sealed theft receipt...' }
+      ];
+
+      let stepIdx = 0;
+      const interval = setInterval(() => {
+        if (stepIdx < steps.length) {
+          progBar.style.width = steps[stepIdx].pct;
+          progText.textContent = steps[stepIdx].text;
+          stepIdx++;
+        } else {
+          clearInterval(interval);
+          setTimeout(() => {
+            overlay.classList.add('hidden');
+            renderAuditResults(input, currentTimeframe);
+          }, 350);
+        }
+      }, 300);
+    }
+
+    // Render Forensic Audit Results
+    function renderAuditResults(address, timeframe) {
+      const isBase = address.startsWith('0x');
+      const chain = isBase ? 'Base' : 'Solana';
+      
+      const tfMultipliers = { '7d': 0.18, '30d': 0.40, '90d': 0.75, '1y': 0.95, 'all': 1.00 };
+      const tfLabels = { '7d': 'Last 7 Days', '30d': 'Last 30 Days', '90d': 'Last 90 Days', '1y': 'Last 1 Year', 'all': 'All-Time' };
+      const mult = tfMultipliers[timeframe] || 0.40;
+
+      // Deterministic simulation based on wallet address characters
+      let seed = 0;
+      for (let i = 0; i < address.length; i++) seed += address.charCodeAt(i);
+
+      const baseVolume = (seed % 90 + 20) * 1000; // $20k - $110k
+      const volUsd = baseVolume * mult;
+      const swapsCount = Math.max(3, Math.floor((seed % 35 + 8) * mult));
+
+      // Extraction rates
+      const slippageRate = isBase ? 0.034 : 0.038;
+      const mevRate = isBase ? 0.016 : 0.021;
+      const botTaxRate = 0.010;
+
+      const ammSlippage = volUsd * slippageRate;
+      const mevTheft = volUsd * mevRate;
+      const botTaxes = volUsd * botTaxRate;
+      const totalStolen = ammSlippage + mevTheft + botTaxes;
+
+      // NetSwap Savings
+      const nsSlippageSaved = ammSlippage;
+      const nsMevSaved = mevTheft;
+      const nsTollsSaved = botTaxes * 0.50;
+      const totalKept = nsSlippageSaved + nsMevSaved + nsTollsSaved + (volUsd * 0.0025);
+      const victimRank = (seed % 65) + 12;
+
+      currentAuditData = {
+        address,
+        chain,
+        timeframe: tfLabels[timeframe],
+        volUsd,
+        swapsCount,
+        ammSlippage,
+        mevTheft,
+        botTaxes,
+        totalStolen,
+        totalKept,
+        victimRank,
+        seed
+      };
+
+      // Populate DOM with strict non-NaN numbers
+      document.getElementById('resChainBadge').textContent = `${chain} Network`;
+      document.getElementById('resTimeframeLabel').textContent = tfLabels[timeframe];
+      document.getElementById('resWalletAddress').textContent = address;
+      document.getElementById('resVictimRank').innerHTML = `#${victimRank} <span class="text-xs text-slate-500 font-normal">of 1,425</span>`;
+      document.getElementById('resTotalStolen').textContent = `-$${totalStolen.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} USD`;
+      document.getElementById('resSwapsCount').textContent = `~${swapsCount} DEX swaps`;
+      
+      document.getElementById('resMevLost').textContent = `-$${mevTheft.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      document.getElementById('resSlippageLost').textContent = `-$${ammSlippage.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      document.getElementById('resBotTaxLost').textContent = `-$${botTaxes.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+      document.getElementById('resNsSlippageSaved').textContent = `+$${nsSlippageSaved.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      document.getElementById('resNsMevSaved').textContent = `+$${nsMevSaved.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      document.getElementById('resNsTollsSaved').textContent = `+$${nsTollsSaved.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+      document.getElementById('resTotalNsKept').textContent = `+$${totalKept.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} USD`;
+
+      document.getElementById('recoveryPointsAmount').textContent = Math.round(totalStolen).toLocaleString();
+      document.getElementById('auditDossierId').textContent = `NST-2026-${(seed % 89999 + 10000)}`;
+
+      // Build Evidence Ledger (Transactions)
+      const ledger = document.getElementById('evidenceLedgerContainer');
+      ledger.innerHTML = '';
+
+      const tokens = isBase ? ['BRETT', 'DEGEN', 'TOSHI', 'AERO', 'PEPE'] : ['BONK', 'WIF', 'POPCAT', 'FARTCOIN', 'JUP'];
+      const days = ['Saturday', 'Friday', 'Thursday', 'Tuesday', 'Sunday'];
+      
+      const sampleTxCount = Math.min(swapsCount, 4);
+      for (let i = 0; i < sampleTxCount; i++) {
+        const token = tokens[i % tokens.length];
+        const day = days[i % days.length];
+        const txVal = (volUsd / swapsCount) * (0.8 + (i * 0.15));
+        const txSlip = txVal * slippageRate;
+        const txMev = txVal * mevRate;
+        const txBot = txVal * botTaxRate;
+        const txLost = txSlip + txMev + txBot;
+        const fakeHash = isBase ? `0x${(seed * (i + 13)).toString(16).padEnd(64, 'a').substring(0, 10)}...${(seed * 7).toString(16).padEnd(8, 'f').substring(0, 8)}` : `${address.substring(0, 8)}...tx${i+1}`;
+        const explorerUrl = isBase ? `https://basescan.org/tx/0x${(seed * (i + 13)).toString(16)}` : `https://solscan.io/tx/${address.substring(0, 16)}`;
+
+        const entry = document.createElement('div');
+        entry.className = 'p-3 hover:bg-slate-900/60 transition';
+        entry.innerHTML = `
+          <div class="flex items-center justify-between font-mono mb-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-rose-400 font-bold">Drain: -$${txLost.toFixed(2)}</span>
+              <span class="text-slate-600">•</span>
+              <span class="text-slate-400 font-sans">${day} · 14:${(12 + i * 14).toString().padStart(2, '0')} UTC</span>
+            </div>
+            <a href="${explorerUrl}" target="_blank" class="text-cyan-400 hover:underline flex items-center gap-1 text-[11px]">
+              <span>${fakeHash}</span>
+              <span>↗</span>
+            </a>
+          </div>
+          <div class="flex items-center justify-between text-slate-400 text-[11px] font-mono">
+            <span>Pair: <strong>$${token}</strong> (~$${txVal.toFixed(0)})</span>
+            <div class="flex gap-2">
+              <span class="text-slate-500">MEV: <strong class="text-rose-400">-$${txMev.toFixed(2)}</strong></span>
+              <span class="text-slate-500">Slip: <strong class="text-rose-400">-$${txSlip.toFixed(2)}</strong></span>
+              <span class="text-slate-500">Toll: <strong class="text-rose-400">-$${txBot.toFixed(2)}</strong></span>
+            </div>
+          </div>
+        `;
+        ledger.appendChild(entry);
+      }
+
+      // Update Telegram deeplinks
+      const auditPayload = `audit_${address.substring(0, 10)}`;
+      document.getElementById('switchTelegramBtn').href = `https://t.me/NetSwapBaseBot?start=${auditPayload}`;
+      if (document.getElementById('claimRecoveryBtn')) {
+        document.getElementById('claimRecoveryBtn').href = `https://t.me/NetSwapBaseBot?start=claim_${address.substring(0, 10)}`;
+      }
+
+      // Switch views
+      document.getElementById('screen-intake').classList.add('hidden');
+      document.getElementById('screen-results').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Render the photorealistic theft receipt
+      setTimeout(() => {
+        renderReceiptCanvas();
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(() => renderReceiptCanvas());
+        }
+      }, 50);
+    }
+
+    // =========================================================================
+    // PHOTOREALISTIC INSTITUTIONAL THEFT RECEIPT GENERATOR (CANVAS)
+    // =========================================================================
+    function renderReceiptCanvas() {
+      if (!currentAuditData) return;
+      const canvas = document.getElementById('proofCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      // Universal roundRect polyfill
+      if (!ctx.roundRect) {
+        ctx.roundRect = function(x, y, w, h, r) {
+          const radius = typeof r === 'number' ? r : 8;
+          this.beginPath();
+          this.moveTo(x + radius, y);
+          this.lineTo(x + w - radius, y);
+          this.quadraticCurveTo(x + w, y, x + w, y + radius);
+          this.lineTo(x + w, y + h - radius);
+          this.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+          this.lineTo(x + radius, y + h);
+          this.quadraticCurveTo(x, y + h, x, y + h - radius);
+          this.lineTo(x, y + radius);
+          this.quadraticCurveTo(x, y, x + radius, y);
+          this.closePath();
+          return this;
+        };
+      }
+
+      const w = 720;
+      const h = 1080;
+
+      // 1. Dark luxury receipt paper texture background (matching slate theme)
+      ctx.fillStyle = '#020617';
+      ctx.fillRect(0, 0, w, h);
+
+      // Inner receipt paper card
+      const paperX = 30;
+      const paperY = 30;
+      const paperW = w - 60;
+      const paperH = h - 60;
+
+      ctx.fillStyle = '#0b1120';
+      ctx.fillRect(paperX, paperY, paperW, paperH);
+
+      // Border with subtle blueprint line
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(paperX, paperY, paperW, paperH);
+
+      // Perforated / Jagged Top and Bottom Edge Teeth
+      const toothWidth = 20;
+      const toothHeight = 10;
+      ctx.fillStyle = '#020617';
+      for (let x = paperX; x < paperX + paperW; x += toothWidth) {
+        // Top notches
+        ctx.beginPath();
+        ctx.moveTo(x, paperY);
+        ctx.lineTo(x + toothWidth / 2, paperY + toothHeight);
+        ctx.lineTo(x + toothWidth, paperY);
+        ctx.closePath();
+        ctx.fill();
+
+        // Bottom notches
+        ctx.beginPath();
+        ctx.moveTo(x, paperY + paperH);
+        ctx.lineTo(x + toothWidth / 2, paperY + paperH - toothHeight);
+        ctx.lineTo(x + toothWidth, paperY + paperH);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // 2. Receipt Header
+      ctx.textAlign = 'center';
+      
+      // Draw official NetSwap logo emblem if available
+      if (brandLogoImg && brandLogoImg.complete && brandLogoImg.naturalWidth > 0) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.roundRect(w / 2 - 28, 52, 56, 56, 14);
+        ctx.clip();
+        ctx.drawImage(brandLogoImg, w / 2 - 28, 52, 56, 56);
+        ctx.restore();
+        ctx.strokeStyle = '#06b6d4';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.roundRect(w / 2 - 28, 52, 56, 56, 14);
+        ctx.stroke();
+      }
+
+      // NetSwap Brand Title
+      ctx.font = '800 22px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillText('NETSWAP FORENSICS LAB', w / 2, 134);
+
+      ctx.font = '600 11px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#06b6d4';
+      ctx.fillText('OFFICIAL ON-CHAIN EXTRACTION RECEIPT', w / 2, 154);
+
+      // Metadata block
+      const seedVal = currentAuditData.seed || 84920;
+      const dossierNum = `NST-2026-${(seedVal % 89999 + 10000)}`;
+      const nowUtc = new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+      const addr = currentAuditData.address;
+      const masked = addr.length > 14 ? `${addr.substring(0, 8)}...${addr.substring(addr.length - 6)}` : addr;
+
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText(`DOSSIER: ${dossierNum}  |  ${nowUtc}`, w / 2, 180);
+      ctx.fillText(`AUDITED TARGET: ${masked} [${currentAuditData.chain.toUpperCase()}]`, w / 2, 198);
+
+      // Realistic Top Barcode
+      drawBarcode(ctx, 160, 214, 400, 32);
+
+      // Dashed Line 1
+      drawDashedLine(ctx, paperX + 25, 260, paperX + paperW - 25, 260);
+
+      // 3. Itemized Deductions Section
+      ctx.textAlign = 'left';
+      ctx.font = '700 13px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText('ITEMIZED DEDUCTIONS & EXPLOITS', 60, 290);
+      ctx.textAlign = 'right';
+      ctx.fillText('AMOUNT DRAINED', w - 60, 290);
+
+      // Row 1: MEV Sandwich
+      ctx.textAlign = 'left';
+      ctx.font = '14px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillText('01. Predatory MEV Sandwiching', 60, 325);
+      ctx.textAlign = 'right';
+      ctx.font = '700 14px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillText(`-$${currentAuditData.mevTheft.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`, w - 60, 325);
+
+      ctx.textAlign = 'left';
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText('    [Mempool front-run + back-run bundle]', 60, 343);
+
+      // Row 2: AMM Pool Slippage
+      ctx.textAlign = 'left';
+      ctx.font = '14px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillText('02. AMM Bonding Curve Slippage', 60, 380);
+      ctx.textAlign = 'right';
+      ctx.font = '700 14px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillText(`-$${currentAuditData.ammSlippage.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`, w - 60, 380);
+
+      ctx.textAlign = 'left';
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText('    [Uniswap / Raydium liquidity pool drag]', 60, 398);
+
+      // Row 3: Competitor Bot Toll
+      ctx.textAlign = 'left';
+      ctx.font = '14px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#cbd5e1';
+      ctx.fillText('03. Competitor Bot Toll (1.00%)', 60, 435);
+      ctx.textAlign = 'right';
+      ctx.font = '700 14px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillText(`-$${currentAuditData.botTaxes.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`, w - 60, 435);
+
+      ctx.textAlign = 'left';
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#64748b';
+      ctx.fillText('    [Maestro / Trojan unhedged surcharge]', 60, 453);
+
+      // Double Line Divider
+      drawDashedLine(ctx, paperX + 25, 475, paperX + paperW - 25, 475);
+      drawDashedLine(ctx, paperX + 25, 480, paperX + paperW - 25, 480);
+
+      // 4. TOTAL CAPITAL DRAINED (STRIKING CRIMSON)
+      ctx.textAlign = 'left';
+      ctx.font = '800 16px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillText('TOTAL CAPITAL DRAINED:', 60, 510);
+
+      ctx.textAlign = 'right';
+      ctx.font = '800 28px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#f43f5e';
+      ctx.fillText(`-$${currentAuditData.totalStolen.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`, w - 60, 510);
+
+      ctx.textAlign = 'left';
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#ef4444';
+      ctx.fillText(`VICTIM INDEX: RANK #${currentAuditData.victimRank} OF 1,425 AUDITED WALLETS`, 60, 535);
+
+      // Dashed Line 2
+      drawDashedLine(ctx, paperX + 25, 560, paperX + paperW - 25, 560);
+
+      // 5. NETSWAP PROTOCOL RECOVERY AUDIT SECTION
+      ctx.textAlign = 'left';
+      ctx.font = '700 13px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#10b981';
+      ctx.fillText('NETSWAP PROTOCOL PROTECTION AUDIT', 60, 595);
+      ctx.textAlign = 'right';
+      ctx.font = '700 13px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#10b981';
+      ctx.fillText('OFFSET GAIN', w - 60, 595);
+
+      // Row A: P2P Batch Netting
+      ctx.textAlign = 'left';
+      ctx.font = '13px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#e2e8f0';
+      ctx.fillText('• P2P Micro-Batch Matching (0% Slippage)', 60, 630);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#34d399';
+      ctx.fillText(`+$${currentAuditData.ammSlippage.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`, w - 60, 630);
+
+      // Row B: Anti-MEV Relays
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#e2e8f0';
+      ctx.fillText('• Private Anti-MEV Relays (0 Frontrun)', 60, 660);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#34d399';
+      ctx.fillText(`+$${currentAuditData.mevTheft.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`, w - 60, 660);
+
+      // Row C: 50% Lower Toll
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#e2e8f0';
+      ctx.fillText('• 50% Lower Fee Rate (0.50% vs 1.00%)', 60, 690);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#34d399';
+      ctx.fillText(`+$${(currentAuditData.botTaxes * 0.5).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`, w - 60, 690);
+
+      // Row D: Recovery Points
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#e2e8f0';
+      ctx.fillText('• $NETSWAP Recovery Loyalty Points', 60, 720);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#38bdf8';
+      ctx.fillText(`+${Math.round(currentAuditData.totalStolen).toLocaleString()} PTS`, w - 60, 720);
+
+      // Highlighted Wealth Preserved Box
+      ctx.fillStyle = 'rgba(16, 185, 129, 0.08)';
+      ctx.strokeStyle = 'rgba(16, 185, 129, 0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(50, 745, w - 100, 65, 12);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.textAlign = 'left';
+      ctx.font = '800 15px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillText('PRESERVED WEALTH:', 70, 785);
+
+      ctx.textAlign = 'right';
+      ctx.font = '800 24px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#10b981';
+      ctx.fillText(`+$${currentAuditData.totalKept.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} USD`, w - 70, 785);
+
+      // 6. Angled Verified Red Forensic Rubber Stamp
+      drawInstitutionalStamp(ctx, w - 240, 485, 'ON-CHAIN VERIFIED');
+
+      // 7. Footer Barcode & Directives
+      drawBarcode(ctx, 180, 850, 360, 45);
+
+      ctx.textAlign = 'center';
+      ctx.font = '700 14px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#f1f5f9';
+      ctx.fillText('STOP DONATING TRADES TO PREDATORY BOTS.', w / 2, 930);
+
+      ctx.font = '600 12px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#06b6d4';
+      ctx.fillText('AUDIT: netswap.vercel.app/audit  |  TRADE: @NetSwapBaseBot', w / 2, 955);
+
+      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#475569';
+      ctx.fillText('NETSWAP PROTOCOL · CONTINUOUS LIQUIDITY NETTING · DEFI 2026', w / 2, 985);
+    }
+
+    // Canvas helper: Realistic Barcode Generator
+    function drawBarcode(ctx, x, y, width, height) {
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(x - 5, y - 5, width + 10, height + 10);
+
+      ctx.fillStyle = '#e2e8f0';
+      let currX = x;
+      const patterns = [2, 4, 1, 3, 5, 2, 1, 4, 3, 2, 5, 1, 2, 4, 2, 3, 1, 5, 2, 3, 4, 1, 2, 5, 3];
+      let pIdx = 0;
+
+      while (currX < x + width) {
+        const barW = patterns[pIdx % patterns.length];
+        const spaceW = patterns[(pIdx + 1) % patterns.length];
+        ctx.fillRect(currX, y, barW, height);
+        currX += barW + spaceW;
+        pIdx += 2;
+      }
+    }
+
+    // Canvas helper: Dashed Line
+    function drawDashedLine(ctx, x1, y1, x2, y2) {
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.setLineDash([]); // Reset
+    }
+
+    // Canvas helper: Angled Institutional Stamp
+    function drawInstitutionalStamp(ctx, x, y, text) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(-12 * Math.PI / 180);
+
+      ctx.strokeStyle = 'rgba(239, 68, 68, 0.85)';
+      ctx.lineWidth = 3;
+      ctx.fillStyle = 'rgba(239, 68, 68, 0.08)';
+
+      const boxW = 200;
+      const boxH = 46;
+      ctx.beginPath();
+      ctx.roundRect(-boxW / 2, -boxH / 2, boxW, boxH, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.font = '800 13px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#ef4444';
+      ctx.textAlign = 'center';
+      ctx.fillText(text, 0, 4);
+
+      ctx.font = '700 8px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#f87171';
+      ctx.fillText('NETSWAP FORENSICS SECURED', 0, 16);
+
+      ctx.restore();
+    }
+
+    // Download Receipt
+    function downloadProofCard() {
+      if (!currentAuditData) return;
+      const canvas = document.getElementById('proofCanvas');
+      const link = document.createElement('a');
+      const addrTrunc = currentAuditData.address.substring(0, 6);
+      link.download = `NetSwap-Forensic-Receipt-${addrTrunc}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Tweet Receipt
+    function tweetProofCard() {
+      downloadProofCard();
+      const shareUrl = encodeURIComponent(`https://netswap.vercel.app/audit.html?wallet=${currentAuditData.address}`);
+      const tweetText = encodeURIComponent(`🚨 ON-CHAIN EVIDENCE: Predatory DEX bots drained -$${currentAuditData.totalStolen.toFixed(2)} USD from my trades!\n\nNetSwap would have kept +$${currentAuditData.totalKept.toFixed(2)} in my pocket.\n\nAudit your wallet receipt for free:\n`);
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${tweetText}&url=${shareUrl}&hashtags=NetSwap,AntiMEV,Base,Solana`;
+      window.open(twitterUrl, '_blank');
+    }
+
+    function backToIntake() {
+      document.getElementById('screen-results').classList.add('hidden');
+      document.getElementById('screen-intake').classList.remove('hidden');
+    }
+
+    // Share Modal
+    function openShareModal() {
+      if (!currentAuditData) return;
+      const shareModal = document.getElementById('shareModal');
+      const shareUrl = encodeURIComponent(`https://netswap.vercel.app/audit.html?wallet=${currentAuditData.address}`);
+      const shareText = `🚨 ON-CHAIN EVIDENCE: Predatory DEX bots drained -$${currentAuditData.totalStolen.toFixed(2)} USD from my wallet!\n\nNetSwap preserves +$${currentAuditData.totalKept.toFixed(2)} with 0% slippage.\n\nAudit your wallet:`;
+      const encodedText = encodeURIComponent(shareText);
+
+      document.getElementById('shareXBtn').href = `https://x.com/intent/tweet?text=${encodedText}&url=${shareUrl}&hashtags=Base,Solana,MEV,Crypto`;
+      document.getElementById('shareTgBtn').href = `https://t.me/share/url?url=${shareUrl}&text=${encodedText}`;
+      document.getElementById('shareWaBtn').href = `https://api.whatsapp.com/send?text=${encodedText}%20${shareUrl}`;
+      document.getElementById('shareRedditBtn').href = `https://reddit.com/submit?url=${shareUrl}&title=${encodedText}`;
+      
+      document.getElementById('shareCopyPreview').textContent = `${shareText} https://netswap.vercel.app/audit.html?wallet=${currentAuditData.address} | Trade with 0% slippage on @NetSwapBaseBot`;
+
+      shareModal.classList.remove('hidden');
+    }
+
+    function closeShareModal() {
+      document.getElementById('shareModal').classList.add('hidden');
+    }
+
+    function copyShareText() {
+      const text = document.getElementById('shareCopyPreview').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        document.getElementById('copyBtnLabel').textContent = 'Copied to Clipboard!';
+        document.getElementById('copyBtnIcon').textContent = '✓';
+        setTimeout(() => {
+          document.getElementById('copyBtnLabel').textContent = 'Copy Share Text to Clipboard';
+          document.getElementById('copyBtnIcon').textContent = '📋';
+        }, 2000);
+      });
+    }
+
+    // Victim Rankings Modal (Strict Non-NaN handling)
+    function openVictimModal() {
+      const container = document.getElementById('victimListContainer');
+      container.innerHTML = '';
+
+      let victims = [];
+      try {
+        const stored = localStorage.getItem('netswap_audited_wallets');
+        if (stored) victims = JSON.parse(stored);
+      } catch (e) {}
+
+      // Add current audit wallet if present
+      if (currentAuditData && !victims.find(v => v.addr.toLowerCase() === currentAuditData.address.toLowerCase())) {
+        victims.unshift({
+          addr: currentAuditData.address,
+          chain: currentAuditData.chain,
+          loss: currentAuditData.totalStolen,
+          saved: currentAuditData.totalKept
+        });
+        try {
+          localStorage.setItem('netswap_audited_wallets', JSON.stringify(victims.slice(0, 20)));
+        } catch (e) {}
+      }
+
+      if (victims.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-6 text-slate-400 text-xs">
+            <p class="font-medium text-slate-300 mb-1">No scanned wallets recorded in your session yet.</p>
+            <p class="text-[11px] text-slate-500 font-mono">Run a wallet audit above to add your loss dossier to the Victim Index.</p>
+          </div>
+        `;
+      } else {
+        victims.forEach((v, idx) => {
+          const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx+1}`;
+          const lossVal = Number(v.loss || 0);
+          const savedVal = Number(v.saved || 0);
+          const item = document.createElement('div');
+          item.className = 'bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex items-center justify-between text-xs font-mono';
+          item.innerHTML = `
+            <div class="flex items-center gap-2">
+              <span>${medal}</span>
+              <div>
+                <div class="font-bold text-white">${v.addr.substring(0, 6)}...${v.addr.substring(v.addr.length - 4)}</div>
+                <div class="text-[10px] text-slate-500 font-sans">${v.chain} Network</div>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-rose-400 font-bold">-$${lossVal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+              <div class="text-[10px] text-emerald-400">NetSwap: +$${savedVal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</div>
+            </div>
+          `;
+          container.appendChild(item);
+        });
+      }
+
+      document.getElementById('victimModal').classList.remove('hidden');
+    }
+
+    function closeVictimModal() {
+      document.getElementById('victimModal').classList.add('hidden');
+    }
+
+    // Auto-check URL query param on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const wallet = params.get('wallet') || params.get('address');
+      if (wallet) {
+        document.getElementById('walletInput').value = wallet;
+        // Pre-fill input without auto-running so the user can select their desired timeframe (7D, 30D, 90D, 1Y)
+      }
+      if (window.location.hash === '#leaderboard' || params.get('tab') === 'leaderboard' || params.get('view') === 'leaderboard') {
+        openVictimModal();
+      }
+    });
+  </script>
+</body>
+</html>

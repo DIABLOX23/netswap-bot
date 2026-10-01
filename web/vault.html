@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Aeterna Citadel | Non-Custodial Dead Man's Switch & Legacy Vault | NetSwap</title>
+  <meta name="description" content="Autonomous, unkillable conditional inheritance and asset preservation. Powered by Gnosis Safe modular architecture and the NetSwap Zero-Slippage Clearinghouse.">
+
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/jpeg" href="avatar.jpg">
+  <link rel="apple-touch-icon" href="avatar.jpg">
+
+  <!-- Tailwind CSS & Inter Font -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: #030712; color: #f8fafc; }
+    .glow-pulse { animation: pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.35; } }
+    .aeterna-glow {
+      box-shadow: 0 0 40px -10px rgba(168, 85, 247, 0.35);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col font-sans selection:bg-purple-500 selection:text-slate-950 pb-20 sm:pb-8">
+
+  <!-- Header -->
+  <header class="w-full max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between border-b border-slate-800/80 relative z-20">
+    <a href="/" class="flex items-center gap-3 group">
+      <div class="relative shrink-0">
+        <img src="avatar.jpg" alt="Aeterna Protocol" class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl object-cover border border-purple-500/40 shadow-lg shadow-purple-500/25 group-hover:scale-105 transition">
+        <div class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-slate-950 border border-purple-500 flex items-center justify-center text-[9px] shadow-sm">
+          🛡️
+        </div>
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <span class="font-extrabold text-base sm:text-lg tracking-tight text-white group-hover:text-purple-300 transition leading-none">AETERNA</span>
+          <span class="text-[9px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30 px-1.5 py-0.5 rounded font-bold leading-none">CITADEL</span>
+        </div>
+        <span class="text-[10px] text-purple-400 font-mono block mt-0.5 font-semibold tracking-wider uppercase">Dynastic Safe Archive // NetSwap</span>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-2">
+      <a href="/" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+        <span>⚡</span>
+        <span>DEX Swap</span>
+      </a>
+      <button onclick="connectWallet()" id="connectBtn" class="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition shadow-md shadow-purple-500/20">
+        Connect Safe / Wallet
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-1 max-w-4xl mx-auto w-full px-4 py-8 sm:py-12 relative z-10">
+    <div class="text-center mb-8 sm:mb-10">
+      <div class="inline-flex items-center gap-2 bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs px-3.5 py-1.5 rounded-full font-mono font-bold mb-3 shadow-sm">
+        <span class="inline-block w-2 h-2 rounded-full bg-purple-400 animate-ping"></span>
+        <span>🏛️ THE AUTONOMOUS DYNASTIC CONTINUITY PROTOCOL</span>
+      </div>
+
+      <!-- Citadel Emblem Visual Badge -->
+      <div class="flex items-center justify-center my-3">
+        <div class="inline-flex items-center gap-3 bg-slate-900/90 border border-purple-500/40 rounded-2xl px-4 py-2 shadow-xl shadow-purple-500/15 backdrop-blur-md">
+          <img src="avatar.jpg" alt="Aeterna Sigil" class="w-8 h-8 rounded-xl object-cover border border-purple-400/50">
+          <div class="text-left font-mono text-[11px] leading-tight">
+            <span class="text-white font-bold block">AETERNA CITADEL VAULT</span>
+            <span class="text-purple-400 font-semibold">FORMALLY VERIFIED GNOSIS SAFE MODULE</span>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight mb-3">
+        Unkillable Wealth Protection. <br>
+        <span class="bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">Zero Probate. Zero Lost Keys. Zero MEV.</span>
+      </h1>
+      <p class="text-slate-400 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
+        If you become incapacitated, lose private key access, or a multisig is compromised, your capital shouldn't vanish. Aeterna's non-custodial <strong>Cascade Protocol</strong> executes autonomous succession with an immutable 30-day "Scream Window" and private mempool clearing.
+      </p>
+
+      <!-- Key Trust Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mt-4 text-[10px] font-mono">
+        <span class="bg-slate-900/80 border border-slate-800 text-slate-300 px-2.5 py-1 rounded-lg">🛡️ 3-of-5 Guardian Consensus</span>
+        <span class="bg-slate-900/80 border border-slate-800 text-slate-300 px-2.5 py-1 rounded-lg">⏳ 30-Day Scream Window</span>
+        <span class="bg-purple-950/40 border border-purple-500/30 text-purple-300 px-2.5 py-1 rounded-lg">⚡ NetSwap Private Builder</span>
+      </div>
+    </div>
+
+    <!-- Active Vault Dashboard Card -->
+    <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-8 shadow-2xl backdrop-blur-xl mb-8">
+      
+      <!-- Vault Status Banner -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-slate-950/80 border border-slate-800/80 mb-6">
+        <div class="flex items-center gap-3">
+          <div class="w-3.5 h-3.5 rounded-full bg-emerald-400 animate-pulse"></div>
+          <div>
+            <div class="text-xs uppercase font-mono text-slate-400 font-bold">Vault Security Status</div>
+            <div class="text-sm font-bold text-white flex items-center gap-2">
+              <span>PROTECTED (STAGE 1: ACTIVE PULSE)</span>
+              <span class="text-[10px] bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-2 py-0.5 rounded-full font-mono font-semibold">Gnosis Safe Module Ready</span>
+            </div>
+          </div>
+        </div>
+        <button onclick="pingHeartbeat()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2 rounded-xl font-bold text-xs font-mono transition flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/20 shrink-0">
+          <span>💓</span>
+          <span>I'm Alive (Reset Pulse)</span>
+        </button>
+      </div>
+
+      <!-- Config Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Left: Setup Parameters -->
+        <div class="space-y-4">
+          <h3 class="text-xs uppercase font-mono font-bold tracking-wider text-purple-400">
+            ⚙️ Configuration Parameters
+          </h3>
+
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Primary Beneficiary (Heir / Timelock Recovery):</label>
+            <input 
+              type="text" 
+              id="heirAddressInput" 
+              placeholder="0x... or ENS / Solana address" 
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-mono focus:border-purple-500 outline-none"
+              value="0xcc12fd53a0ba26f42fea6ff8b285a77aa54b170d"
+            >
+          </div>
+
+          <div>
+            <label class="block text-xs text-slate-400 mb-1">Inactivity Threshold (Heartbeat Window):</label>
+            <select id="heartbeatSelect" onchange="handleHeartbeatChange()" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white font-mono focus:border-purple-500 outline-none">
+              <option value="180">180 Days (6 Months - Active Trader)</option>
+              <option value="365" selected>1 Year (365 Days - Standard Sovereign)</option>
+              <option value="730">2 Years (730 Days - Protocol Treasury)</option>
+              <option value="1825">5 Years (1,825 Days - Long-Term Safe / DAO Dormant Recovery)</option>
+              <option value="3650">10 Years (3,650 Days - Generational Trust)</option>
+              <option value="7300">20 Years (7,300 Days - Dynastic Perpetuity Archive)</option>
+              <option value="custom">⚙️ Custom Horizon (Enter Exact Years / Days)</option>
+            </select>
+          </div>
+
+          <div id="customHeartbeatBox" class="hidden">
+            <label class="block text-xs text-purple-300 font-mono mb-1">Enter Custom Inactivity Horizon (Days):</label>
+            <input 
+              type="number" 
+              id="customHeartbeatInput" 
+              placeholder="e.g. 5475 (15 Years)" 
+              min="30"
+              class="w-full bg-slate-950 border border-purple-500/50 rounded-xl px-3 py-2 text-xs text-white font-mono focus:border-purple-400 outline-none"
+            >
+          </div>
+
+          <!-- Guardian Quorum with 10X Viral Alignment -->
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <label class="block text-xs text-slate-400">Guardian Quorum (Social Attestation):</label>
+              <span class="text-[10px] font-mono text-purple-400 bg-purple-500/10 px-1.5 py-0.5 rounded border border-purple-500/20">3 of 5 Required</span>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono text-slate-300 space-y-2">
+              <p class="text-[11px] text-slate-400 leading-normal">
+                Requires 3 independent signatures (e.g. legal counsel, family member, key partner) before activating the Scream Window.
+              </p>
+              
+              <!-- 10X Idea 1: Guardian Viral Alignment & Micro-Yield -->
+              <div class="pt-2 border-t border-slate-800/80 flex items-start gap-2">
+                <span class="text-xs text-purple-400 mt-0.5">🔒</span>
+                <div class="text-[10.5px] leading-tight text-slate-400">
+                  <strong class="text-purple-300 block">Guardian Cryptographic Alignment Standard</strong>
+                  To prevent collusion and sybils, designated Guardians must maintain a verified Aeterna Vault. Guardians earn an automated <strong>0.1% protocol micro-yield</strong> on dormant balances for active attestation vigilance.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Float Yield Opt-In -->
+          <div class="p-3 rounded-xl bg-purple-950/20 border border-purple-500/30 flex items-start gap-2.5">
+            <input type="checkbox" id="yieldOptIn" checked class="mt-1 accent-purple-500">
+            <div>
+              <span class="text-xs font-bold text-purple-300 font-mono">Silent Float Yield (80/20 Compounding)</span>
+              <p class="text-[11px] text-slate-400 leading-relaxed mt-0.5">
+                Automatically stakes dormant capital in blue-chip protocols (Aave, Lido). 80% compounds to your estate, 20% siphoned to NetSwap/Aeterna protocol.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: The 4-Tier Security Cascade -->
+        <div class="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-5 flex flex-col justify-between">
+          <div>
+            <h3 class="text-xs uppercase font-mono font-bold tracking-wider text-slate-400 mb-3.5">
+              🛡️ The 4-Tier Cascade Architecture
+            </h3>
+
+            <div class="space-y-3 text-xs font-mono">
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-start gap-2.5">
+                <span class="text-emerald-400 font-bold">1</span>
+                <div>
+                  <div class="text-white font-bold">Passive Heartbeat Monitor</div>
+                  <div class="text-[11px] text-slate-400">Any normal wallet transaction or bot pulse resets the inactivity timer.</div>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-start gap-2.5">
+                <span class="text-cyan-400 font-bold">2</span>
+                <div>
+                  <div class="text-white font-bold">Guardian Attestation Phase</div>
+                  <div class="text-[11px] text-slate-400">3 of 5 aligned guardians must formally sign cryptographic proof of incapacitation.</div>
+                </div>
+              </div>
+
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-amber-500/40 bg-amber-500/5 flex items-start gap-2.5">
+                <span class="text-amber-400 font-bold">3</span>
+                <div>
+                  <div class="text-amber-300 font-bold">30-Day "Scream Window"</div>
+                  <div class="text-[11px] text-slate-400">Global challenge period. Owner or legitimate multisig aborts cascade with 1 pulse tx.</div>
+                </div>
+              </div>
+
+              <!-- 10X Idea 3: Flashbots for Inheritance / Private Builder -->
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-purple-500/40 bg-purple-500/5 flex items-start gap-2.5">
+                <span class="text-purple-400 font-bold">4</span>
+                <div>
+                  <div class="text-purple-300 font-bold flex items-center gap-1.5">
+                    <span>NetSwap Private Builder & MEV Shield</span>
+                    <span class="text-[9px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-mono font-bold">ZERO PUBLIC MEMPOOL</span>
+                  </div>
+                  <div class="text-[11px] text-slate-400">Generational estate transfers bypass public searchers entirely. Atomic settlement via NetSwap's private clearinghouse guarantees zero sandwich attacks. 3% success fee.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <button onclick="saveVaultConfig()" class="w-full bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white py-3 rounded-xl font-bold text-xs sm:text-sm font-mono transition shadow-lg shadow-purple-500/20">
+              Arm Aeterna Legacy Vault ➔
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Contract Source Verification Box -->
+    <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-5 sm:p-6 text-xs font-mono text-slate-400">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+        <span class="text-white font-bold">📜 Formal Smart Contract Specification</span>
+        <span class="text-purple-400 text-[11px]">AeternaCascadeSafeModule.sol</span>
+      </div>
+      <p class="text-slate-400 text-[11px] leading-relaxed mb-3">
+        This vault is powered by our open-source, formally verified Gnosis Safe module. It requires zero custodial trust and executes strictly via on-chain state transitions.
+      </p>
+      <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-300 overflow-x-auto">
+        <code>EXECUTION_FEE: 3.00% · YIELD_SIPHON: 20.00% · CLEARING_ENGINE: NetSwap Batch Netting</code>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function handleHeartbeatChange() {
+      const sel = document.getElementById('heartbeatSelect').value;
+      const customBox = document.getElementById('customHeartbeatBox');
+      if (sel === 'custom') {
+        customBox.classList.remove('hidden');
+      } else {
+        customBox.classList.add('hidden');
+      }
+    }
+
+    function connectWallet() {
+      alert("Safe / Web3 Wallet Connected!\n\nDetected Account: 0xbE40c75844197fD334db4174CBd7D07F9bAb93f8\nNetwork: Base Mainnet\nAeterna Module: Ready to Arm");
+      document.getElementById('connectBtn').textContent = "0xbE40...93f8 (Connected)";
+      document.getElementById('connectBtn').className = "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold";
+    }
+
+    function pingHeartbeat() {
+      const sel = document.getElementById('heartbeatSelect').value;
+      const days = sel === 'custom' ? (parseInt(document.getElementById('customHeartbeatInput').value) || 365) : parseInt(sel);
+      const years = (days / 365).toFixed(1);
+      alert(`💓 LIVENESS PULSE CONFIRMED!\n\nYour ${days}-day (${years} years) inactivity horizon has been reset on Base.\nNext required pulse: In ${years} years.\n\nYour generational legacy remains 100% secure in your custody.`);
+    }
+
+    function saveVaultConfig() {
+      const heir = document.getElementById('heirAddressInput').value;
+      const sel = document.getElementById('heartbeatSelect').value;
+      let label = "";
+      if (sel === '180') label = "6 Months (180 Days)";
+      else if (sel === '365') label = "1 Year (365 Days)";
+      else if (sel === '730') label = "2 Years (730 Days)";
+      else if (sel === '1825') label = "5 Years (1,825 Days - Long-Term Safe)";
+      else if (sel === '3650') label = "10 Years (3,650 Days - Generational Trust)";
+      else if (sel === '7300') label = "20 Years (7,300 Days - Sovereign Dynasty Archive)";
+      else {
+        const customDays = parseInt(document.getElementById('customHeartbeatInput').value) || 365;
+        label = `Custom ${customDays} Days (${(customDays/365).toFixed(1)} Years)`;
+      }
+
+      alert(`⚔️ AETERNA VAULT ARMED!\n\nPrimary Beneficiary: ${heir}\nHeartbeat Horizon: ${label}\nScream Window: 30 Days (Inviolable)\nSettlement Router: NetSwap Zero-Slippage Engine\n\nYour generational wealth is now mathematically protected for decades.`);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <!-- Cache-Busting & Refresh Safety -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>NetSwap // Alpha Marketplace & VIP Alert Store</title>
+  
+  <!-- OpenGraph Metadata -->
+  <meta property="og:title" content="NetSwap // Alpha Marketplace & VIP Alert Store">
+  <meta property="og:description" content="Subscribe to 64 institutional sub-second Block-0 snipes, smart money whale tracking, and top 0.1% caller streams. Pay with crypto or $NETSWAP loyalty coins.">
+  <meta property="og:image" content="https://netswap.vercel.app/banner.jpg">
+  <meta property="og:url" content="https://netswap.vercel.app/store.html">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/jpeg" href="avatar.jpg">
+  <link rel="apple-touch-icon" href="avatar.jpg">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      -webkit-tap-highlight-color: transparent;
+    }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 0.6; }
+    }
+    .glow-pulse { animation: pulse-glow 3.5s infinite ease-in-out; }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+
+        /* Standalone Grid Fallbacks to Prevent Rendering Glitches */
+    .grid { display: grid !important; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+    @media (min-width: 768px) {
+      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    }
+    @media (min-width: 1024px) {
+      .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    }
+    @media (min-width: 1280px) {
+      .xl\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+    }
+    .feed-card {
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .feed-card {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .feed-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px -3px rgba(6, 182, 212, 0.15);
+    }
+    .feed-card.is-selected {
+      border-color: #06b6d4 !important;
+      background: linear-gradient(180deg, rgba(8, 51, 68, 0.45) 0%, rgba(15, 23, 42, 0.98) 100%) !important;
+      box-shadow: 0 0 25px -4px rgba(6, 182, 212, 0.35);
+      outline: 1px solid rgba(6, 182, 212, 0.6);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-cyan-500 selection:text-black relative overflow-x-hidden pb-44">
+
+  <!-- Ambient Background Glows -->
+  <div class="fixed inset-0 bg-radial from-cyan-900/15 via-transparent to-transparent glow-pulse pointer-events-none z-0"></div>
+  <div class="fixed -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-cyan-500/10 rounded-full blur-[160px] pointer-events-none z-0"></div>
+  <div class="fixed bottom-10 right-10 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[160px] pointer-events-none z-0"></div>
+
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR                                                            -->
+  <!-- ========================================================================= -->
+  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-xl sticky top-0 z-40 px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2 sm:gap-2.5 shrink-0 min-w-0">
+      <a href="index.html" class="flex items-center gap-2 group shrink-0">
+        <img src="avatar.jpg" alt="NetSwap Logo" class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl object-cover shadow-lg shadow-cyan-500/25 border border-cyan-500/30 group-hover:scale-105 transition shrink-0">
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="text-base sm:text-lg font-black tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent leading-none">NetSwap</span>
+            <span class="hidden sm:inline-block text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full font-mono font-bold uppercase tracking-wider">Alpha Mall</span>
+          </div>
+          <p class="hidden sm:block text-[10px] text-cyan-400 font-semibold tracking-wider uppercase mt-0.5 truncate">VIP Push Marketplace</p>
+        </div>
+      </a>
+    </div>
+
+    <!-- Right Header Actions (Streamlined: No unnecessary clutter) -->
+    <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+      <a href="index.html" class="hidden md:flex items-center gap-1.5 text-xs text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700/80 px-3 py-1.5 rounded-xl font-semibold transition shrink-0 whitespace-nowrap">
+        <span>⚡</span>
+        <span>Swap</span>
+      </a>
+      <a href="audit.html" class="hidden md:flex items-center gap-1.5 text-xs text-rose-300 hover:text-white bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 px-3 py-1.5 rounded-xl font-semibold transition shrink-0 whitespace-nowrap">
+        <span>🔍</span>
+        <span>Audit</span>
+      </a>
+      <button onclick="openSubscriptionsModal()" class="flex items-center gap-1 text-[11px] sm:text-xs text-cyan-300 hover:text-white bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 px-2.5 sm:px-3 py-1.5 rounded-xl font-bold transition shrink-0 whitespace-nowrap">
+        <svg class="w-3.5 h-3.5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span><span class="hidden sm:inline">My </span>Subs</span>
+      </button>
+      <a href="https://t.me/NetSwapBaseBot" target="_blank" class="bg-cyan-500 hover:bg-cyan-400 active:scale-95 text-slate-950 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-sm font-black transition shadow-md shadow-cyan-500/20 flex items-center gap-1 shrink-0 whitespace-nowrap">
+        <span><span class="hidden sm:inline">Return to </span>Bot</span>
+        <span class="text-[10px]">↗</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- $NETSWAP COIN & ACCOUNT STATUS RIBBON (PROTOCOL LOYALTY CREDITS)          -->
+  <!-- ========================================================================= -->
+  <div class="bg-gradient-to-r from-slate-950 via-indigo-950/80 to-slate-950 border-b border-indigo-500/30 py-2.5 px-3.5 sm:px-4 text-xs text-slate-300 relative z-10 shadow-lg">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2.5">
+      
+      <!-- Left: Telegram User Identity -->
+      <div class="flex items-center gap-2">
+        <div class="relative flex items-center justify-center shrink-0">
+          <span class="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-ping absolute"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-emerald-400 relative"></span>
+        </div>
+        <div class="truncate">
+          <span>Account: <strong id="userDisplayId" class="text-white font-mono font-bold">TG Account Connected</strong></span>
+          <span class="text-slate-500 mx-1.5">·</span>
+          <span class="text-[10px] sm:text-[11px] text-cyan-400 font-mono">0% Slippage P2P Netting Active</span>
+        </div>
+      </div>
+
+      <!-- Center & Right: Loyalty Credits & Quest Center -->
+      <div class="flex flex-wrap items-center justify-center md:justify-end gap-2.5 w-full md:w-auto">
+        
+        <!-- User $NETSWAP Loyalty Credit Card -->
+        <div class="bg-slate-900/90 border border-cyan-500/40 shadow-sm px-3 sm:px-3.5 py-1 rounded-xl flex items-center gap-2">
+          <div class="w-5 h-5 rounded-lg bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-[10px] text-cyan-400">
+            <svg class="w-3 h-3 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <div>
+            <div class="text-[9px] uppercase font-mono tracking-wider text-slate-400 leading-none">Loyalty Credits</div>
+            <div class="flex items-center gap-1.5 mt-0.5">
+              <strong id="userPointsBalance" class="text-cyan-300 font-mono font-bold text-xs sm:text-sm">2,418 $NETSWAP</strong>
+              <span class="text-[10px] text-slate-400 font-sans font-medium">(Utility Credits)</span>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN MARKETPLACE / DEPARTMENT STORE MALL                                  -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 max-w-7xl mx-auto w-full px-3.5 sm:px-6 py-6 sm:py-8 relative z-10">
+    
+    <!-- Hero / Title -->
+    <div class="text-center mb-6 sm:mb-8">
+      <div class="inline-flex items-center gap-2 bg-slate-900 border border-slate-800 text-cyan-400 text-[11px] sm:text-xs px-3.5 py-1.5 rounded-full font-semibold mb-2.5 shadow-sm">
+        <svg class="w-3.5 h-3.5 text-cyan-400 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="1" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="1" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="23" y2="12"/></svg>
+        <span>64 Institutional Telemetry Feeds · Click Any Card for Full Deep Intel</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight mb-2 sm:mb-3">
+        VIP Alpha & Alert <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">Marketplace.</span>
+      </h1>
+      <p class="text-slate-400 text-xs sm:text-sm max-w-3xl mx-auto leading-relaxed">
+        Subscribe to top caller signals, stealth whale accumulation, and block-0 genesis snipes. Click <strong>[ + Select Feed ]</strong> to add feeds to your bundle, or click <strong>[ View Full Intel ➔ ]</strong> to inspect historical signals, strategy rules, and verified on-chain hit rates.
+      </p>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- SEARCH, FILTER & SORTING CONTROL CENTER                                 -->
+    <!-- ======================================================================= -->
+    <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-3.5 sm:p-5 mb-6 sm:mb-8 shadow-xl backdrop-blur-xl">
+      <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 sm:gap-4">
+        
+        <!-- Live Search Input -->
+        <div class="relative flex-1">
+          <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm">🔍</span>
+          <input 
+            type="text" 
+            id="searchInput" 
+            oninput="handleSearchAndFilter()" 
+            placeholder="Search 64 feeds by caller (Ansem, GCR), token (Clanker, Virtuals), or strategy..." 
+            class="w-full bg-slate-950 border border-slate-800 rounded-2xl pl-10 pr-8 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition font-sans"
+          >
+          <button onclick="clearSearch()" id="clearSearchBtn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white text-xs font-mono">✕</button>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="flex flex-wrap items-center justify-between sm:justify-start gap-2 sm:gap-2.5 shrink-0">
+          
+          <!-- Chain Filter -->
+          <div class="flex items-center gap-1 bg-slate-950 border border-slate-800 p-1 rounded-2xl text-xs font-mono">
+            <button onclick="setChainFilter('all')" id="chain_all" class="chain-btn px-2.5 py-1.5 rounded-xl bg-cyan-500 text-slate-950 font-bold transition text-[11px] sm:text-xs">All Chains</button>
+            <button onclick="setChainFilter('base')" id="chain_base" class="chain-btn px-2.5 py-1.5 rounded-xl text-slate-400 hover:text-white transition text-[11px] sm:text-xs">Base</button>
+            <button onclick="setChainFilter('sol')" id="chain_sol" class="chain-btn px-2.5 py-1.5 rounded-xl text-slate-400 hover:text-white transition text-[11px] sm:text-xs">Solana</button>
+            <button onclick="setChainFilter('cross')" id="chain_cross" class="chain-btn px-2.5 py-1.5 rounded-xl text-slate-400 hover:text-white transition text-[11px] sm:text-xs">Multi-Chain</button>
+          </div>
+
+          <!-- Sort Select -->
+          <div class="bg-slate-950 border border-slate-800 rounded-2xl px-2.5 py-1.5 flex items-center gap-1.5">
+            <span class="text-[10px] text-slate-500 font-mono">Sort:</span>
+            <select id="sortSelect" onchange="handleSearchAndFilter()" class="bg-transparent text-xs text-white font-semibold focus:outline-none cursor-pointer">
+              <option value="winrate" class="bg-slate-900 text-white">Top Win Rate</option>
+              <option value="price_asc" class="bg-slate-900 text-white">Price: Low to High</option>
+              <option value="price_desc" class="bg-slate-900 text-white">Price: High to Low</option>
+              <option value="name" class="bg-slate-900 text-white">Alphabetical (A-Z)</option>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Department Tabs (Catalogue Directory) -->
+      <div class="flex items-center gap-2 overflow-x-auto pt-3 mt-3 border-t border-slate-800/80 no-scrollbar font-mono">
+        <button onclick="filterDepartment('all')" id="tab_all" class="dept-tab active px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-cyan-500 text-slate-950 shadow-sm shadow-cyan-500/20">
+          All Streams (64)
+        </button>
+        <button onclick="filterDepartment('callers')" id="tab_callers" class="dept-tab px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-slate-950 text-slate-400 hover:text-white border border-slate-800">
+          [ALPHA] Top 0.1% Elite Callers (16)
+        </button>
+        <button onclick="filterDepartment('whales')" id="tab_whales" class="dept-tab px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-slate-950 text-slate-400 hover:text-white border border-slate-800">
+          [WHALE] Whale Shadow Trackers (16)
+        </button>
+        <button onclick="filterDepartment('snipers')" id="tab_snipers" class="dept-tab px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-slate-950 text-slate-400 hover:text-white border border-slate-800">
+          [BLK-0] Genesis Snipers (16)
+        </button>
+        <button onclick="filterDepartment('arbs')" id="tab_arbs" class="dept-tab px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-slate-950 text-slate-400 hover:text-white border border-slate-800">
+          [ARB] DEX Arbitrage & Yield (16)
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Filter Counter Ribbon -->
+    <div id="filterStatsBar" class="flex items-center justify-between text-xs text-slate-400 mb-5 px-1">
+      <div>Showing <span id="visibleFeedCount" class="text-white font-bold font-mono">64</span> alert streams</div>
+      <div class="flex items-center gap-2">
+        <span class="text-cyan-400 font-mono text-[11px] hidden sm:inline">💡 Click card title or 'View Full Intel' to inspect full signals</span>
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- DYNAMIC FEED SECTIONS (CONTAINERS)                                      -->
+    <!-- ======================================================================= -->
+    
+    <!-- DEPARTMENT 1: CALLERS -->
+    <section id="dept_callers" class="department-section mb-10 sm:mb-12">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 sm:mb-5 border-b border-slate-800/80 gap-2">
+        <div>
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center shrink-0"><svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <h2 class="text-lg sm:text-2xl font-black text-white tracking-tight">Top 0.1% Elite Caller Tracker</h2>
+            <span class="text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded-full font-mono font-bold">16 Feeds Available</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Direct telegram signal mirror & on-chain buy replication. Front-run the retail Telegram crowd with 0% AMM slippage.</p>
+        </div>
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+          <button onclick="toggleCategoryGroup('callers', true)" class="text-xs text-cyan-400 hover:text-cyan-300 font-semibold bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded-xl transition">
+            + Select All (16)
+          </button>
+          <button onclick="toggleCategoryGroup('callers', false)" class="text-xs text-slate-400 hover:text-slate-300 font-semibold bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded-xl transition">
+            ✕ Unselect
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6" id="grid_callers"></div>
+    </section>
+
+    <!-- DEPARTMENT 2: WHALES -->
+    <section id="dept_whales" class="department-section mb-10 sm:mb-12">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 sm:mb-5 border-b border-slate-800/80 gap-2">
+        <div>
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center shrink-0"><svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="3"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg></div>
+            <h2 class="text-lg sm:text-2xl font-black text-white tracking-tight">Smart Money & Whale Shadow Accumulation</h2>
+            <span class="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-500/30 px-2 py-0.5 rounded-full font-mono font-bold">16 Feeds Available</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Autonomous on-chain telemetry filtering wash-trading from verified institutional smart money.</p>
+        </div>
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+          <button onclick="toggleCategoryGroup('whales', true)" class="text-xs text-cyan-400 hover:text-cyan-300 font-semibold bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded-xl transition">
+            + Select All (16)
+          </button>
+          <button onclick="toggleCategoryGroup('whales', false)" class="text-xs text-slate-400 hover:text-slate-300 font-semibold bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded-xl transition">
+            ✕ Unselect
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6" id="grid_whales"></div>
+    </section>
+
+    <!-- DEPARTMENT 3: SNIPERS -->
+    <section id="dept_snipers" class="department-section mb-10 sm:mb-12">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 sm:mb-5 border-b border-slate-800/80 gap-2">
+        <div>
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0"><svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+            <h2 class="text-lg sm:text-2xl font-black text-white tracking-tight">Block-0 Sub-Second Memecoin Snipers</h2>
+            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full font-mono font-bold">16 Feeds Available</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Mempool and sub-second pool seeding detection with automated honeypot filters before bonding curves run away.</p>
+        </div>
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+          <button onclick="toggleCategoryGroup('snipers', true)" class="text-xs text-cyan-400 hover:text-cyan-300 font-semibold bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded-xl transition">
+            + Select All (16)
+          </button>
+          <button onclick="toggleCategoryGroup('snipers', false)" class="text-xs text-slate-400 hover:text-slate-300 font-semibold bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded-xl transition">
+            ✕ Unselect
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6" id="grid_snipers"></div>
+    </section>
+
+    <!-- DEPARTMENT 4: ARBITRAGE -->
+    <section id="dept_arbs" class="department-section mb-10 sm:mb-12">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 sm:mb-5 border-b border-slate-800/80 gap-2">
+        <div>
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0"><svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg></div>
+            <h2 class="text-lg sm:text-2xl font-black text-white tracking-tight">DEX Arbitrage & Liquidity Yield Spreads</h2>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono font-bold">16 Feeds Available</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Calculates cross-AMM and cross-chain pricing misalignments in real-time, delivering 1-tap flash netting execution.</p>
+        </div>
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+          <button onclick="toggleCategoryGroup('arbs', true)" class="text-xs text-cyan-400 hover:text-cyan-300 font-semibold bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded-xl transition">
+            + Select All (16)
+          </button>
+          <button onclick="toggleCategoryGroup('arbs', false)" class="text-xs text-slate-400 hover:text-slate-300 font-semibold bg-slate-900 border border-slate-800 px-2.5 py-1.5 rounded-xl transition">
+            ✕ Unselect
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6" id="grid_arbs"></div>
+    </section>
+
+
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- FLOATING MULTI-CART & SELECTION DOCK (SLIDES UP ON SELECTION)             -->
+  <!-- ========================================================================= -->
+  <div id="cartDock" class="fixed bottom-14 md:bottom-0 left-0 right-0 z-50 bg-slate-900/95 border-t border-cyan-500/50 backdrop-blur-2xl p-3 sm:p-4 shadow-2xl transition-transform duration-300 translate-y-full">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      
+      <!-- Left: Selection Info -->
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-bold shrink-0 text-lg shadow-inner shadow-cyan-500/30">
+          🛒
+        </div>
+        <div class="truncate">
+          <div class="flex items-center gap-2">
+            <span class="text-xs sm:text-sm font-black text-white"><span id="cartCount">0</span> Feeds Selected</span>
+            <span id="bundleBadge" class="hidden text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono font-bold">10% Multi-Feed Discount Applied!</span>
+            <button onclick="clearAllSelections()" class="text-[11px] text-rose-400 hover:text-rose-300 font-semibold underline ml-1">
+              Clear All
+            </button>
+          </div>
+          <p id="cartItemsListText" class="text-[11px] text-slate-400 truncate max-w-lg">No feeds selected</p>
+        </div>
+      </div>
+
+      <!-- Right: Pricing, $NETSWAP Coin Comparison & Checkout Action -->
+      <div class="flex items-center justify-between sm:justify-end gap-3.5 w-full sm:w-auto">
+        
+        <!-- Total Cost Display -->
+        <div class="text-right">
+          <div class="text-base sm:text-lg font-black text-white font-mono" id="cartTotalUsd">
+            $0.00 <span class="text-xs text-slate-400 font-normal">/ mo</span>
+          </div>
+          <div class="flex items-center justify-end gap-1.5 text-xs font-mono">
+            <span class="text-slate-400">Total:</span>
+            <strong class="text-cyan-300 font-bold" id="cartTotalPoints">0 $NETSWAP</strong>
+          </div>
+        </div>
+
+        <!-- Checkout Action Button -->
+        <button onclick="openCartCheckout()" class="bg-cyan-500 hover:bg-cyan-400 active:scale-95 text-slate-950 font-black px-5 sm:px-6 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm transition shadow-lg shadow-cyan-500/30 flex items-center gap-1.5 shrink-0">
+          <span>Checkout Selection ➔</span>
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- FULL FEED DEEP INTEL & SIGNALS MODAL                                      -->
+  <!-- ========================================================================= -->
+  <div id="feedDetailModal" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-3.5 sm:p-4">
+    <div class="w-full max-w-2xl bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl relative max-h-[90vh] flex flex-col overflow-y-auto">
+      <button onclick="closeFeedDetail()" class="absolute right-4 top-4 text-slate-400 hover:text-white text-lg font-mono">✕</button>
+      
+      <!-- Modal Header -->
+      <div class="flex items-start gap-3.5 mb-4 pr-6">
+        <div id="detailFeedIcon" class="w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl font-bold text-cyan-300 shrink-0">
+          A
+        </div>
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span id="detailFeedChainBadge" class="text-[10px] font-mono uppercase font-bold border px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-300 border-cyan-500/30">
+              Chain
+            </span>
+            <span id="detailFeedAccuracyBadge" class="text-xs text-emerald-400 font-mono font-bold">
+              80% Accuracy
+            </span>
+            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-mono">
+              On-Chain Ledger Verified
+            </span>
+          </div>
+          <h3 id="detailFeedTitle" class="text-lg sm:text-xl font-black text-white">Feed Title</h3>
+        </div>
+      </div>
+
+      <!-- Strategy & Architecture Description -->
+      <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 mb-4">
+        <div class="text-[11px] font-mono text-cyan-400 uppercase tracking-wider font-bold mb-1.5">Strategy & Telemetry Overview</div>
+        <p id="detailFeedDesc" class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-3">
+          Description
+        </p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs font-mono pt-3 border-t border-slate-900">
+          <div class="bg-slate-900/60 p-2 rounded-xl">
+            <div class="text-[10px] text-slate-500">HIT RATE</div>
+            <div id="detailMetricHitRate" class="text-emerald-400 font-bold">84%</div>
+          </div>
+          <div class="bg-slate-900/60 p-2 rounded-xl">
+            <div class="text-[10px] text-slate-500">AVG GAIN</div>
+            <div id="detailMetricAvgGain" class="text-cyan-300 font-bold">+420%</div>
+          </div>
+          <div class="bg-slate-900/60 p-2 rounded-xl">
+            <div class="text-[10px] text-slate-500">FREQUENCY</div>
+            <div id="detailMetricFreq" class="text-slate-200">~3 / day</div>
+          </div>
+          <div class="bg-slate-900/60 p-2 rounded-xl">
+            <div class="text-[10px] text-slate-500">EXECUTION</div>
+            <div class="text-indigo-400 font-bold">0% Slippage</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Verified On-Chain Signals Table -->
+      <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 mb-5">
+        <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 uppercase tracking-wider font-bold mb-2.5">
+          <span>Recent Verified Signals (Historical Record)</span>
+          <span class="text-emerald-400">All Calls Audited</span>
+        </div>
+        <div id="detailSignalsTable" class="space-y-2 text-xs font-mono">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Modal Bottom Actions -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-800">
+        <div>
+          <div class="text-base sm:text-lg font-black text-white font-mono" id="detailFeedPrice">
+            $20.00 <span class="text-xs text-slate-400 font-normal">/ month</span>
+          </div>
+          <div class="text-xs text-cyan-300 font-mono" id="detailFeedPoints">
+            💎 1,500 $NETSWAP Credits
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2.5 w-full sm:w-auto">
+          <button id="detailSelectBtn" onclick="toggleDetailSelection()" class="flex-1 sm:flex-initial py-2.5 px-4 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition">
+            + Add to Bundle
+          </button>
+          <button id="detailBuyBtn" onclick="instantBuyFromDetail()" class="flex-1 sm:flex-initial py-2.5 px-5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs transition shadow-md shadow-cyan-500/25">
+            Instant Subscribe ➔
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- QUESTS & PARTNER OFFERWALL MODAL (EARN $NETSWAP COINS)                    -->
+  <!-- ========================================================================= -->
+  <!-- ========================================================================= -->
+  <!-- MY SUBSCRIPTIONS & VIP LICENSE VAULT MODAL                                -->
+  <!-- ========================================================================= -->
+  <div id="subscriptionsModal" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4">
+    <div class="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl relative max-h-[92vh] flex flex-col overflow-y-auto">
+      <button onclick="closeSubscriptionsModal()" class="absolute right-4 top-4 text-slate-400 hover:text-white text-lg font-mono">✕</button>
+      
+      <!-- Modal Header -->
+      <div class="mb-4 pr-6">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-[10px] font-mono text-cyan-400 uppercase font-bold tracking-wider">[MY ACCOUNT & FEEDS]</span>
+          <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono font-bold">● Telegram Bot Connected</span>
+        </div>
+        <h3 class="text-xl sm:text-2xl font-black text-white">My Subscriptions</h3>
+        <p class="text-xs text-slate-400 mt-0.5 leading-relaxed">
+          Manage your active telemetry streams, 30-day renewal status, and account passkey.
+        </p>
+      </div>
+
+      <!-- Account & Recovery Key Bar -->
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3.5 mb-4 text-xs font-mono">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-slate-400 text-[11px]">Telegram Account:</span>
+          <strong id="modalSubUserId" class="text-white font-bold">TG Account Connected</strong>
+        </div>
+        <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-900">
+          <div class="truncate">
+            <span class="text-[10px] text-slate-500 block">Account Recovery Passkey:</span>
+            <span id="vipLicenseKeyText" class="text-cyan-300 font-bold text-xs truncate">NETSWAP-PASSKEY-...</span>
+          </div>
+          <button onclick="copyVipLicenseKey()" class="bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/30 font-bold px-3 py-1.5 rounded-xl text-[11px] font-sans transition shrink-0 active:scale-95">
+            Copy Key
+          </button>
+        </div>
+        <p class="text-[10px] text-slate-500 mt-1.5">
+          If your Telegram is ever deleted or you change numbers, send <code class="text-cyan-300 bg-slate-900 px-1 py-0.5 rounded">/claimkey &lt;KEY&gt;</code> in @NetSwapBaseBot to restore your feeds and wallet.
+        </p>
+      </div>
+
+      <!-- Active Subscriptions List -->
+      <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-4 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-[11px] font-mono text-slate-400 font-bold uppercase tracking-wider">Active Subscribed Feeds</span>
+          <span id="activeSubsCountBadge" class="text-xs font-mono text-cyan-400 font-bold">0 Streams Active</span>
+        </div>
+        <div id="activeSubsListContainer" class="space-y-2.5">
+          <!-- Populated dynamically via renderActiveSubscriptions() -->
+        </div>
+      </div>
+
+      <!-- 7-Day Advance Notice & Renewal Options -->
+      <div class="bg-slate-950/70 border border-slate-800 rounded-2xl p-4 text-xs font-mono">
+        <div class="text-slate-200 font-bold mb-1 flex items-center gap-2">
+          <span class="h-2 w-2 rounded-full bg-cyan-400"></span>
+          <span>7-Day Renewal Advance Notice</span>
+        </div>
+        <p class="text-slate-400 leading-relaxed mb-3 text-[11px]">
+          You will automatically receive a message in your Telegram DM <strong>7 days before</strong> any 30-day subscription ends, giving you full control to renew or cancel anytime without surprise charges.
+        </p>
+
+        <div class="pt-3 border-t border-slate-800/80">
+          <div class="text-[10px] text-slate-400 font-semibold mb-2 uppercase">Renewal & Fallback Preference:</div>
+          <div class="space-y-2 text-[11px]">
+            <label class="flex items-start gap-2.5 p-2 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-cyan-500/40 transition">
+              <input type="radio" name="billingPref" value="split" checked onchange="saveBillingPref('split')" class="mt-0.5 text-cyan-500">
+              <div>
+                <strong class="text-white block">⚡ Smart Split (Recommended)</strong>
+                <span class="text-slate-400 text-[10px]">Applies any earned $NETSWAP credits first; covers remaining balance from your In-Bot Telegram Wallet ($ETH / $SOL).</span>
+              </div>
+            </label>
+
+            <label class="flex items-start gap-2.5 p-2 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-cyan-500/40 transition">
+              <input type="radio" name="billingPref" value="wallet" onchange="saveBillingPref('wallet')" class="mt-0.5 text-cyan-500">
+              <div>
+                <strong class="text-slate-200 block">In-Bot Telegram Wallet Only</strong>
+                <span class="text-slate-400 text-[10px]">Debits renewal purely from your in-bot trading balance. Leaves your $NETSWAP credits untouched.</span>
+              </div>
+            </label>
+
+            <label class="flex items-start gap-2.5 p-2 rounded-xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-cyan-500/40 transition">
+              <input type="radio" name="billingPref" value="manual" onchange="saveBillingPref('manual')" class="mt-0.5 text-cyan-500">
+              <div>
+                <strong class="text-slate-200 block">Manual Renewal (No Auto-Debit)</strong>
+                <span class="text-slate-400 text-[10px]">No auto-debit. Bot sends a payment link 7 days in advance. Feed automatically pauses if unpaid at expiry.</span>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- CHECKOUT MODAL<!-- CHECKOUT MODAL<!-- CHECKOUT MODAL<!-- CHECKOUT MODAL (ITEMIZED MULTI-FEED CHECKOUT)                             -->
+  <!-- ========================================================================= -->
+  <div id="checkoutModal" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-3.5 sm:p-4">
+    <div class="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl relative max-h-[92vh] flex flex-col overflow-y-auto">
+      <button onclick="closeCheckout()" class="absolute right-4 top-4 text-slate-400 hover:text-white text-lg font-mono">✕</button>
+      
+      <!-- Modal Header -->
+      <div class="mb-4">
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-mono text-cyan-400 uppercase font-bold tracking-wider">Itemized Order Checkout</span>
+          <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full font-mono">30-Day VIP Access</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mt-1">Confirm Feed Subscriptions</h3>
+        <p class="text-xs text-slate-400">Lockscreen alerts bound to Telegram account: <strong id="modalUserIdDisplay" class="text-white font-mono">TG Account</strong></p>
+      </div>
+
+      <!-- Itemized Selection Summary -->
+      <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-3.5 sm:p-4 mb-4 text-xs font-mono">
+        <div class="text-[11px] text-slate-400 font-sans font-semibold mb-2 uppercase tracking-wider flex items-center justify-between">
+          <span>Subscribed Feeds:</span>
+          <span id="modalItemCountBadge" class="text-cyan-400">0 Items</span>
+        </div>
+        <div id="modalItemizedList" class="space-y-1.5 max-h-40 overflow-y-auto pr-1">
+          <!-- Populated dynamically -->
+        </div>
+        
+        <div class="border-t border-slate-800 mt-3 pt-2.5 flex justify-between items-center text-slate-200">
+          <span class="font-sans font-bold">Total 30-Day Cost:</span>
+          <div class="text-right">
+            <span id="modalTotalUsd" class="text-white font-bold text-sm">$0.00</span>
+            <span class="text-slate-500 mx-1">·</span>
+            <span id="modalTotalPoints" class="text-cyan-300 font-bold">0 $NETSWAP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Method Tabs -->
+      <div class="grid grid-cols-3 gap-1 p-1 bg-slate-950 border border-slate-800 rounded-2xl mb-4 text-[11px] sm:text-xs font-mono font-bold">
+        <button id="tabPointsBtn" onclick="switchPayTab('points')" class="py-2.5 rounded-xl bg-cyan-500 text-slate-950 transition text-center flex items-center justify-center gap-1 truncate px-1">
+          <span>💎 $NETSWAP</span>
+        </button>
+        <button id="tabSplitBtn" onclick="switchPayTab('split')" class="py-2.5 rounded-xl text-slate-400 hover:text-white transition text-center flex items-center justify-center gap-1 truncate px-1">
+          <span>⚡ Smart Split</span>
+        </button>
+        <button id="tabCryptoBtn" onclick="switchPayTab('crypto')" class="py-2.5 rounded-xl text-slate-400 hover:text-white transition text-center flex items-center justify-center gap-1 truncate px-1">
+          <span>💳 Crypto</span>
+        </button>
+      </div>
+
+      <!-- Tab Content: $NETSWAP Coins Redemption (Primary) -->
+      <div id="pointsPaySection" class="space-y-3.5">
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4">
+          
+          <div class="flex justify-between text-xs mb-1.5">
+            <span class="text-slate-400">Required $NETSWAP Coins:</span>
+            <strong id="pointsCostDisplay" class="text-cyan-300 font-mono font-bold text-sm">0 $NETSWAP</strong>
+          </div>
+          
+          <div class="flex justify-between text-xs mb-3">
+            <span class="text-slate-400">Your Available Balance:</span>
+            <strong id="modalUserPointsDisplay" class="text-emerald-400 font-mono font-bold text-sm">2,418 $NETSWAP</strong>
+          </div>
+
+          <!-- Coin Coverage Meter -->
+          <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden mb-3 border border-slate-800">
+            <div id="coinCoverageBar" class="bg-gradient-to-r from-cyan-500 to-emerald-400 h-full transition-all duration-300" style="width: 100%"></div>
+          </div>
+
+          <!-- Status Message Box -->
+          <div id="pointsStatusBox" class="p-3 rounded-xl text-xs font-mono leading-relaxed">
+            Calculating coin balance...
+          </div>
+        </div>
+
+        <button id="redeemPointsBtn" onclick="completePaymentSimulation('points')" class="w-full bg-gradient-to-r from-cyan-500 to-indigo-500 hover:from-cyan-400 hover:to-indigo-400 active:scale-95 text-slate-950 font-black py-3.5 rounded-2xl text-xs sm:text-sm transition shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-1.5">
+          <span>Redeem Coins & Activate Feeds In Telegram ➔</span>
+        </button>
+      </div>
+
+      <!-- Tab Content: Smart Split Payment (Credits + Remainder Crypto) -->
+      <div id="splitPaySection" class="hidden space-y-3.5">
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 font-mono text-xs">
+          <div class="text-[11px] text-cyan-400 font-bold uppercase tracking-wider mb-2">⚡ Smart Split Breakdown:</div>
+          
+          <div class="flex justify-between mb-1.5 text-slate-300">
+            <span>Total 30-Day Cost:</span>
+            <strong id="splitTotalUsdDisplay" class="text-white">$0.00 USD</strong>
+          </div>
+          
+          <div class="flex justify-between mb-1.5 text-emerald-400 bg-emerald-500/10 p-2 rounded-xl border border-emerald-500/20">
+            <span>Deducting $NETSWAP Credits:</span>
+            <strong id="splitCreditsAppliedDisplay">-0 Coins (-$0.00)</strong>
+          </div>
+
+          <div class="flex justify-between mb-3 text-cyan-300 bg-cyan-500/10 p-2 rounded-xl border border-cyan-500/20">
+            <span>Remaining Crypto Balance Due:</span>
+            <strong id="splitCryptoRemainderDisplay">0.0000 ETH ($0.00)</strong>
+          </div>
+
+          <!-- Network Toggle for Remainder -->
+          <div class="text-[10px] text-slate-400 mb-1 font-semibold uppercase">Pay Remainder Via:</div>
+          <div class="grid grid-cols-2 gap-2 mb-3">
+            <button onclick="selectChain('base')" id="splitChainBaseBtn" class="py-1.5 rounded-xl bg-cyan-500/20 border border-cyan-500 text-cyan-300 font-bold text-center">
+              Base (ETH)
+            </button>
+            <button onclick="selectChain('solana')" id="splitChainSolBtn" class="py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white font-bold text-center">
+              Solana (SOL)
+            </button>
+          </div>
+
+          <!-- Deposit Address -->
+          <div class="text-[10px] text-slate-400 mb-1 font-semibold">Deposit Remainder To:</div>
+          <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex items-center justify-between text-xs text-slate-300">
+            <span id="splitDepositAddressText" class="truncate pr-2">0xcc12fd53a0ba26f42fea6ff8b285a77aa54b170d</span>
+            <button onclick="copyDepositAddress()" class="text-cyan-400 hover:text-cyan-300 font-sans font-bold text-[11px] shrink-0">
+              Copy
+            </button>
+          </div>
+        </div>
+
+        <button onclick="completePaymentSimulation('split')" class="w-full bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 hover:from-cyan-400 hover:to-indigo-400 text-slate-950 font-black py-3.5 rounded-2xl text-xs sm:text-sm transition shadow-lg shadow-cyan-500/25">
+          Confirm Smart Split Payment ➔
+        </button>
+      </div>
+
+      <!-- Tab Content: Crypto Payment (Secondary) -->
+      <div id="cryptoPaySection" class="hidden space-y-3.5">
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4">
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-slate-400">Total USD Price:</span>
+            <strong id="cryptoPriceUsd" class="text-white font-mono">$0.00 USD</strong>
+          </div>
+          <div class="flex justify-between text-xs mb-3">
+            <span class="text-slate-400">Payable Crypto Amount:</span>
+            <strong id="cryptoAmountDisplay" class="text-cyan-400 font-mono font-bold">0.0000 ETH (Base)</strong>
+          </div>
+
+          <!-- Network Toggle -->
+          <div class="text-[10px] text-slate-400 mb-1 font-semibold">Select Deposit Chain:</div>
+          <div class="grid grid-cols-2 gap-2 mb-3 text-xs font-mono">
+            <button onclick="selectChain('base')" id="chainBaseBtn" class="py-1.5 rounded-xl bg-cyan-500/20 border border-cyan-500 text-cyan-300 font-bold text-center">
+              Base (ETH)
+            </button>
+            <button onclick="selectChain('solana')" id="chainSolBtn" class="py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white font-bold text-center">
+              Solana (SOL)
+            </button>
+          </div>
+
+          <!-- Deposit Address Box -->
+          <div class="text-[10px] text-slate-400 mb-1 font-semibold">Operator Treasury Deposit Address:</div>
+          <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex items-center justify-between text-xs font-mono text-slate-300">
+            <span id="depositAddressText" class="truncate pr-2">0xcc12fd53a0ba26f42fea6ff8b285a77aa54b170d</span>
+            <button onclick="copyDepositAddress()" class="text-cyan-400 hover:text-cyan-300 font-sans font-bold text-[11px] shrink-0">
+              Copy
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-500 mt-2">Send the exact crypto amount to activate. Feeds are bound to your Telegram DM within 1 block.</p>
+        </div>
+
+        <button onclick="completePaymentSimulation('crypto')" class="w-full bg-cyan-500 hover:bg-cyan-400 active:scale-95 text-slate-950 font-black py-3.5 rounded-2xl text-xs sm:text-sm transition shadow-lg shadow-cyan-500/25">
+          I Have Sent the Payment ➔
+        </button>
+      </div>
+
+      <!-- Success Confirmation (Hidden by default) -->
+      <div id="paymentSuccessBox" class="hidden text-center py-6">
+        <div class="text-5xl mb-3">🎉</div>
+        <h4 class="text-xl font-black text-white mb-1.5">VIP Alpha Streams Activated!</h4>
+        <p class="text-xs text-slate-400 mb-5 leading-relaxed max-w-md mx-auto">
+          Your selected alert streams have been bound to your Telegram account. Return to <strong>@NetSwapBaseBot</strong> now to receive push alerts with 1-tap NetSwap execution buttons!
+        </p>
+        <a id="returnBotSuccessLink" href="https://t.me/NetSwapBaseBot" target="_blank" class="inline-block bg-cyan-500 text-slate-950 px-6 py-3 rounded-2xl font-black text-xs sm:text-sm shadow-lg shadow-cyan-500/30 active:scale-95 transition">
+          Open @NetSwapBaseBot in Telegram ➔
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800/80 bg-slate-950 py-6 px-4 text-center text-xs font-mono text-slate-500 relative z-10">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div>© 2026 NetSwap Protocol. Continuous Liquidity Netting & VIP Push Streams.</div>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="hover:text-slate-300">Terminal</a>
+        <a href="audit.html" class="hover:text-slate-300">Loss Audit</a>
+        <a href="https://t.me/NetSwapBaseBot" target="_blank" class="hover:text-slate-300">Telegram Bot</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT MARKETPLACE CATALOGUE & MULTI-CART ENGINE                      -->
+  <!-- ========================================================================= -->
+  <script>
+    // 64 Granular Feeds Catalogue with Historical Signals & Deep Strategy Telemetry
+    const FEEDS = [
+      // ==========================================
+      // DEPARTMENT 1: 👑 TOP 0.1% ELITE CALLERS (16)
+      // ==========================================
+      { 
+        id: 'caller_ansem', name: 'Ansem SOL Momentum Sniper', category: 'callers', chain: 'sol', price: 20, points: 1500, winrate: 78.4, roi: '+340%', freq: '~3-5 / wk', top: '$WIF +840%', icon: 'A', 
+        desc: 'Direct mirror of high-conviction breakout signals and immediate on-chain wallet entries within 300ms.',
+        signals: [
+          { pair: '$WIF', entry: '$0.18', peak: '$1.69', gain: '+840%', date: 'Verified' },
+          { pair: '$BONK', entry: '$0.000012', peak: '$0.000049', gain: '+310%', date: 'Verified' },
+          { pair: '$POPCAT', entry: '$0.42', peak: '$1.85', gain: '+340%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_gcr', name: 'GCR Macro Reversals & Accumulation', category: 'callers', chain: 'cross', price: 25, points: 1800, winrate: 84.1, roi: '+620%', freq: '~1-2 / wk', top: '$DEGEN +1,240%', icon: 'G', 
+        desc: 'High-timeframe macro pivot alerts, deep liquidity accumulation zones, and cycle bottom reversal calls.',
+        signals: [
+          { pair: '$DEGEN', entry: '$0.0031', peak: '$0.0415', gain: '+1,240%', date: 'Verified' },
+          { pair: '$AERO', entry: '$0.45', peak: '$2.30', gain: '+410%', date: 'Verified' },
+          { pair: '$ETH', entry: '$2,140', peak: '$3,950', gain: '+84%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_tjr', name: 'TJR Base Memecoin Scalper', category: 'callers', chain: 'base', price: 18, points: 1300, winrate: 72.8, roi: '+280%', freq: '~4-8 / day', top: '$BRETT +490%', icon: 'T', 
+        desc: 'Rapid-fire micro-cap scalp signals on Base trending pairs before mainstream social media discovery.',
+        signals: [
+          { pair: '$BRETT', entry: '$0.024', peak: '$0.141', gain: '+490%', date: 'Verified' },
+          { pair: '$TOSHI', entry: '$0.00018', peak: '$0.00072', gain: '+300%', date: 'Verified' },
+          { pair: '$KEYCAT', entry: '$0.0012', peak: '$0.0051', gain: '+325%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_murad', name: 'Murad Meme Cult Accumulation', category: 'callers', chain: 'cross', price: 22, points: 1600, winrate: 81.3, roi: '+490%', freq: '~2 / wk', top: '$SPX +920%', icon: 'M', 
+        desc: 'Identifies tokens with extreme diamond-hand distribution and sticky organic cult volume.',
+        signals: [
+          { pair: '$SPX', entry: '$0.08', peak: '$0.82', gain: '+920%', date: 'Verified' },
+          { pair: '$GIGA', entry: '$0.015', peak: '$0.072', gain: '+380%', date: 'Verified' },
+          { pair: '$MOG', entry: '$0.0000004', peak: '$0.0000021', gain: '+425%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_cobie', name: 'Cobie Early-Stage Seed Radar', category: 'callers', chain: 'cross', price: 25, points: 1800, winrate: 85.0, roi: '+650%', freq: '~1 / mo', top: '$ENA +650%', icon: 'C', 
+        desc: 'Early architecture and on-chain protocol deployment signals with deep fundamental backing.',
+        signals: [
+          { pair: '$ENA', entry: '$0.28', peak: '$1.48', gain: '+650%', date: 'Verified' },
+          { pair: '$EIGEN', entry: '$2.80', peak: '$4.50', gain: '+61%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_arthur', name: 'Arthur Hayes Macro Rotations', category: 'callers', chain: 'cross', price: 24, points: 1700, winrate: 79.5, roi: '+580%', freq: '~1-2 / wk', top: '$PENDLE +580%', icon: 'H', 
+        desc: 'Macro global liquidity injections and derivatives basis trade signals across key layer-1/2s.',
+        signals: [
+          { pair: '$PENDLE', entry: '$1.10', peak: '$7.48', gain: '+580%', date: 'Verified' },
+          { pair: '$APT', entry: '$5.20', peak: '$18.10', gain: '+248%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_pentoshi', name: 'Pentoshi Breakout & Retest', category: 'callers', chain: 'base', price: 20, points: 1500, winrate: 77.2, roi: '+440%', freq: '~3-5 / wk', top: '$AERO +440%', icon: 'P', 
+        desc: 'Clean technical breakout confirmations and key support retests on top Base ecosystem assets.',
+        signals: [
+          { pair: '$AERO', entry: '$0.48', peak: '$2.15', gain: '+440%', date: 'Verified' },
+          { pair: '$VELO', entry: '$0.08', peak: '$0.29', gain: '+262%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_lookonchain', name: 'Lookonchain Smart Signal Mirror', category: 'callers', chain: 'cross', price: 22, points: 1600, winrate: 76.9, roi: '+710%', freq: '~5-10 / day', top: '$PEPE +710%', icon: 'L', 
+        desc: 'Automated telemetry filtering on-chain smart wallet callouts from social aggregator noise.',
+        signals: [
+          { pair: '$PEPE', entry: '$0.0000015', peak: '$0.0000122', gain: '+710%', date: 'Verified' },
+          { pair: '$FLOKI', entry: '$0.00009', peak: '$0.00031', gain: '+244%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_degenspartan', name: 'DegenSpartan Yield & Rotations', category: 'callers', chain: 'base', price: 20, points: 1500, winrate: 75.4, roi: '+620%', freq: '~2-4 / wk', top: '$VIRTUAL +620%', icon: 'D', 
+        desc: 'High-beta DeFi yield rotations, concentrated liquidity positioning, and ecosystem shifts.',
+        signals: [
+          { pair: '$VIRTUAL', entry: '$0.40', peak: '$2.88', gain: '+620%', date: 'Verified' },
+          { pair: '$SEAM', entry: '$1.40', peak: '$6.20', gain: '+342%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_rookie', name: 'RookieXBT High-Beta Momentum', category: 'callers', chain: 'base', price: 18, points: 1300, winrate: 73.1, roi: '+380%', freq: '~3-6 / day', top: '$TOSHI +380%', icon: 'R', 
+        desc: 'Early momentum alerts on surging Base coins before retail DEX trending placements.',
+        signals: [
+          { pair: '$TOSHI', entry: '$0.00021', peak: '$0.00080', gain: '+380%', date: 'Verified' },
+          { pair: '$MOCHI', entry: '$0.000018', peak: '$0.000062', gain: '+244%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_hsaka', name: 'Hsaka Orderflow & Inflow Scalper', category: 'callers', chain: 'sol', price: 22, points: 1600, winrate: 78.0, roi: '+320%', freq: '~2-5 / day', top: '$BONK +320%', icon: 'S', 
+        desc: 'Real-time orderbook depth imbalances and rapid CEX-to-DEX liquidity outflow triggers.',
+        signals: [
+          { pair: '$BONK', entry: '$0.000015', peak: '$0.000063', gain: '+320%', date: 'Verified' },
+          { pair: '$RAY', entry: '$1.80', peak: '$5.40', gain: '+200%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_crash', name: 'Crash Base Ecosystem Alpha', category: 'callers', chain: 'base', price: 18, points: 1300, winrate: 74.5, roi: '+510%', freq: '~4-7 / day', top: '$HIGHER +510%', icon: 'K', 
+        desc: 'Deep native Base ecosystem caller tracker focusing on Farcaster and social crypto coins.',
+        signals: [
+          { pair: '$HIGHER', entry: '$0.012', peak: '$0.073', gain: '+510%', date: 'Verified' },
+          { pair: '$TN100X', entry: '$0.0015', peak: '$0.0062', gain: '+313%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_bluntz', name: 'Bluntz Wave Runner Alerts', category: 'callers', chain: 'sol', price: 20, points: 1500, winrate: 76.1, roi: '+690%', freq: '~2-3 / wk', top: '$POPCAT +690%', icon: 'B', 
+        desc: 'Elliott wave cycle completion triggers identifying explosive wave-3 runner entries.',
+        signals: [
+          { pair: '$POPCAT', entry: '$0.24', peak: '$1.89', gain: '+690%', date: 'Verified' },
+          { pair: '$MEW', entry: '$0.0022', peak: '$0.0098', gain: '+345%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_donalt', name: 'DonAlt Low-Timeframe Swings', category: 'callers', chain: 'cross', price: 20, points: 1500, winrate: 80.2, roi: '+410%', freq: '~2-4 / wk', top: '$SUI +410%', icon: 'O', 
+        desc: 'Disciplined macro risk-off and swing entries with pre-defined invalidated stop-loss limits.',
+        signals: [
+          { pair: '$SUI', entry: '$0.75', peak: '$3.82', gain: '+410%', date: 'Verified' },
+          { pair: '$AVAX', entry: '$19.50', peak: '$48.00', gain: '+146%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_algod', name: 'Algod Contrarian Reversal Radar', category: 'callers', chain: 'cross', price: 18, points: 1300, winrate: 71.9, roi: '+800%', freq: '~1-2 / wk', top: '$LUNA +800%', icon: 'X', 
+        desc: 'Monitors extreme market euphoria and oversold panics for counter-trend mean reversion.',
+        signals: [
+          { pair: '$LUNA', entry: '$0.40', peak: '$3.60', gain: '+800%', date: 'Verified' },
+          { pair: '$FTT', entry: '$1.10', peak: '$3.80', gain: '+245%', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'caller_gainzy', name: 'Gainzy High-Beta Breakout Mirror', category: 'callers', chain: 'base', price: 19, points: 1400, winrate: 73.8, roi: '+460%', freq: '~3-5 / day', top: '$KEYCAT +460%', icon: 'Z', 
+        desc: 'Ultra-aggressive breakout mirror calibrated for fast volatile momentum on Base.',
+        signals: [
+          { pair: '$KEYCAT', entry: '$0.0011', peak: '$0.0062', gain: '+460%', date: 'Verified' },
+          { pair: '$BASED', entry: '$0.00045', peak: '$0.00190', gain: '+322%', date: 'Verified' }
+        ]
+      },
+
+      // ==========================================
+      // DEPARTMENT 2: 🐋 SMART MONEY & WHALE SHADOW (16)
+      // ==========================================
+      { 
+        id: 'whale_base_stealth', name: 'Base Stealth Accumulators (<$2M FDV)', category: 'whales', chain: 'base', price: 22, points: 1600, winrate: 76.5, roi: '+680%', freq: '~5-10 / day', top: '$VIRTUAL +680%', icon: '🦈', 
+        desc: 'Tracks wallets with >$100k realized profit quietly accumulating low-cap Base tokens before public trending.',
+        signals: [
+          { pair: '$VIRTUAL', entry: '$0.35', peak: '$2.73', gain: '+680%', date: 'Whale Inflow' },
+          { pair: '$LUM', entry: '$0.008', peak: '$0.062', gain: '+675%', date: 'Whale Inflow' }
+        ]
+      },
+      { 
+        id: 'whale_sol_megalodon', name: 'Solana Megalodon Whales (>$100k)', category: 'whales', chain: 'sol', price: 25, points: 1800, winrate: 79.2, roi: '+310%', freq: '~3-6 / day', top: '$BONK +310%', icon: '🐋', 
+        desc: 'Instant lockscreen alert when heavyweight Solana whales deploy 6-figure positions into runners.',
+        signals: [
+          { pair: '$BONK', entry: '$120,000 swap', peak: '+310%', gain: '+$372k profit', date: 'Whale Swap' },
+          { pair: '$WIF', entry: '$250,000 swap', peak: '+180%', gain: '+$450k profit', date: 'Whale Swap' }
+        ]
+      },
+      { 
+        id: 'whale_cex_insider', name: 'CEX Insider Outflow Radar (> $50k)', category: 'whales', chain: 'cross', price: 28, points: 2000, winrate: 83.7, roi: '+410%', freq: '~2-4 / day', top: '$AERO +410%', icon: '🏦', 
+        desc: 'Fresh non-KYC wallets funded with >$50k from Binance/Coinbase that immediately buy a specific contract.',
+        signals: [
+          { pair: '$AERO', entry: '$58k CEX Outflow', peak: '+410%', gain: '+$237k profit', date: 'Binance Hot' },
+          { pair: '$DEGEN', entry: '$85k CEX Outflow', peak: '+350%', gain: '+$297k profit', date: 'Coinbase Hot' }
+        ]
+      },
+      { 
+        id: 'whale_kol_cluster', name: 'KOL Cluster Inflow Tracker (3+ KOLs)', category: 'whales', chain: 'cross', price: 20, points: 1500, winrate: 80.1, roi: '+520%', freq: '~3 / day', top: '$AIXBT +520%', icon: '🎯', 
+        desc: 'Triggers only when 3 or more verified alpha caller wallets acquire the exact same token in 5 minutes.',
+        signals: [
+          { pair: '$AIXBT', entry: '4 KOLs Convergence', peak: '+520%', gain: 'High Conviction', date: 'Multi-Wallet' },
+          { pair: '$GOAT', entry: '3 KOLs Convergence', peak: '+840%', gain: 'High Conviction', date: 'Multi-Wallet' }
+        ]
+      },
+      { 
+        id: 'whale_dex_top100', name: 'Top 100 Profitable DEX Wallets', category: 'whales', chain: 'base', price: 26, points: 1900, winrate: 82.4, roi: '+540%', freq: '~6-12 / day', top: '$MIGGLES +540%', icon: '🏆', 
+        desc: 'Monitors the verified top 100 all-time most profitable wallets across Uniswap and Aerodrome on Base.',
+        signals: [
+          { pair: '$MIGGLES', entry: 'Top #12 DEX Wallet', peak: '+540%', gain: 'Verified PnL', date: 'Leaderboard' }
+        ]
+      },
+      { 
+        id: 'whale_fresh_100x', name: 'Fresh Wallet 100x Hunter', category: 'whales', chain: 'cross', price: 24, points: 1700, winrate: 75.8, roi: '+1,400%', freq: '~2-5 / day', top: '$GOAT +1,400%', icon: '⚡', 
+        desc: 'Scans for wallets that have caught 2 or more >50x runners within the past 30 days.',
+        signals: [
+          { pair: '$GOAT', entry: 'Wallet #81 (2x 50x prior)', peak: '+1,400%', gain: '100x Pattern', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'whale_vc_treasury', name: 'VC & Fund Treasury Outflow Scanner', category: 'whales', chain: 'cross', price: 28, points: 2000, winrate: 84.3, roi: '+290%', freq: '~1-3 / wk', top: '$UNI +290%', icon: '🏛️', 
+        desc: 'Detects capital outflows from tagged institutional funds (a16z, Paradigm) into on-chain DEX positions.',
+        signals: [
+          { pair: '$UNI', entry: 'Fund Outflow', peak: '+290%', gain: 'Institutional', date: 'On-Chain' }
+        ]
+      },
+      { 
+        id: 'whale_wintermute', name: 'Market Maker Shadow Flow (Wintermute/Jump)', category: 'whales', chain: 'cross', price: 30, points: 2200, winrate: 86.1, roi: '+340%', freq: '~2-5 / day', top: '$ARB +340%', icon: '🤖', 
+        desc: 'Tracks market maker secondary treasury routing and automated inventory accumulation.',
+        signals: [
+          { pair: '$ARB', entry: 'MM Treasury Accumulation', peak: '+340%', gain: 'Orderflow Edge', date: 'MM Vault' }
+        ]
+      },
+      { 
+        id: 'whale_deployer_shadow', name: 'Dev Auxiliary Wallet Shadow', category: 'whales', chain: 'base', price: 22, points: 1600, winrate: 77.0, roi: '+630%', freq: '~4-8 / day', top: '$BSTONK +630%', icon: '🕵️', 
+        desc: 'Identifies connected secondary wallets funded by successful project deployers on Base.',
+        signals: [
+          { pair: '$BSTONK', entry: 'Dev Connected Wallet', peak: '+630%', gain: 'Insider Edge', date: 'Cluster' }
+        ]
+      },
+      { 
+        id: 'whale_sol_highroller', name: 'Raydium High-Roller Pool (>$50k Buys)', category: 'whales', chain: 'sol', price: 24, points: 1700, winrate: 78.6, roi: '+420%', freq: '~8-15 / day', top: '$MEW +420%', icon: '🎰', 
+        desc: 'Real-time telemetry for single swaps exceeding $50,000 USD on Raydium AMM & CLMM.',
+        signals: [
+          { pair: '$MEW', entry: '$68k Single Buy', peak: '+420%', gain: 'Whale Edge', date: 'CLMM' }
+        ]
+      },
+      { 
+        id: 'whale_veaero_lockers', name: 'Aerodrome veAERO Mega-Lockers', category: 'whales', chain: 'base', price: 20, points: 1500, winrate: 81.0, roi: '+390%', freq: '~3-6 / wk', top: '$AERO +390%', icon: '🔒', 
+        desc: 'Follows whale governance voters and mega-lockers accumulating liquidity on Aerodrome.',
+        signals: [
+          { pair: '$AERO', entry: '500k veAERO Lock', peak: '+390%', gain: 'Yield Inflow', date: 'Gov' }
+        ]
+      },
+      { 
+        id: 'whale_mev_searchers', name: 'MEV Searcher Profit Wallet Inflows', category: 'whales', chain: 'base', price: 25, points: 1800, winrate: 79.8, roi: '+260%', freq: '~5-10 / day', top: '$WETH +260%', icon: '🛡️', 
+        desc: 'Monitors the private cold wallets of top Base searchers when profits are re-deployed into tokens.',
+        signals: [
+          { pair: '$WETH', entry: 'Searcher Re-Ape', peak: '+260%', gain: 'MEV Bot Profit', date: 'Base' }
+        ]
+      },
+      { 
+        id: 'whale_eth_bridge', name: 'Ethereum-to-Base Bridge Whales (>20 ETH)', category: 'whales', chain: 'base', price: 22, points: 1600, winrate: 77.5, roi: '+510%', freq: '~4-9 / day', top: '$DEGEN +510%', icon: '🌉', 
+        desc: 'Alerts when large ETH bridging events immediately swap into newly seeded Base memecoins.',
+        signals: [
+          { pair: '$DEGEN', entry: '35 ETH Bridge -> Swap', peak: '+510%', gain: 'Instant Bridge Ape', date: 'Base Bridge' }
+        ]
+      },
+      { 
+        id: 'whale_cabal_rings', name: 'Memecoin Cabal Cluster Detector', category: 'whales', chain: 'cross', price: 26, points: 1900, winrate: 82.9, roi: '+880%', freq: '~2-4 / day', top: '$FARTCOIN +880%', icon: '🕸️', 
+        desc: 'Identifies coordinated multi-wallet rings (5+ addresses) entering the same token simultaneously.',
+        signals: [
+          { pair: '$FARTCOIN', entry: 'Ring of 7 Wallets', peak: '+880%', gain: 'Cabal Inflow', date: 'Ring Detector' }
+        ]
+      },
+      { 
+        id: 'whale_prelisting', name: 'Pre-Trending Inflow Accumulators', category: 'whales', chain: 'base', price: 22, points: 1600, winrate: 76.2, roi: '+470%', freq: '~5-12 / day', top: '$SPIKE +470%', icon: '📈', 
+        desc: 'Pings early smart buys before tokens appear on the top 10 DexScreener trending list.',
+        signals: [
+          { pair: '$SPIKE', entry: '30m Pre-Trending', peak: '+470%', gain: 'Front-Run Retail', date: 'Verified' }
+        ]
+      },
+      { 
+        id: 'whale_dormant_resurrection', name: 'Dormant Whale (>180d) Re-activation', category: 'whales', chain: 'cross', price: 25, points: 1800, winrate: 81.5, roi: '+360%', freq: '~1-3 / wk', top: '$DOGE +360%', icon: '💤', 
+        desc: 'Alerts when wallets inactive for over 6 months suddenly execute large buying transactions.',
+        signals: [
+          { pair: '$DOGE', entry: '210d Dormant Wallet', peak: '+360%', gain: 'Awakened Whale', date: 'Verified' }
+        ]
+      },
+
+      // ==========================================
+      // DEPARTMENT 3: ⚡ BLOCK-0 MEMECOIN SNIPERS (16)
+      // ==========================================
+      { 
+        id: 'sniper_clanker', name: 'Clanker Sub-Second Launch Radar', category: 'snipers', chain: 'base', price: 20, points: 1500, winrate: 83.0, roi: '+1,800%', freq: 'Instant', top: '$LUM +1,800%', icon: '⚙️', 
+        desc: 'Mempool listener detects new Clanker / Farcaster tokens in the genesis block with automated honeypot check.',
+        signals: [
+          { pair: '$LUM', entry: 'Block-0 Snipe', peak: '$0.071', gain: '+1,800%', date: 'Farcaster Mempool' },
+          { pair: '$AIBOT', entry: 'Block-0 Snipe', peak: '$0.024', gain: '+540%', date: 'Clanker Contract' }
+        ]
+      },
+      { 
+        id: 'sniper_virtuals', name: 'Virtuals Protocol AI Agent Radar', category: 'snipers', chain: 'base', price: 20, points: 1500, winrate: 81.5, roi: '+740%', freq: 'Instant', top: '$GAME +740%', icon: '🤖', 
+        desc: 'Sub-second detection of new AI agent token launches on Virtuals Protocol with 0% slippage route.',
+        signals: [
+          { pair: '$GAME', entry: 'Virtuals Mint', peak: '$4.12', gain: '+740%', date: 'Virtuals Factory' },
+          { pair: '$LUNA', entry: 'Virtuals Mint', peak: '$0.18', gain: '+480%', date: 'Virtuals Factory' }
+        ]
+      },
+      { 
+        id: 'sniper_pumpfun', name: 'Pump.fun Raydium Graduation Radar', category: 'snipers', chain: 'sol', price: 22, points: 1600, winrate: 79.8, roi: '+950%', freq: 'Instant', top: '$FART +950%', icon: '💊', 
+        desc: 'Real-time alert the exact second a bonding curve completes 100% and seeds Raydium liquidity.',
+        signals: [
+          { pair: '$FART', entry: 'Raydium Migration Block', peak: '$0.85', gain: '+950%', date: 'Curve 100%' },
+          { pair: '$PEANUT', entry: 'Raydium Migration Block', peak: '$1.42', gain: '+610%', date: 'Curve 100%' }
+        ]
+      },
+      { 
+        id: 'sniper_highliq', name: 'High-Liquidity Genesis Pool (>20 ETH)', category: 'snipers', chain: 'base', price: 18, points: 1300, winrate: 77.2, roi: '+510%', freq: '~4-8 / day', top: '$MIGGLES +510%', icon: '💎', 
+        desc: 'Filters out micro-rugs, notifying only when unannounced pools launch with >20 ETH deep liquidity.',
+        signals: [
+          { pair: '$MIGGLES', entry: '25 ETH Initial Pool', peak: '+510%', gain: 'Deep LP Snipe', date: 'Base' }
+        ]
+      },
+      { 
+        id: 'sniper_univ3_fullrange', name: 'Uniswap v3 Full-Range Fair Seeder', category: 'snipers', chain: 'base', price: 18, points: 1300, winrate: 75.9, roi: '+430%', freq: '~5-10 / day', top: '$BASECAT +430%', icon: '🦄', 
+        desc: 'Detects genuine full-range liquidity deployments with non-manipulated tick distributions.',
+        signals: [{ pair: '$BASECAT', entry: 'Full Range Uni v3', peak: '+430%', gain: 'Fair Seed', date: 'Base' }]
+      },
+      { 
+        id: 'sniper_moonshot', name: 'Moonshot Direct Seed Radar', category: 'snipers', chain: 'cross', price: 20, points: 1500, winrate: 76.5, roi: '+610%', freq: '~6-12 / day', top: '$MOON +610%', icon: '🚀', 
+        desc: 'Monitors newly created Moonshot app tokens with automated social verification score.',
+        signals: [{ pair: '$MOON', entry: 'Moonshot App Seed', peak: '+610%', gain: 'Sub-Second', date: 'Moonshot' }]
+      },
+      { 
+        id: 'sniper_fourmeme', name: 'Four.meme Fast Migration Stream', category: 'snipers', chain: 'cross', price: 18, points: 1300, winrate: 74.0, roi: '+390%', freq: '~4-8 / day', top: '$FOUR +390%', icon: '4️⃣', 
+        desc: 'Sub-second listener for completed bonding curve migrations across cross-chain meme launchpads.',
+        signals: [{ pair: '$FOUR', entry: 'Migration Genesis', peak: '+390%', gain: 'Instant Snipe', date: 'Four.meme' }]
+      },
+      { 
+        id: 'sniper_daosfun', name: 'Daos.fun Venture Fund Snipe Radar', category: 'snipers', chain: 'sol', price: 22, points: 1600, winrate: 80.5, roi: '+820%', freq: '~2-4 / wk', top: '$AI16Z +820%', icon: '🏛️', 
+        desc: 'Instant notification on new decentralized venture DAO token launches on Solana.',
+        signals: [{ pair: '$AI16Z', entry: 'Daos.fun Seed', peak: '+820%', gain: 'DAO Genesis', date: 'Solana' }]
+      },
+      { 
+        id: 'sniper_creator_zora', name: 'BasePaint & Zora Creator Snipe', category: 'snipers', chain: 'base', price: 17, points: 1200, winrate: 73.5, roi: '+340%', freq: '~3-6 / wk', top: '$PAINT +340%', icon: '🎨', 
+        desc: 'Tracks verified on-chain artists and creators launching ERC-20 tokens on Base.',
+        signals: [{ pair: '$PAINT', entry: 'Creator Mint', peak: '+340%', gain: 'Base Art Token', date: 'Zora' }]
+      },
+      { 
+        id: 'sniper_aerodrome_slipstream', name: 'Slipstream Concentrated Pool Sniper', category: 'snipers', chain: 'base', price: 20, points: 1500, winrate: 78.4, roi: '+460%', freq: '~5-10 / day', top: '$SCALE +460%', icon: '🌊', 
+        desc: 'Detects newly deployed Slipstream concentrated liquidity pairs on Aerodrome.',
+        signals: [{ pair: '$SCALE', entry: 'Aero Slipstream Seed', peak: '+460%', gain: 'Concentrated LP', date: 'Aero CL' }]
+      },
+      { 
+        id: 'sniper_stealth_deploy', name: 'Stealth Bytecode Deployer Scanner', category: 'snipers', chain: 'base', price: 24, points: 1700, winrate: 82.0, roi: '+710%', freq: '~3-6 / day', top: '$GHOST +710%', icon: '👻', 
+        desc: 'Simulates unverified bytecode contracts to verify buy/sell functionality prior to etherscan verification.',
+        signals: [{ pair: '$GHOST', entry: 'Bytecode Simulation Pass', peak: '+710%', gain: 'Honeypot Tested', date: 'Base' }]
+      },
+      { 
+        id: 'sniper_zerotax_fair', name: 'Low-Tax Fair Launch Hunter', category: 'snipers', chain: 'base', price: 18, points: 1300, winrate: 76.1, roi: '+380%', freq: '~8-15 / day', top: '$PURE +380%', icon: '🛡️', 
+        desc: 'Filters out any token with buy/sell taxes greater than 0% for pure fair-market trading.',
+        signals: [{ pair: '$PURE', entry: '0% Tax Enforced', peak: '+380%', gain: 'Clean Tokenomics', date: 'Base' }]
+      },
+      { 
+        id: 'sniper_lp_burn_genesis', name: '100% LP Burnt Genesis Radar', category: 'snipers', chain: 'base', price: 19, points: 1400, winrate: 79.0, roi: '+550%', freq: '~6-12 / day', top: '$FIRE +550%', icon: '🔥', 
+        desc: 'Triggers only when LP burn transaction is executed in the exact genesis creation block.',
+        signals: [{ pair: '$FIRE', entry: 'Dead Address Burn Tx', peak: '+550%', gain: 'Unruggable Seed', date: 'Base' }]
+      },
+      { 
+        id: 'sniper_multisig_safe', name: 'Multi-Sig Safe Backed Fair Launches', category: 'snipers', chain: 'base', price: 22, points: 1600, winrate: 83.4, roi: '+480%', freq: '~2-5 / wk', top: '$VAULT +480%', icon: '🔐', 
+        desc: 'Monitors tokens deployed directly from verified Gnosis Safe multisig contracts.',
+        signals: [{ pair: '$VAULT', entry: 'Safe Deployer Tx', peak: '+480%', gain: 'Multi-Sig Proven', date: 'Gnosis Safe' }]
+      },
+      { 
+        id: 'sniper_renounced_ownership', name: 'Contract Renounced Genesis Feed', category: 'snipers', chain: 'base', price: 18, points: 1300, winrate: 75.2, roi: '+390%', freq: '~6-14 / day', top: '$OPEN +390%', icon: '📜', 
+        desc: 'Pings immediately when the deployer renounces contract ownership to zero address.',
+        signals: [{ pair: '$OPEN', entry: 'Ownership to 0x000', peak: '+390%', gain: 'Renounced', date: 'Base' }]
+      },
+      { 
+        id: 'sniper_antimev_private', name: 'Anti-MEV Micro-Batch Genesis Snipes', category: 'snipers', chain: 'base', price: 25, points: 1800, winrate: 84.9, roi: '+890%', freq: '~4-8 / day', top: '$STEALTH +890%', icon: '⚡', 
+        desc: 'Direct NetSwap private batch routing bypassing public mempool sandwich searchers entirely.',
+        signals: [{ pair: '$STEALTH', entry: 'NetSwap Private Relay', peak: '+890%', gain: 'Zero Front-Run', date: 'NetSwap Engine' }]
+      },
+
+      // ==========================================
+      // DEPARTMENT 4: 🛡️ DEX ARBITRAGE & YIELD (16)
+      // ==========================================
+      { 
+        id: 'arb_aero_uni', name: 'Aero vs Uni v3 Spread Radar', category: 'arbs', chain: 'base', price: 18, points: 1300, winrate: 88.0, roi: '3.4% Spread', freq: '~8-15 / day', top: '+$420 / arb', icon: '⚖️', 
+        desc: 'Continuous scan of price divergences >2.5% between Aero Slipstream and Uni v3 pools.',
+        signals: [
+          { pair: 'AERO/UNIv3', entry: 'Divergence: 3.4%', peak: 'Net Yield: $420', gain: 'Arbitrage', date: 'Base AMMs' }
+        ]
+      },
+      { 
+        id: 'arb_crosschain', name: 'Cross-Chain Base ↔ Solana Spread', category: 'arbs', chain: 'cross', price: 24, points: 1700, winrate: 85.5, roi: '5.2% Spread', freq: '~3-6 / day', top: '+$890 / arb', icon: '🌐', 
+        desc: 'Discrepancies on identical bridgeable assets between Base and Solana with simulated fees.',
+        signals: [
+          { pair: 'Base ↔ SOL', entry: 'Divergence: 5.2%', peak: 'Net Yield: $890', gain: 'Arbitrage', date: 'Cross-Chain' }
+        ]
+      },
+      { 
+        id: 'arb_depeg', name: 'LST & Stable De-Peg Yield Scanner', category: 'arbs', chain: 'base', price: 15, points: 1100, winrate: 94.2, roi: '0.85% Spread', freq: '~2-5 / day', top: 'Zero Risk', icon: '🔒', 
+        desc: 'Captures temporary pool imbalances in cbETH, wstETH, and USD stablecoins for safe yield.',
+        signals: [
+          { pair: 'cbETH / ETH', entry: 'De-peg: 0.85%', peak: 'Mean Reversion', gain: 'Zero Risk', date: 'Base LST' }
+        ]
+      },
+      { 
+        id: 'arb_univ2_v3', name: 'Uni v2 vs v3 Spread Hunter', category: 'arbs', chain: 'base', price: 16, points: 1200, winrate: 86.4, roi: '2.8% Spread', freq: '~10-20 / day', top: '+$280 / arb', icon: '🔄', 
+        desc: 'Monitors pricing dislocations between legacy v2 AMM pools and concentrated v3 ranges on Base.',
+        signals: [{ pair: 'Uni v2/v3', entry: 'Spread 2.8%', peak: '+$280 profit', gain: 'Intra-DEX', date: 'Base' }]
+      },
+      { 
+        id: 'arb_sushi_aero', name: 'SushiSwap vs Aerodrome Arbitrage', category: 'arbs', chain: 'base', price: 17, points: 1250, winrate: 84.9, roi: '3.1% Spread', freq: '~6-12 / day', top: '+$350 / arb', icon: '🍣', 
+        desc: 'Calculates net yield across secondary DEXes on Base after automated gas simulation.',
+        signals: [{ pair: 'Sushi / Aero', entry: 'Spread 3.1%', peak: '+$350 profit', gain: 'Net Yield', date: 'Base' }]
+      },
+      { 
+        id: 'arb_triangular', name: 'Tri-Pool Triangular Flash Arb Radar', category: 'arbs', chain: 'base', price: 22, points: 1600, winrate: 89.1, roi: 'Net USD Gain', freq: '~12-25 / day', top: '+$520 / arb', icon: '🔺', 
+        desc: 'Triangular arbitrage routes (ETH -> TOKEN -> USDC -> ETH) executed in single micro-batch.',
+        signals: [{ pair: 'ETH-TOKEN-USDC', entry: 'Triangular Loop', peak: '+$520 profit', gain: 'Flash Batch', date: 'Base' }]
+      },
+      { 
+        id: 'arb_raydium_orca', name: 'Raydium vs Orca Whirlpool Spread', category: 'arbs', chain: 'sol', price: 20, points: 1500, winrate: 87.2, roi: '3.8% Spread', freq: '~15-30 / day', top: '+$640 / arb', icon: '🐬', 
+        desc: 'Monitors high-frequency pricing spreads between Raydium CLMM and Orca Whirlpools on Solana.',
+        signals: [{ pair: 'Raydium / Orca', entry: 'Spread 3.8%', peak: '+$640 profit', gain: 'Arbitrage', date: 'Solana' }]
+      },
+      { 
+        id: 'arb_meteora_clmm', name: 'Meteora Dynamic AMM vs Raydium', category: 'arbs', chain: 'sol', price: 21, points: 1550, winrate: 86.8, roi: '3.2% Spread', freq: '~10-18 / day', top: '+$490 / arb', icon: '☄️', 
+        desc: 'Real-time alert on pricing discrepancies across dynamic liquidity vaults on Solana.',
+        signals: [{ pair: 'Meteora / Ray', entry: 'Spread 3.2%', peak: '+$490 profit', gain: 'Dynamic LP', date: 'Solana' }]
+      },
+      { 
+        id: 'arb_bridge_premium', name: 'Base ETH vs Mainnet WETH Premium', category: 'arbs', chain: 'cross', price: 18, points: 1300, winrate: 92.5, roi: '0.6% Spread', freq: '~4-8 / day', top: 'Institutional', icon: '🌉', 
+        desc: 'Capitalizes on temporary liquidity premiums during heavy bridging inflow congestion.',
+        signals: [{ pair: 'Base / Mainnet', entry: 'Premium 0.6%', peak: 'Riskless Edge', gain: 'Bridge Flow', date: 'Cross' }]
+      },
+      { 
+        id: 'arb_curve_tricrypto', name: 'Curve Base Tricrypto Spread Radar', category: 'arbs', chain: 'base', price: 17, points: 1250, winrate: 89.9, roi: '1.7% Spread', freq: '~5-10 / day', top: '+$310 / arb', icon: '📉', 
+        desc: 'Detects imbalance in 3-asset pools (ETH/BTC/USDC) across Curve contracts on Base.',
+        signals: [{ pair: 'Curve Tricrypto', entry: 'Pool Imbalance', peak: '+$310 profit', gain: 'Low Slippage', date: 'Base' }]
+      },
+      { 
+        id: 'arb_flashloan_yield', name: 'Flash Loan Zero-Capital Yield Arb', category: 'arbs', chain: 'base', price: 25, points: 1800, winrate: 91.0, roi: 'Zero Capital', freq: '~8-15 / day', top: '+$750 / arb', icon: '⚡', 
+        desc: 'Pings only when gross arbitrage spread covers 100% of flash-loan borrowing toll and gas.',
+        signals: [{ pair: 'Flash Loan', entry: 'Zero Capital Route', peak: '+$750 profit', gain: 'Flash Engine', date: 'Base' }]
+      },
+      { 
+        id: 'arb_hyperliquid_spot', name: 'Hyperliquid Perp vs Base Spot Arb', category: 'arbs', chain: 'cross', price: 26, points: 1900, winrate: 88.4, roi: 'Funding Basis', freq: '~4-7 / day', top: 'Delta Neutral', icon: '📊', 
+        desc: 'Detects extreme basis spreads between perpetual futures and spot token prices on Base.',
+        signals: [{ pair: 'Hyperliquid Basis', entry: 'Delta Neutral', peak: 'Basis Spread', gain: 'Funding Catch', date: 'Perp/Spot' }]
+      },
+      { 
+        id: 'arb_negative_funding', name: 'Extreme Negative Funding Rate Scanner', category: 'arbs', chain: 'cross', price: 22, points: 1600, winrate: 93.1, roi: 'APR >40%', freq: '~3-5 / day', top: 'Cash & Carry', icon: '💰', 
+        desc: 'Pings when perp short funding rate spikes to historic extremes for risk-free cash & carry.',
+        signals: [{ pair: 'Negative Funding', entry: 'APR 48%', peak: 'Cash & Carry', gain: 'Funding Harvest', date: 'Cross' }]
+      },
+      { 
+        id: 'arb_pendle_pt', name: 'Pendle Principal Token Discount Scanner', category: 'arbs', chain: 'base', price: 20, points: 1500, winrate: 95.0, roi: 'Fixed Yield', freq: '~2-4 / day', top: 'Guaranteed', icon: '⏳', 
+        desc: 'Scans for fixed yield tokens trading at abnormal discounts to underlying asset value.',
+        signals: [{ pair: 'Pendle PT', entry: 'Fixed 14% APY', peak: 'Guaranteed Yield', gain: 'Zero Risk', date: 'Base' }]
+      },
+      { 
+        id: 'arb_liquidation_front', name: 'Aave & Compound Liquidation Radar', category: 'arbs', chain: 'base', price: 24, points: 1700, winrate: 87.5, roi: 'Discount Collateral', freq: '~2-6 / day', top: '+$1,100 / arb', icon: '⚠️', 
+        desc: 'Early warning when collateral health factors fall below 1.02 to capture liquidation bounties.',
+        signals: [{ pair: 'Aave Health < 1.02', entry: 'Liquidation Front', peak: '+$1,100 profit', gain: 'Bounty Capture', date: 'Base Aave' }]
+      },
+      { 
+        id: 'arb_rebalance_flow', name: 'Automated LP Rebalancing Flow Radar', category: 'arbs', chain: 'base', price: 19, points: 1400, winrate: 85.0, roi: '2.4% Spread', freq: '~5-12 / day', top: '+$390 / arb', icon: '🤖', 
+        desc: 'Front-runs predictable rebalancing swaps from automated liquidity manager vaults on Base.',
+        signals: [{ pair: 'ALM Rebalance', entry: 'Predictable Inflow', peak: '+$390 profit', gain: 'Vault Front-Run', date: 'Base' }]
+      }
+    ];
+
+    // State Variables
+    let selectedFeedKeys = new Set();
+    let currentDeptFilter = 'all';
+    let currentChainFilter = 'all';
+    let searchQuery = '';
+    let selectedChain = 'base';
+    let activeDetailFeedId = null;
+
+    // Completed Quests Map (Persisted in localStorage)
+    let completedQuests = JSON.parse(localStorage.getItem('netswap_completed_quests') || '{}');
+
+    // Dedicated Alerts & Subscriptions Revenue Vault (Phantom Wallet)
+    const TREASURY = {
+      base: '0xcc12fd53a0ba26f42fea6ff8b285a77aa54b170d', // Phantom Base (ETH)
+      solana: 'DoZ6k8uquqAn6D9bgkya5etKV4v7Au9Q7BSsXe1eB2WZ' // Phantom Solana (SOL)
+    };
+
+    // User Params from Telegram redirect
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get('user_id') || params.get('chat_id') || '6819284';
+    let userPoints = parseInt(params.get('points')) || parseInt(localStorage.getItem('netswap_user_points')) || 2418;
+
+    // Render User Header & $NETSWAP Loyalty Balance (Null-Safe)
+    function updateHeaderUserDisplay() {
+      const uEl = document.getElementById('userDisplayId');
+      if (uEl) uEl.textContent = `TG #${userId}`;
+      const mEl = document.getElementById('modalUserIdDisplay');
+      if (mEl) mEl.textContent = `TG #${userId}`;
+      
+      const coinsFormatted = userPoints.toLocaleString();
+      const bEl = document.getElementById('userPointsBalance');
+      if (bEl) bEl.textContent = `${coinsFormatted} $NETSWAP`;
+      const mbEl = document.getElementById('modalUserPointsDisplay');
+      if (mbEl) mbEl.textContent = `${coinsFormatted} $NETSWAP`;
+      
+      localStorage.setItem('netswap_user_points', userPoints);
+    }
+
+    // Toggle Feed Selection (Select / Unselect)
+    function toggleFeedSelection(id) {
+      if (selectedFeedKeys.has(id)) {
+        selectedFeedKeys.delete(id);
+      } else {
+        selectedFeedKeys.add(id);
+      }
+      updateCardUI(id);
+      updateCartDock();
+      if (activeDetailFeedId === id) updateDetailModalButtons(id);
+    }
+
+    // Toggle Entire Category Group (Select All / Unselect All)
+    function toggleCategoryGroup(category, selectAll) {
+      FEEDS.forEach(f => {
+        if (f.category === category) {
+          if (selectAll) {
+            selectedFeedKeys.add(f.id);
+          } else {
+            selectedFeedKeys.delete(f.id);
+          }
+          updateCardUI(f.id);
+        }
+      });
+      updateCartDock();
+    }
+
+    // Clear All Selections
+    function clearAllSelections() {
+      selectedFeedKeys.clear();
+      FEEDS.forEach(f => updateCardUI(f.id));
+      updateCartDock();
+    }
+
+    // Instant Single Buy
+    function instantBuy(id) {
+      selectedFeedKeys.clear();
+      selectedFeedKeys.add(id);
+      FEEDS.forEach(f => updateCardUI(f.id));
+      updateCartDock();
+      openCartCheckout();
+    }
+
+    // Update Single Card Visual State
+    function updateCardUI(id) {
+      const card = document.getElementById(`card_${id}`);
+      const btn = document.getElementById(`btn_select_${id}`);
+      const isSelected = selectedFeedKeys.has(id);
+
+      if (card && btn) {
+        if (isSelected) {
+          card.classList.add('is-selected');
+          btn.className = 'w-full py-2 px-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs transition shadow-md shadow-cyan-500/30 flex items-center justify-center gap-1.5';
+          btn.innerHTML = '<span>✓ Selected (Tap to Remove)</span>';
+        } else {
+          card.classList.remove('is-selected');
+          btn.className = 'w-full py-2 px-3 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 hover:border-cyan-500/50 text-slate-200 text-xs font-bold transition flex items-center justify-center gap-1.5';
+          btn.innerHTML = '<span>+ Select Feed</span>';
+        }
+      }
+    }
+
+    // Render Feeds into Grid Containers
+    function renderCatalogue() {
+      const containers = {
+        callers: document.getElementById('grid_callers'),
+        whales: document.getElementById('grid_whales'),
+        snipers: document.getElementById('grid_snipers'),
+        arbs: document.getElementById('grid_arbs')
+      };
+
+      // Clear all grids
+      Object.values(containers).forEach(c => c.innerHTML = '');
+
+      // Filter and sort feeds
+      let filtered = FEEDS.filter(item => {
+        // Department Filter
+        if (currentDeptFilter !== 'all' && item.category !== currentDeptFilter) return false;
+        
+        // Chain Filter
+        if (currentChainFilter !== 'all' && item.chain !== currentChainFilter && item.chain !== 'cross') return false;
+
+        // Search Query Filter
+        if (searchQuery.trim() !== '') {
+          const q = searchQuery.toLowerCase();
+          const matchName = item.name.toLowerCase().includes(q);
+          const matchDesc = item.desc.toLowerCase().includes(q);
+          const matchTop = item.top.toLowerCase().includes(q);
+          if (!matchName && !matchDesc && !matchTop) return false;
+        }
+
+        return true;
+      });
+
+      // Sort
+      const sortBy = document.getElementById('sortSelect').value;
+      if (sortBy === 'winrate') {
+        filtered.sort((a, b) => b.winrate - a.winrate);
+      } else if (sortBy === 'price_asc') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortBy === 'price_desc') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sortBy === 'name') {
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
+      document.getElementById('visibleFeedCount').textContent = filtered.length;
+
+      // Populate cards into their respective category
+      filtered.forEach(f => {
+        const isSelected = selectedFeedKeys.has(f.id);
+        const card = document.createElement('div');
+        card.id = `card_${f.id}`;
+        card.className = `feed-card bg-slate-900/90 border border-slate-800/80 hover:border-cyan-500/50 rounded-3xl p-5 sm:p-6 flex flex-col justify-between cursor-pointer select-none transition-all duration-200 shadow-xl ${isSelected ? 'is-selected ring-2 ring-cyan-500/80' : ''}`;
+        
+        // Clicking card anywhere except the select/instant buy buttons opens the full detail modal
+        card.onclick = (e) => {
+          if (e.target.closest('.card-btn-action')) return;
+          openFeedDetail(f.id);
+        };
+
+        const chainBadgeClass = f.chain === 'base' ? 'bg-cyan-500/10 text-cyan-300 border-cyan-500/30' : (f.chain === 'sol' ? 'bg-purple-500/10 text-purple-300 border-purple-500/30' : 'bg-indigo-500/10 text-indigo-300 border-indigo-500/30');
+        const chainName = f.chain === 'base' ? 'Base (EVM)' : (f.chain === 'sol' ? 'Solana (SOL)' : 'Multi-Chain');
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-3.5">
+              <span class="text-[10px] font-mono uppercase font-bold border px-2.5 py-1 rounded-full ${chainBadgeClass}">
+                ${chainName}
+              </span>
+              <span class="text-xs text-emerald-400 font-mono font-bold bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">${f.winrate}% Hit Rate</span>
+            </div>
+
+            <div class="flex items-start gap-3 mb-3">
+              <div class="w-10 h-10 rounded-2xl bg-slate-800/90 border border-slate-700/80 flex items-center justify-center shrink-0 mt-0.5">
+                ${getCategoryBadgeSvg(f.category)}
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-bold">${getFeedChip(f)}</span>
+                  <h3 class="text-sm sm:text-base font-bold text-white group-hover:text-cyan-300 transition leading-snug">
+                    ${f.name}
+                  </h3>
+                </div>
+                <p class="text-[11px] text-slate-400 font-mono mt-1">${f.freq} · Top: <span class="text-cyan-400 font-bold">${f.top}</span></p>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">
+              ${f.desc}
+            </p>
+
+            <div class="flex items-center justify-between text-xs text-cyan-400 font-semibold mb-4 hover:underline">
+              <span>Inspect Historical Signals & Rules</span>
+              <span class="text-xs font-mono">➔</span>
+            </div>
+
+            <!-- Dual Pricing Tag (USD & $NETSWAP Loyalty Coins) -->
+            <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-3 flex items-center justify-between text-xs font-mono mb-4">
+              <div>
+                <span class="text-white font-black text-base">$${f.price}</span>
+                <span class="text-slate-400 text-xs font-sans"> / month</span>
+              </div>
+              <div class="text-right">
+                <span class="text-cyan-300 font-bold text-xs">${f.points.toLocaleString()}</span>
+                <span class="text-[10px] text-slate-400 block">$NETSWAP credits</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Actions: Toggle Select & Instant Buy -->
+          <div class="space-y-2.5 pt-3 border-t border-slate-800/80">
+            <!-- 1-Tap Direct Subscribe Button -->
+            <button onclick="instantBuy('${f.id}')" class="card-btn-action w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-bold text-xs transition flex items-center justify-center gap-2 shadow-md shadow-cyan-500/20 active:scale-98">
+              <span>⚡ Instant Subscribe ($${f.price}/mo)</span>
+              <span>➔</span>
+            </button>
+            <!-- Multi-Feed Bundle Toggle Button -->
+            <button id="btn_select_${f.id}" onclick="toggleFeedSelection('${f.id}')" class="card-btn-action w-full py-2 px-3 rounded-xl ${isSelected ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50' : 'border border-slate-800 bg-slate-950/60 hover:bg-slate-800 text-slate-400 hover:text-white'} text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              ${isSelected ? '✓ In Multi-Bundle (Remove)' : '+ Add to Multi-Bundle'}
+            </button>
+          </div>
+        `;
+
+        if (containers[f.category]) {
+          containers[f.category].appendChild(card);
+        }
+      });
+
+      // Show/hide sections based on filters and search
+      ['callers', 'whales', 'snipers', 'arbs'].forEach(c => {
+        const sec = document.getElementById(`dept_${c}`);
+        const count = containers[c].children.length;
+        if (count === 0) {
+          sec.classList.add('hidden');
+        } else {
+          sec.classList.remove('hidden');
+        }
+      });
+    }
+
+    // =========================================================================
+    // FULL FEED DETAIL MODAL LOGIC
+    // =========================================================================
+    function openFeedDetail(id) {
+      const feed = FEEDS.find(x => x.id === id);
+      if (!feed) return;
+
+      activeDetailFeedId = id;
+      document.getElementById('detailFeedIcon').innerHTML = getCategoryBadgeSvg(feed.category);
+      document.getElementById('detailFeedTitle').textContent = feed.name;
+      document.getElementById('detailFeedDesc').textContent = feed.desc;
+      
+      const chainName = feed.chain === 'base' ? 'Base (EVM)' : (feed.chain === 'sol' ? 'Solana (SOL)' : 'Multi-Chain');
+      document.getElementById('detailFeedChainBadge').textContent = chainName;
+      document.getElementById('detailFeedAccuracyBadge').textContent = `${feed.winrate}% Hit Rate`;
+
+      document.getElementById('detailMetricHitRate').textContent = `${feed.winrate}%`;
+      document.getElementById('detailMetricAvgGain').textContent = feed.roi;
+      document.getElementById('detailMetricFreq').textContent = feed.freq;
+
+      document.getElementById('detailFeedPrice').innerHTML = `$${feed.price}.00 <span class="text-xs text-slate-400 font-normal">/ month</span>`;
+      document.getElementById('detailFeedPoints').textContent = `${feed.points.toLocaleString()} $NETSWAP Protocol Credits`;
+
+      // Render signals
+      const table = document.getElementById('detailSignalsTable');
+      table.innerHTML = '';
+      if (feed.signals && feed.signals.length > 0) {
+        feed.signals.forEach((s, idx) => {
+          const row = document.createElement('div');
+          row.className = 'flex items-center justify-between py-1.5 px-2.5 rounded-xl bg-slate-900 border border-slate-800/80';
+          row.innerHTML = `
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] text-slate-500 font-mono">#${idx+1}</span>
+              <strong class="text-white">${s.pair}</strong>
+              <span class="text-slate-400 text-[11px]">Entry: ${s.entry}</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-cyan-300 font-bold">${s.gain}</span>
+              <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-mono">✓ Verified</span>
+            </div>
+          `;
+          table.appendChild(row);
+        });
+      } else {
+        table.innerHTML = `
+          <div class="text-slate-400 text-xs py-2 text-center">Continuous real-time block-by-block trigger telemetry.</div>
+        `;
+      }
+
+      updateDetailModalButtons(id);
+      document.getElementById('feedDetailModal').classList.remove('hidden');
+    }
+
+    function closeFeedDetail() {
+      document.getElementById('feedDetailModal').classList.add('hidden');
+      activeDetailFeedId = null;
+    }
+
+    function updateDetailModalButtons(id) {
+      const btn = document.getElementById('detailSelectBtn');
+      if (selectedFeedKeys.has(id)) {
+        btn.className = 'flex-1 sm:flex-initial py-2.5 px-4 rounded-xl bg-cyan-500 text-slate-950 font-black text-xs transition shadow-md shadow-cyan-500/30';
+        btn.textContent = '✓ Selected in Bundle (Remove)';
+      } else {
+        btn.className = 'flex-1 sm:flex-initial py-2.5 px-4 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition';
+        btn.textContent = '+ Add to Bundle';
+      }
+    }
+
+    function toggleDetailSelection() {
+      if (activeDetailFeedId) {
+        toggleFeedSelection(activeDetailFeedId);
+      }
+    }
+
+    function instantBuyFromDetail() {
+      if (activeDetailFeedId) {
+        closeFeedDetail();
+        instantBuy(activeDetailFeedId);
+      }
+    }
+
+    // =========================================================================
+    // INSTITUTIONAL SVG & MONOSPACE BADGE HELPERS
+    // =========================================================================
+    function getCategoryBadgeSvg(category) {
+      if (category === 'callers') {
+        return `<svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/><circle cx="12" cy="12" r="3"/></svg>`;
+      } else if (category === 'whales') {
+        return `<svg class="w-4 h-4 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="3"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>`;
+      } else if (category === 'snipers') {
+        return `<svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
+      } else {
+        return `<svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>`;
+      }
+    }
+
+    function getFeedChip(f) {
+      const idx = FEEDS.findIndex(x => x.id === f.id);
+      const num = String((idx % 16) + 1).padStart(2, '0');
+      if (f.category === 'callers') return `ALPHA-${num}`;
+      if (f.category === 'whales') return `WHALE-${num}`;
+      if (f.category === 'snipers') return `BLK0-${num}`;
+      return `ARB-${num}`;
+    }
+
+    // =========================================================================
+    // VIP SUBSCRIPTIONS & MIGRATION KEY LOGIC
+    // =========================================================================
+    function generateVipKey(uid) {
+      // Deterministic master passkey format matching bot.py generate_vip_recovery_key
+      let hash = 0;
+      const str = `netswap_vip_salt_${uid}_secret`;
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) - hash) + str.charCodeAt(i);
+        hash |= 0;
+      }
+      const hex = Math.abs(hash).toString(16).toUpperCase().padStart(8, '0').slice(0, 8);
+      return `NETSWAP-PASSKEY-${uid}-${hex}`;
+    }
+
+    
+
+    
+
+    
+
+    
+
+    // Active Subscriptions Loaded from Storage (Starts EMPTY for genuine new users)
+    let activeSubscriptions = JSON.parse(localStorage.getItem('netswap_active_subs') || '[]');
+    
+    // Purge any old seeded test subscriptions so real users start clean
+    if (activeSubscriptions.length > 0 && activeSubscriptions.some(x => x.id === 'caller_ansem' && x.expiryDays === 24)) {
+      activeSubscriptions = [];
+      localStorage.removeItem('netswap_active_subs');
+    }
+
+    function openSubscriptionsModal() {
+      const key = generateVipKey(userId);
+      const keyEl = document.getElementById('vipLicenseKeyText');
+      if (keyEl) keyEl.textContent = key;
+      const userEl = document.getElementById('modalSubUserId');
+      if (userEl) userEl.textContent = `TG #${userId}`;
+      renderActiveSubscriptions();
+      document.getElementById('subscriptionsModal').classList.remove('hidden');
+    }
+
+    function closeSubscriptionsModal() {
+      document.getElementById('subscriptionsModal').classList.add('hidden');
+    }
+
+    function copyVipLicenseKey() {
+      const key = document.getElementById('vipLicenseKeyText').textContent;
+      navigator.clipboard.writeText(key).then(() => {
+        alert(`Account Recovery Passkey Copied!\n\nKey: ${key}\n\nIf you ever change or lose your Telegram account, send /claimkey ${key} on your new account in @NetSwapBaseBot to restore your subscriptions and wallet.`);
+      });
+    }
+
+    function renderActiveSubscriptions() {
+      const container = document.getElementById('activeSubsListContainer');
+      const badge = document.getElementById('activeSubsCountBadge');
+      if (!container || !badge) return;
+      container.innerHTML = '';
+      badge.textContent = `${activeSubscriptions.length} Streams Active`;
+
+      if (activeSubscriptions.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-7 text-slate-400 font-mono text-xs">
+            <div class="w-10 h-10 rounded-2xl bg-slate-900 border border-slate-800 mx-auto flex items-center justify-center text-cyan-400 mb-2.5">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="12" y1="3" x2="12" y2="7"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="3" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="21" y2="12"/></svg>
+            </div>
+            <strong class="text-white text-sm block mb-1">No Active Subscriptions</strong>
+            <p class="text-slate-400 text-xs max-w-sm mx-auto leading-relaxed">
+              You have not subscribed to any alert feeds yet. Browse the 64 feeds below to activate 30-day VIP telemetry directly in your Telegram DM.
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      activeSubscriptions.forEach((sub, idx) => {
+        const item = document.createElement('div');
+        item.className = 'bg-slate-900 border border-slate-800 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5';
+        item.innerHTML = `
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <strong class="text-white text-xs font-bold">${sub.name}</strong>
+              <span class="text-[10px] text-cyan-400 font-mono font-bold">$${sub.price}/mo</span>
+            </div>
+            <div class="text-[11px] text-slate-400 font-mono mt-1 flex items-center gap-2">
+              <span class="text-emerald-300 font-bold">Expires in ${sub.expiryDays} days</span>
+              <span>·</span>
+              <span class="text-slate-400">Streaming to DM</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="cancelSubscription(${idx})" class="text-[11px] text-slate-400 hover:text-rose-300 border border-slate-800 hover:border-rose-500/30 bg-slate-950 px-2.5 py-1 rounded-lg transition font-mono" title="Turn off future auto-renewal; feed remains active until day 30">
+              Cancel Auto-Renewal
+            </button>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function cancelSubscription(idx) {
+      if (confirm(`Cancel auto-renewal for ${activeSubscriptions[idx].name}?\n\nYour alerts will remain active until the end of your current 30-day period.`)) {
+        activeSubscriptions.splice(idx, 1);
+        localStorage.setItem('netswap_active_subs', JSON.stringify(activeSubscriptions));
+        renderActiveSubscriptions();
+      }
+    }
+
+    function saveBillingPref(pref) {
+      localStorage.setItem('netswap_billing_pref', pref);
+    }
+
+    // =========================================================================
+    // CART & CHECKOUT LOGIC
+    // =========================================================================
+    function updateCartDock() {
+      const cartDock = document.getElementById('cartDock');
+      const count = selectedFeedKeys.size;
+      document.getElementById('cartCount').textContent = count;
+
+      if (count === 0) {
+        cartDock.classList.add('translate-y-full');
+        return;
+      }
+
+      let totalUsd = 0;
+      let totalPoints = 0;
+      let names = [];
+
+      selectedFeedKeys.forEach(id => {
+        const f = FEEDS.find(x => x.id === id);
+        if (f) {
+          totalUsd += f.price;
+          totalPoints += f.points;
+          names.push(f.name.split(' ')[0]);
+        }
+      });
+
+      // 10% Bundle discount on 3+ feeds
+      const bundleBadge = document.getElementById('bundleBadge');
+      if (count >= 3) {
+        totalUsd = totalUsd * 0.9;
+        totalPoints = Math.round(totalPoints * 0.9);
+        bundleBadge.classList.remove('hidden');
+      } else {
+        bundleBadge.classList.add('hidden');
+      }
+
+      document.getElementById('cartTotalUsd').innerHTML = `$${totalUsd.toFixed(2)} <span class="text-xs text-slate-400 font-normal">/ mo</span>`;
+      document.getElementById('cartTotalPoints').textContent = `💎 ${totalPoints.toLocaleString()} $NETSWAP`;
+      document.getElementById('cartItemsListText').textContent = names.join(', ');
+
+      cartDock.classList.remove('translate-y-full');
+    }
+
+    // Department Tab Filtering
+    function filterDepartment(dept) {
+      currentDeptFilter = dept;
+      const tabs = ['all', 'callers', 'whales', 'snipers', 'arbs'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab_${t}`);
+        if (btn) {
+          if (t === dept) {
+            btn.className = 'dept-tab active px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-cyan-500 text-slate-950 shadow-sm shadow-cyan-500/20';
+          } else {
+            btn.className = 'dept-tab px-3 sm:px-3.5 py-1.5 rounded-xl text-xs font-bold transition whitespace-nowrap bg-slate-950 text-slate-400 hover:text-white border border-slate-800';
+          }
+        }
+      });
+      renderCatalogue();
+    }
+
+    // Chain Filter
+    function setChainFilter(chain) {
+      currentChainFilter = chain;
+      ['all', 'base', 'sol', 'cross'].forEach(c => {
+        const btn = document.getElementById(`chain_${c}`);
+        if (btn) {
+          if (c === chain) {
+            btn.className = 'chain-btn px-2.5 py-1.5 rounded-xl bg-cyan-500 text-slate-950 font-bold transition text-[11px] sm:text-xs';
+          } else {
+            btn.className = 'chain-btn px-2.5 py-1.5 rounded-xl text-slate-400 hover:text-white transition text-[11px] sm:text-xs';
+          }
+        }
+      });
+      renderCatalogue();
+    }
+
+    // Search Handling
+    function handleSearchAndFilter() {
+      const input = document.getElementById('searchInput');
+      searchQuery = input.value;
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (searchQuery.trim().length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderCatalogue();
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      searchQuery = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      renderCatalogue();
+    }
+
+    // Open Checkout Modal
+    function openCartCheckout() {
+      if (selectedFeedKeys.size === 0) return;
+
+      const modalList = document.getElementById('modalItemizedList');
+      modalList.innerHTML = '';
+
+      let totalUsd = 0;
+      let totalPoints = 0;
+
+      selectedFeedKeys.forEach(id => {
+        const item = FEEDS.find(x => x.id === id);
+        if (item) {
+          totalUsd += item.price;
+          totalPoints += item.points;
+
+          const row = document.createElement('div');
+          row.className = 'flex items-center justify-between text-xs py-1 border-b border-slate-900';
+          row.innerHTML = `
+            <span class="text-slate-300 truncate pr-2">• ${item.name} (${item.chain.toUpperCase()})</span>
+            <span class="text-cyan-300 font-mono font-bold shrink-0">$${item.price} / ${item.points} pts</span>
+          `;
+          modalList.appendChild(row);
+        }
+      });
+
+      // Bundle discount (10% off for 3+ items)
+      if (selectedFeedKeys.size >= 3) {
+        totalUsd = totalUsd * 0.9;
+        totalPoints = Math.round(totalPoints * 0.9);
+      }
+
+      document.getElementById('modalItemCountBadge').textContent = `${selectedFeedKeys.size} Feeds`;
+      document.getElementById('modalTotalUsd').textContent = `$${totalUsd.toFixed(2)} USD`;
+      document.getElementById('modalTotalPoints').textContent = `💎 ${totalPoints.toLocaleString()} $NETSWAP`;
+      document.getElementById('cryptoPriceUsd').textContent = `$${totalUsd.toFixed(2)} USD`;
+      document.getElementById('pointsCostDisplay').textContent = `💎 ${totalPoints.toLocaleString()} $NETSWAP`;
+
+      updateCryptoAmount(totalUsd);
+
+      // Verify $NETSWAP Protocol Utility Credit Balance & Setup Split Fallback
+      const diff = totalPoints - userPoints;
+      const statusBox = document.getElementById('pointsStatusBox');
+      const redeemBtn = document.getElementById('redeemPointsBtn');
+      const coverageBar = document.getElementById('coinCoverageBar');
+
+      const coveragePct = Math.min(100, Math.round((userPoints / totalPoints) * 100));
+      coverageBar.style.width = `${coveragePct}%`;
+
+      // Smart Split Calculations
+      const appliedPoints = Math.min(userPoints, totalPoints);
+      const pointsUsdValue = appliedPoints / 75; // 75 credits = $1.00 USD
+      const remainderUsd = Math.max(0, totalUsd - pointsUsdValue);
+      const remainderEth = (remainderUsd / 2650).toFixed(4);
+
+      document.getElementById('splitTotalUsdDisplay').textContent = `$${totalUsd.toFixed(2)} USD`;
+      document.getElementById('splitCreditsAppliedDisplay').textContent = `-${appliedPoints.toLocaleString()} Coins (-$${pointsUsdValue.toFixed(2)})`;
+      document.getElementById('splitCryptoRemainderDisplay').textContent = `${remainderEth} ETH ($${remainderUsd.toFixed(2)})`;
+      document.getElementById('splitDepositAddressText').textContent = TREASURY.base;
+
+      if (diff > 0) {
+        statusBox.className = 'p-3 rounded-xl text-xs font-mono bg-amber-500/10 border border-amber-500/30 text-amber-300 leading-relaxed';
+        statusBox.innerHTML = `
+          ⚠️ <strong>Partial $NETSWAP Coverage:</strong><br>
+          You have <strong>${userPoints.toLocaleString()}</strong> of <strong>${totalPoints.toLocaleString()}</strong> credits needed (Short by <strong>${diff.toLocaleString()} credits</strong>).<br><br>
+          <div class="flex flex-wrap gap-2 mt-1">
+            <button onclick="switchPayTab('split')" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-3 py-1.5 rounded-lg font-bold text-[11px] font-sans transition">
+              ⚡ Use Smart Split (Use Credits + Pay $${remainderUsd.toFixed(2)}) ➔
+            </button>
+            <button onclick="switchPayTab('crypto')" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg font-bold text-[11px] font-sans transition">
+              Pay 100% via Crypto ➔
+            </button>
+          </div>
+        `;
+        redeemBtn.textContent = `Smart Split: Apply ${appliedPoints.toLocaleString()} Credits + Pay Remainder ➔`;
+        redeemBtn.onclick = () => switchPayTab('split');
+      } else {
+        const remaining = userPoints - totalPoints;
+        statusBox.className = 'p-3 rounded-xl text-xs font-mono bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 leading-relaxed';
+        statusBox.innerHTML = `
+          ✓ <strong>100% Covered with $NETSWAP Utility Credits!</strong><br>
+          Your balance of <strong>${userPoints.toLocaleString()} credits</strong> fully covers this order. You will have <strong>${remaining.toLocaleString()} credits</strong> remaining after redemption.
+        `;
+        redeemBtn.textContent = 'Redeem Credits & Activate Feeds In Telegram ➔';
+        redeemBtn.onclick = () => completePaymentSimulation('points');
+      }
+
+      document.getElementById('pointsPaySection').classList.remove('hidden');
+      document.getElementById('cryptoPaySection').classList.add('hidden');
+      document.getElementById('paymentSuccessBox').classList.add('hidden');
+      document.getElementById('checkoutModal').classList.remove('hidden');
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkoutModal').classList.add('hidden');
+    }
+
+    function switchPayTab(tab) {
+      const btnPts = document.getElementById('tabPointsBtn');
+      const btnSplit = document.getElementById('tabSplitBtn');
+      const btnCrypto = document.getElementById('tabCryptoBtn');
+
+      const secPts = document.getElementById('pointsPaySection');
+      const secSplit = document.getElementById('splitPaySection');
+      const secCrypto = document.getElementById('cryptoPaySection');
+
+      // Reset all buttons
+      btnPts.className = 'py-2.5 rounded-xl text-slate-400 hover:text-white transition text-center flex items-center justify-center gap-1 truncate px-1';
+      btnSplit.className = 'py-2.5 rounded-xl text-slate-400 hover:text-white transition text-center flex items-center justify-center gap-1 truncate px-1';
+      btnCrypto.className = 'py-2.5 rounded-xl text-slate-400 hover:text-white transition text-center flex items-center justify-center gap-1 truncate px-1';
+
+      secPts.classList.add('hidden');
+      secSplit.classList.add('hidden');
+      secCrypto.classList.add('hidden');
+
+      if (tab === 'points') {
+        btnPts.className = 'py-2.5 rounded-xl bg-cyan-500 text-slate-950 transition text-center flex items-center justify-center gap-1 truncate px-1 font-bold';
+        secPts.classList.remove('hidden');
+      } else if (tab === 'split') {
+        btnSplit.className = 'py-2.5 rounded-xl bg-cyan-500 text-slate-950 transition text-center flex items-center justify-center gap-1 truncate px-1 font-bold';
+        secSplit.classList.remove('hidden');
+      } else {
+        btnCrypto.className = 'py-2.5 rounded-xl bg-cyan-500 text-slate-950 transition text-center flex items-center justify-center gap-1 truncate px-1 font-bold';
+        secCrypto.classList.remove('hidden');
+      }
+    }
+
+    function updateCryptoAmount(usd) {
+      if (selectedChain === 'base') {
+        const eth = (usd / 2650).toFixed(4);
+        document.getElementById('cryptoAmountDisplay').textContent = `${eth} ETH (Base)`;
+      } else {
+        const sol = (usd / 150).toFixed(3);
+        document.getElementById('cryptoAmountDisplay').textContent = `${sol} SOL (Solana)`;
+      }
+    }
+
+    function selectChain(chain) {
+      selectedChain = chain;
+      let totalUsd = 0;
+      selectedFeedKeys.forEach(id => {
+        const f = FEEDS.find(x => x.id === id);
+        if (f) totalUsd += f.price;
+      });
+      if (selectedFeedKeys.size >= 3) totalUsd *= 0.9;
+
+      if (chain === 'base') {
+        document.getElementById('chainBaseBtn').className = 'py-1.5 rounded-xl bg-cyan-500/20 border border-cyan-500 text-cyan-300 font-bold text-center';
+        document.getElementById('chainSolBtn').className = 'py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white font-bold text-center';
+        document.getElementById('depositAddressText').textContent = TREASURY.base;
+      } else {
+        document.getElementById('chainSolBtn').className = 'py-1.5 rounded-xl bg-cyan-500/20 border border-cyan-500 text-cyan-300 font-bold text-center';
+        document.getElementById('chainBaseBtn').className = 'py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white font-bold text-center';
+        document.getElementById('depositAddressText').textContent = TREASURY.solana;
+      }
+      updateCryptoAmount(totalUsd);
+    }
+
+    function copyDepositAddress() {
+      const addr = document.getElementById('depositAddressText').textContent;
+      navigator.clipboard.writeText(addr).then(() => {
+        alert('NetSwap Treasury deposit address copied to clipboard!');
+      });
+    }
+
+    function completePaymentSimulation(method) {
+      document.getElementById('cryptoPaySection').classList.add('hidden');
+      document.getElementById('pointsPaySection').classList.add('hidden');
+      document.getElementById('paymentSuccessBox').classList.remove('hidden');
+
+      const keysArray = Array.from(selectedFeedKeys);
+      let totalPts = 0;
+      keysArray.forEach(id => {
+        const f = FEEDS.find(x => x.id === id);
+        if (f) totalPts += f.points;
+      });
+      if (keysArray.length >= 3) totalPts = Math.round(totalPts * 0.9);
+
+      if (method === 'points') {
+        userPoints = Math.max(0, userPoints - totalPts);
+        updateHeaderUserDisplay();
+      }
+
+      // Add to active subscriptions
+      keysArray.forEach(id => {
+        const f = FEEDS.find(x => x.id === id);
+        if (f && !activeSubscriptions.some(x => x.id === id)) {
+          activeSubscriptions.push({
+            id: f.id,
+            name: f.name,
+            price: f.price,
+            expiryDays: 30,
+            status: 'active'
+          });
+        }
+      });
+      localStorage.setItem('netswap_active_subs', JSON.stringify(activeSubscriptions));
+
+      const paramPayload = keysArray.join('-');
+      document.getElementById('returnBotSuccessLink').href = `https://t.me/NetSwapBaseBot?start=sub_${paramPayload}`;
+    }
+
+    // Initialize Page (Multiple hooks to guarantee zero refresh glitches)
+    updateHeaderUserDisplay();
+    renderCatalogue();
+    document.addEventListener('DOMContentLoaded', () => {
+      updateHeaderUserDisplay();
+      renderCatalogue();
+    });
+    window.addEventListener('load', () => {
+      renderCatalogue();
+    });
+  </script>
+  <!-- ========================================================================= -->
+  <!-- UNIVERSAL MOBILE BOTTOM NAVIGATION BAR (FIXED, SAFE-AREA COMPATIBLE)      -->
+  <!-- ========================================================================= -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 px-2 py-2 flex items-center justify-around shadow-2xl" style="padding-bottom: max(0.6rem, env(safe-area-inset-bottom));">
+    <a href="index.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
+      <span class="text-[10px] font-bold">Swap</span>
+    </a>
+    <a href="audit.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="text-[10px] font-bold">Loss Audit</span>
+    </a>
+    <a href="store.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 transition">
+      <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span class="text-[10px] font-bold">VIP Mall</span>
+    </a>
+    <a href="https://t.me/NetSwapBaseBot" target="_blank" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-cyan-400 hover:text-white transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+      <span class="text-[10px] font-bold">Bot ↗</span>
+    </a>
+  </nav>
+</body>
+</html>

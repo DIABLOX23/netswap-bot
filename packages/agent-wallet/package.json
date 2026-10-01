@@ -1,0 +1,27 @@
+{
+  "name": "@aeterna/agent-wallet",
+  "version": "1.0.0",
+  "description": "The Open-Source, MEV-Protected Financial Operating System & Wallet SDK for Autonomous AI Agents.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "ai-agents",
+    "eliza",
+    "ai16z",
+    "mev-protection",
+    "intent-routing",
+    "base",
+    "crypto-wallet"
+  ],
+  "author": "Aeterna Protocol",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.13.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
