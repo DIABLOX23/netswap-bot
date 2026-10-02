@@ -1,11 +1,12 @@
 {
-  "name": "@aeterna/agent-wallet",
-  "version": "1.0.0",
+  "name": "@netswap_protocol/agent-wallet",
+  "version": "1.0.1",
   "description": "The Open-Source, MEV-Protected Financial Operating System & Wallet SDK for Autonomous AI Agents.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepublishOnly": "tsc"
   },
   "keywords": [
     "ai-agents",

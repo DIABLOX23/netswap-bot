@@ -2,7 +2,7 @@ import { executeSwapAction } from './actions/swap';
 import { rebalancePortfolioAction } from './actions/rebalance';
 
 export const aeternaPlugin = {
-  name: '@aeterna/eliza-plugin',
+  name: '@netswap_protocol/eliza-plugin',
   description: 'MEV-Protected Financial Layer & Intent-Based Trading Plugin for Eliza AI Agents',
   actions: [
     executeSwapAction,
