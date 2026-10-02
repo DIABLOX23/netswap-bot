@@ -1,6 +1,6 @@
 {
   "name": "@netswap_protocol/agent-wallet",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The Open-Source, MEV-Protected Financial Operating System & Wallet SDK for Autonomous AI Agents.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

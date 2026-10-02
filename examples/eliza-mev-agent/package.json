@@ -7,7 +7,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@netswap_protocol/agent-wallet": "^1.0.0",
+    "@netswap_protocol/agent-wallet": "^1.0.2",
     "dotenv": "^16.4.5"
   }
 }
