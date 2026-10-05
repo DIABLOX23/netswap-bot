@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>NetSwap Sovereign — Institutional Mobile Terminal</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            spenda: {
+              bg: '#080A0F',
+              card: '#11141D',
+              surface: '#181C28',
+              border: '#23293D',
+              accent: '#10B981', // Emerald Growth
+              cyan: '#06B6D4',
+              dim: '#64748B'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #080A0F;
+      color: #F8FAFC;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .glass-card {
+      background: linear-gradient(180deg, rgba(24, 28, 40, 0.7) 0%, rgba(17, 20, 29, 0.9) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+    }
+    .neon-glow {
+      box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.35);
+    }
+    .neon-cyan {
+      box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.35);
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans pb-24 max-w-md mx-auto relative antialiased">
+
+  <!-- TOP APP BAR -->
+  <header class="px-5 pt-4 pb-2 flex items-center justify-between sticky top-0 bg-[#080A0F]/80 backdrop-blur-md z-30">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20 font-extrabold text-white text-lg">
+        ⚡
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <h1 class="text-sm font-bold tracking-tight text-white">NetSwap</h1>
+          <span class="px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold border border-emerald-500/20">PRO</span>
+        </div>
+        <p class="text-[11px] text-slate-400 font-medium">Base & Solana · Anti-MEV</p>
+      </div>
+    </div>
+
+    <!-- Active Wallet Pill -->
+    <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span id="walletShort">0xbE40...93f8</span>
+    </div>
+  </header>
+
+  <!-- MAIN SCROLLABLE CONTENT -->
+  <main class="flex-1 px-5 pt-3 space-y-5">
+
+    <!-- 1. SPENDA-STYLE HERO BALANCE CARD -->
+    <section class="glass-card rounded-[28px] p-6 relative overflow-hidden neon-glow">
+      <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="flex items-center justify-between text-xs text-slate-400 font-semibold mb-1">
+        <span>TOTAL PROTECTED PORTFOLIO</span>
+        <span class="text-emerald-400 flex items-center gap-1 bg-emerald-950/60 px-2 py-0.5 rounded-md border border-emerald-500/20 font-mono">
+          ▲ +4.82% 24h
+        </span>
+      </div>
+
+      <div class="flex items-baseline gap-2 mb-4">
+        <span class="text-4xl font-extrabold tracking-tight text-white" id="mainBalance">$8,429.50</span>
+        <span class="text-sm font-semibold text-slate-400">USD</span>
+      </div>
+
+      <!-- Quick Stats Pill Row -->
+      <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-800/80 text-[11px]">
+        <div>
+          <span class="text-slate-400">MEV Siphoned Saved:</span>
+          <p class="font-bold font-mono text-cyan-400">+$342.18</p>
+        </div>
+        <div>
+          <span class="text-slate-400">Protocol Fee Rate:</span>
+          <p class="font-bold font-mono text-slate-200">0.85% <span class="text-[9px] text-slate-400">(Zero Sandwich)</span></p>
+        </div>
+      </div>
+
+      <!-- Main Action Buttons -->
+      <div class="grid grid-cols-2 gap-3 mt-5">
+        <button onclick="triggerSwapModal()" class="w-full py-3.5 px-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 active:scale-[0.98] transition font-bold text-slate-950 text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25">
+          <span>⚡</span> 1-Tap Swap
+        </button>
+        <button onclick="triggerDepositModal()" class="w-full py-3.5 px-4 rounded-2xl bg-slate-800 hover:bg-slate-700 active:scale-[0.98] transition font-semibold text-white text-sm flex items-center justify-center gap-2 border border-slate-700/80">
+          <span>📥</span> Deposit
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. WALLET MEV LOSS AUDIT TOOL (THE CONVERSION MAGNET) -->
+    <section class="glass-card rounded-[24px] p-5 space-y-3 border border-red-500/20 relative overflow-hidden">
+      <div class="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-red-400">
+        <span class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+          MEV Exploitation Audit
+        </span>
+        <span class="text-[10px] text-slate-400 font-mono">Instant On-Chain Scan</span>
+      </div>
+      
+      <p class="text-xs text-slate-300">Enter any Base or Solana address to reveal how much cash MEV bots & slippage have siphoned from your swaps:</p>
+
+      <div class="flex items-center gap-2">
+        <input id="auditInput" type="text" placeholder="Paste 0x... or Solana address" class="flex-1 bg-slate-950/80 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500 transition">
+        <button onclick="runAudit()" class="px-4 py-2.5 rounded-xl bg-red-500 hover:bg-red-400 active:scale-95 transition text-slate-950 font-bold text-xs shrink-0 shadow-lg shadow-red-500/20">
+          Scan Wallet
+        </button>
+      </div>
+
+      <!-- Live Simulated Audit Result Container -->
+      <div id="auditResult" class="hidden p-3.5 rounded-xl bg-red-950/20 border border-red-500/30 text-xs space-y-2 mt-2">
+        <div class="flex items-center justify-between font-mono">
+          <span class="text-slate-400">Estimated Stolen by Bots:</span>
+          <span class="font-extrabold text-red-400 text-sm" id="auditStolen">$482.10 USD</span>
+        </div>
+        <div class="flex items-center justify-between font-mono text-[11px]">
+          <span class="text-slate-400">Recoverable via NetSwap:</span>
+          <span class="font-bold text-emerald-400" id="auditRecoverable">+$412.50 USD</span>
+        </div>
+        <p class="text-[10px] text-slate-400 pt-1 border-t border-red-500/20">Rank #14 on Base Slippage Wall of Shame. Route trades via NetSwap to eliminate frontrunning.</p>
+      </div>
+    </section>
+
+    <!-- 3. VIP SMART MONEY ALPHA STORE (RECURRING SUBSCRIPTIONS) -->
+    <section class="space-y-3">
+      <div class="flex items-center justify-between px-1">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+          <span>👑</span> VIP Insider Alpha Streams
+        </h2>
+        <span class="text-[10px] text-emerald-400 font-mono">Auto-Crypto Billing</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2.5">
+        <!-- Stream 1 -->
+        <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2 hover:border-emerald-500/40 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-lg">🎯</span>
+            <span class="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-950/40 px-1.5 py-0.5 rounded border border-emerald-500/20">74% WIN</span>
+          </div>
+          <div>
+            <p class="font-bold text-white text-xs">TJR Whale Flow</p>
+            <p class="text-[10px] text-slate-400 font-mono">Base Smart Money Inflow</p>
+          </div>
+          <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-mono font-bold text-white">$48<span class="text-[9px] text-slate-400">/mo</span></span>
+            <button onclick="subscribeSignal('TJR Whale Flow', '0.015 ETH')" class="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-bold text-[10px] active:scale-95 transition">Join</button>
+          </div>
+        </div>
+
+        <!-- Stream 2 -->
+        <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2 hover:border-cyan-500/40 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-lg">🪐</span>
+            <span class="text-[10px] font-mono text-cyan-400 font-bold bg-cyan-950/40 px-1.5 py-0.5 rounded border border-cyan-500/20">81% WIN</span>
+          </div>
+          <div>
+            <p class="font-bold text-white text-xs">Ansem SOL Radar</p>
+            <p class="text-[10px] text-slate-400 font-mono">Pump.fun & Raydium</p>
+          </div>
+          <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-mono font-bold text-white">$64<span class="text-[9px] text-slate-400">/mo</span></span>
+            <button onclick="subscribeSignal('Ansem SOL Radar', '0.45 SOL')" class="px-2.5 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 font-bold text-[10px] active:scale-95 transition">Join</button>
+          </div>
+        </div>
+
+        <!-- Stream 3 -->
+        <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-2 hover:border-purple-500/40 transition">
+          <div class="flex items-center justify-between">
+            <span class="text-lg">⚡</span>
+            <span class="text-[10px] font-mono text-purple-400 font-bold bg-purple-950/40 px-1.5 py-0.5 rounded border border-purple-500/20">88% WIN</span>
+          </div>
+          <div>
+            <p class="font-bold text-white text-xs">Block-0 Sniper</p>
+            <p class="text-[10px] text-slate-400 font-mono">Sub-Second Mempool</p>
+          </div>
+          <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-mono font-bold text-white">$38<span class="text-[9px] text-slate-400">/mo</span></span>
+            <button onclick="subscribeSignal('Block-0 Sniper', '0.012 ETH')" class="px-2.5 py-1 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 font-bold text-[10px] active:scale-95 transition">Join</button>
+          </div>
+        </div>
+
+        <!-- Stream 4: All Access Pass -->
+        <div class="p-4 rounded-2xl bg-gradient-to-br from-emerald-950/60 to-cyan-950/60 border border-emerald-500/30 space-y-2 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <span class="text-lg">👑</span>
+            <span class="text-[10px] font-mono text-white font-extrabold bg-emerald-500 px-1.5 py-0.5 rounded text-slate-950">ALL ACCESS</span>
+          </div>
+          <div>
+            <p class="font-bold text-white text-xs">Institutional Pass</p>
+            <p class="text-[10px] text-slate-400 font-mono">All 4 Streams + 50% Cut</p>
+          </div>
+          <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-mono font-bold text-emerald-400">$110<span class="text-[9px] text-slate-400">/mo</span></span>
+            <button onclick="subscribeSignal('All-Access Institutional Pass', '0.035 ETH')" class="px-2.5 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] active:scale-95 transition">Get All</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. LIVE ON-CHAIN RADAR / MEV PROTECTOR WIDGET -->
+    <section class="space-y-2.5">
+      <div class="flex items-center justify-between px-1">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+          Live Anti-MEV Radar
+        </h2>
+        <span class="text-[10px] text-cyan-400 font-mono">0.4s Base RPC</span>
+      </div>
+
+      <div class="space-y-2">
+        <!-- Live Interception Card 1 -->
+        <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 font-bold">
+              🛡️
+            </div>
+            <div>
+              <p class="font-semibold text-white">Blocked Sandwich Attack</p>
+              <p class="text-[11px] text-slate-400 font-mono">$BRETT Pool · Saved $41.80</p>
+            </div>
+          </div>
+          <span class="text-emerald-400 font-mono font-bold text-[11px] bg-emerald-950/40 px-2 py-1 rounded-md border border-emerald-500/20">PROTECTED</span>
+        </div>
+
+        <!-- Live Interception Card 2 -->
+        <div class="p-3.5 rounded-2xl bg-slate-900/60 border border-slate-800 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 font-bold">
+              🐋
+            </div>
+            <div>
+              <p class="font-semibold text-white">Whale Inflow Detected</p>
+              <p class="text-[11px] text-slate-400 font-mono">+$246,880 USDC on Base</p>
+            </div>
+          </div>
+          <a href="https://basescan.org" target="_blank" class="text-cyan-400 font-mono text-[11px] hover:underline">TX Hash ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TOP HOT TOKENS (1-TAP APING MENU) -->
+    <section class="space-y-2.5">
+      <div class="flex items-center justify-between px-1">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">1-Tap High-Yield Pairs</h2>
+        <span class="text-[11px] text-slate-400">Zero Slippage Tax</span>
+      </div>
+
+      <div class="space-y-2">
+        <!-- Token 1: BRETT -->
+        <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between hover:border-slate-700 transition">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center font-bold text-blue-400 text-sm">
+              🐸
+            </div>
+            <div>
+              <p class="font-bold text-white text-sm">BRETT <span class="text-[11px] font-normal text-slate-400">Base</span></p>
+              <p class="text-xs font-mono text-emerald-400">$0.00594 <span class="text-[10px] text-slate-400">(+12.4%)</span></p>
+            </div>
+          </div>
+          <button onclick="apeToken('BRETT', '0.00594')" class="px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-bold text-xs active:scale-95 transition">
+            Buy 0.1 ETH
+          </button>
+        </div>
+
+        <!-- Token 2: DEGEN -->
+        <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between hover:border-slate-700 transition">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center font-bold text-purple-400 text-sm">
+              🎩
+            </div>
+            <div>
+              <p class="font-bold text-white text-sm">DEGEN <span class="text-[11px] font-normal text-slate-400">Base</span></p>
+              <p class="text-xs font-mono text-emerald-400">$0.00812 <span class="text-[10px] text-slate-400">(+8.9%)</span></p>
+            </div>
+          </div>
+          <button onclick="apeToken('DEGEN', '0.00812')" class="px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-bold text-xs active:scale-95 transition">
+            Buy 0.1 ETH
+          </button>
+        </div>
+
+        <!-- Token 3: AERO -->
+        <div class="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between hover:border-slate-700 transition">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center font-bold text-cyan-400 text-sm">
+              ✈️
+            </div>
+            <div>
+              <p class="font-bold text-white text-sm">AERO <span class="text-[11px] font-normal text-slate-400">Aerodrome</span></p>
+              <p class="text-xs font-mono text-emerald-400">$1.148 <span class="text-[10px] text-slate-400">(+4.1%)</span></p>
+            </div>
+          </div>
+          <button onclick="apeToken('AERO', '1.148')" class="px-3.5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-bold text-xs active:scale-95 transition">
+            Buy 0.1 ETH
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM FLOATING SPENDA-STYLE DOCK -->
+  <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto px-6 py-3 bg-[#080A0F]/90 backdrop-blur-xl border-t border-slate-800/80 flex items-center justify-around z-40">
+    <button class="flex flex-col items-center gap-1 text-emerald-400">
+      <span class="text-xl">⚡</span>
+      <span class="text-[10px] font-bold">Trade</span>
+    </button>
+    <button onclick="alert('Whale telemetry streaming live.')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition">
+      <span class="text-xl">📡</span>
+      <span class="text-[10px] font-medium">Radar</span>
+    </button>
+    <button onclick="alert('Your Affiliate Share: 70% | Link: t.me/NetSwapBaseBot?start=ref')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition">
+      <span class="text-xl">💎</span>
+      <span class="text-[10px] font-medium">Earn 70%</span>
+    </button>
+    <button onclick="alert('Connected to Operator Treasury 0xbE40...93f8')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition">
+      <span class="text-xl">⚙️</span>
+      <span class="text-[10px] font-medium">Wallet</span>
+    </button>
+  </nav>
+
+  <script>
+    // Initialize Telegram WebApp SDK if loaded in Telegram
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.expand();
+      window.Telegram.WebApp.enableClosingConfirmation();
+      window.Telegram.WebApp.setHeaderColor('#080A0F');
+    }
+
+    function runAudit() {
+      const input = document.getElementById('auditInput').value.trim();
+      if (!input) {
+        alert("Please paste a valid Base (0x...) or Solana wallet address.");
+        return;
+      }
+      
+      const tg = window.Telegram?.WebApp;
+      if (tg) tg.HapticFeedback?.notificationOccurred('warning');
+
+      const resultBox = document.getElementById('auditResult');
+      resultBox.classList.remove('hidden');
+
+      // Random realistic simulated scan based on input length
+      const stolen = (Math.random() * 400 + 180).toFixed(2);
+      const recoverable = (stolen * 0.85).toFixed(2);
+      
+      document.getElementById('auditStolen').innerText = `$${stolen} USD`;
+      document.getElementById('auditRecoverable').innerText = `+$${recoverable} USD`;
+    }
+
+    function subscribeSignal(signalName, cost) {
+      const tg = window.Telegram?.WebApp;
+      if (tg) tg.HapticFeedback?.impactOccurred('heavy');
+      alert(`👑 Unlocking ${signalName}:\nPrice: ${cost} / month\n\nTransfer to Protocol Treasury:\nBase: 0xcc12fd53a0ba26f42fea6ff8b285a77aa54b170d\nSolana: DoZ6k8uquqAn6D9bgkya5etKV4v7Au9Q7BSsXe1eB2WZ\n\nAccess is granted automatically within 1 block!`);
+    }
+
+    function apeToken(symbol, price) {
+      const tg = window.Telegram?.WebApp;
+      if (tg) {
+        tg.HapticFeedback?.impactOccurred('medium');
+      }
+      alert(`⚡ 1-Tap Execution Triggered:\nBuying 0.1 ETH of $${symbol} @ $${price}\nAnti-MEV Protected · 0.85% Protocol Fee`);
+    }
+
+    function triggerSwapModal() {
+      alert("Opening Instant Batch-Netting Swap Window...");
+    }
+
+    function triggerDepositModal() {
+      alert("Your Dedicated Deposit Address:\n0xbE40c75844197fD334db4174CBd7D07F9bAb93f8 (Base / ETH / USDC)");
+    }
+  </script>
+</body>
+</html>

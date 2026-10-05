@@ -2,6 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
+    { "source": "/referral", "destination": "/referral.html" },
     { "source": "/slippage-calculator", "destination": "/calculator.html" },
     { "source": "/mev-checker", "destination": "/audit.html" },
     { "source": "/uniswap-fee-calculator", "destination": "/calculator.html" },

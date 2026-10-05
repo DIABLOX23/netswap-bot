@@ -1243,7 +1243,7 @@ class TelegramBot:
         except Exception:
             sol_bal = 0.0
 
-        vip_badge = f"\n👑 <b>VIP Partner:</b> <code>30% Active ({vip_tag})</code>" if is_vip else ""
+        vip_tag_display = f" (🏷️ <code>{vip_tag}</code>)" if vip_tag else ""
 
         caption = (
             "⚡ <b>NETSWAP // TRADING TERMINAL</b>\n"
@@ -1251,6 +1251,7 @@ class TelegramBot:
             f"🔷 <b>Base:</b>   <code>{balance:.4f} ETH</code> (~${balance * 3200:.2f})\n"
             f"🪐 <b>Solana:</b> <code>{sol_bal:.4f} SOL</code> (~${sol_bal * 150:.2f})\n"
             "🛡️ <b>Anti-MEV:</b> 🟢 Active · 0% Slippage\n"
+            f"🤝 <b>Partner Rev-Share:</b> 👑 <b>30% Active</b>{vip_tag_display}\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "💡 <i>Paste any token address in chat to trade instantly.</i>"
         )
@@ -1266,10 +1267,11 @@ class TelegramBot:
                     {"text": "🔔 Alpha Alerts", "callback_data": "menu_alerts"}
                 ],
                 [
-                    {"text": "💳 Wallets", "callback_data": "menu_wallet"},
-                    {"text": "🌐 Web Terminal ↗", "url": "https://netswap.vercel.app"}
+                    {"text": "🤝 Referral Hub (Earn 30%)", "callback_data": "menu_referral"},
+                    {"text": "💳 Wallets", "callback_data": "menu_wallet"}
                 ],
                 [
+                    {"text": "🌐 Web Terminal ↗", "url": "https://netswap.vercel.app"},
                     {"text": "🔄 Refresh", "callback_data": "menu_refresh"}
                 ]
             ]
@@ -2405,31 +2407,33 @@ class TelegramBot:
 
         msg = (
             f"🔷 <b>${token['symbol']} // {token['name']}</b>\n"
-            "━━━━━━━━━━━━━━━━━━━━━━\n"
-            f"📍 <code>{token['address']}</code>\n"
-            f"🛡️ <b>Shield:</b> {sec['badge']}\n"
-            f"💰 <b>Balance:</b> <code>{balance:.4f} ETH</code> (~${balance * 3200:.2f})\n"
-            "━━━━━━━━━━━━━━━━━━━━━━\n"
-            "Select buy amount or enter custom size:"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"📍 <code>{token['address']}</code>\n\n"
+            f"🛡️ <b>Safety Score:</b> {sec['badge']}\n"
+            f"🔒 <b>Anti-MEV Shield:</b> 🟢 Active (Private Relay)\n"
+            f"⚡ <b>Execution Fee:</b> <code>0.50%</code> <i>(Half of competitor bots)</i>\n"
+            f"💳 <b>Base Balance:</b> <code>{balance:.4f} ETH</code> (~${balance * 3200:.2f})\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "⚡ <b>Select Buy Preset:</b>"
         )
 
         markup = {
             "inline_keyboard": [
                 [
-                    {"text": "⚡ 0.002 ETH", "callback_data": f"buy_{token['address']}_0.002"},
-                    {"text": "⚡ 0.005 ETH", "callback_data": f"buy_{token['address']}_0.005"}
+                    {"text": "⚡ 0.005 ETH", "callback_data": f"buy_{token['address']}_0.005"},
+                    {"text": "⚡ 0.01 ETH", "callback_data": f"buy_{token['address']}_0.01"}
                 ],
                 [
-                    {"text": "⚡ 0.01 ETH", "callback_data": f"buy_{token['address']}_0.01"},
-                    {"text": "⚡ 0.05 ETH", "callback_data": f"buy_{token['address']}_0.05"}
+                    {"text": "⚡ 0.05 ETH", "callback_data": f"buy_{token['address']}_0.05"},
+                    {"text": "⚡ 0.1 ETH", "callback_data": f"buy_{token['address']}_0.1"}
                 ],
                 [
                     {"text": "✏️ Custom Amount", "callback_data": f"custom_buy_base_{token['address']}"},
-                    {"text": "📈 Live Chart ↗", "url": f"https://dexscreener.com/base/{token['address']}"}
+                    {"text": "📊 Live Chart ↗", "url": f"https://dexscreener.com/base/{token['address']}"}
                 ],
                 [
                     {"text": "🔄 Refresh", "callback_data": f"select_token_{token['address']}"},
-                    {"text": "🔙 Back", "callback_data": "menu_main"}
+                    {"text": "🔙 Main Menu", "callback_data": "menu_main"}
                 ]
             ]
         }
@@ -2757,21 +2761,35 @@ class TelegramBot:
         self.send_message(chat_id, shield_msg, markup)
 
     def show_refer(self, chat_id):
-        ref_link = f"https://t.me/NetSwapBaseBot?start=ref_{chat_id}"
+        bot_ref_link = f"https://t.me/NetSwapBaseBot?start=ref_{chat_id}"
+        web_ref_link = f"https://netswap.vercel.app?ref={chat_id}"
+        share_text = urllib.parse.quote(
+            "Trade memecoins on Base & Solana with 0% AMM Slippage and Anti-MEV protection on NetSwap! "
+            "Get half-price trading fees (0.50%) and instant execution:"
+        )
         msg = (
-            "👥 <b>NETSWAP REFERRAL REWARD ENGINE</b>\n"
-            "━━━━━━━━━━━━━━━━━━━━━━\n"
-            "Share your exclusive referral link with degen traders and alpha groups:\n\n"
-            f"🔗 <code>{ref_link}</code> <i>(Tap to copy)</i>\n\n"
-            "💸 <b>Your Commission:</b> <b>15% of protocol fees</b> on every trade executed forever!\n"
-            "⚡ <b>Payout:</b> Streamed automatically in native ETH to your wallet.\n"
-            "━━━━━━━━━━━━━━━━━━━━━━\n"
-            "<i>Looking for 30% VIP rate? Tap 'VIP Partner (30%)' in the main menu!</i>"
+            "👑 <b>NETSWAP VIP PARTNER & REFERRAL HUB</b>\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "Earn <b>30% lifetime protocol revenue</b> on every trade executed by your referrals across Base & Solana!\n\n"
+            "🔗 <b>Your Telegram Bot Link:</b>\n"
+            f"<code>{bot_ref_link}</code> <i>(Tap to copy)</i>\n\n"
+            "🌐 <b>Your Web Terminal Link:</b>\n"
+            f"<code>{web_ref_link}</code> <i>(Tap to copy)</i>\n\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "💸 <b>Tier:</b> <b>VIP Partner (30% Rev-Share)</b>\n"
+            "⚡ <b>Payouts:</b> Streamed automatically in native Base ETH to your wallet.\n"
+            "📈 <b>Attribution:</b> Cookies and start payloads cached for lifetime attribution.\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "<i>Share with your alpha callers, degen channels, and crypto circles:</i>"
         )
         markup = {
             "inline_keyboard": [
                 [
-                    {"text": "📤 Share to Telegram", "url": f"https://t.me/share/url?url={ref_link}&text=Trade+memecoins+on+Base+with+Zero+Slippage+and+Anti-MEV+protection+on+NetSwap!"}
+                    {"text": "📤 Share on Telegram", "url": f"https://t.me/share/url?url={urllib.parse.quote(bot_ref_link)}&text={share_text}"},
+                    {"text": "🐦 Share on X (Twitter)", "url": f"https://twitter.com/intent/tweet?text={share_text}&url={urllib.parse.quote(web_ref_link)}"}
+                ],
+                [
+                    {"text": "🌐 Open Web Partner Hub ↗", "url": f"https://netswap.vercel.app/referral.html?ref={chat_id}"}
                 ],
                 [
                     {"text": "🔙 Back to Main Menu", "callback_data": "menu_main"}
@@ -3742,7 +3760,7 @@ class TelegramBot:
             self.show_stats(chat_id)
             return
 
-        if data == "menu_refer":
+        if data in ["menu_refer", "menu_referral"]:
             self.show_refer(chat_id)
             return
 
