@@ -108,12 +108,12 @@
       <div class="flex items-center justify-between mb-3.5 pb-2.5 border-b border-[#161D2E]">
         <div class="flex items-center gap-2">
           <span class="text-base font-bold text-white tracking-tight">Swap</span>
-          <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold px-2 py-0.5 rounded-full font-mono">0.00% Slippage</span>
+          <span id="slippageBadge" class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold px-2 py-0.5 rounded-full font-mono">0.50% Slippage</span>
         </div>
         
         <div class="flex items-center gap-2">
           <span class="text-[11px] text-slate-400 font-mono hidden sm:inline">Anti-MEV Active</span>
-          <button title="Settings" class="p-1.5 rounded-xl hover:bg-[#172033] text-slate-400 hover:text-white transition">
+          <button id="settingsBtn" onclick="openSettingsModal()" title="Transaction Settings" class="p-1.5 rounded-xl hover:bg-[#172033] text-slate-400 hover:text-white transition">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </button>
         </div>
@@ -332,6 +332,91 @@
       </div>
 
       <button onclick="closeWalletModal()" class="w-full mt-4 py-2.5 bg-[#141A28] text-slate-400 hover:text-white rounded-xl text-xs font-semibold">Dismiss</button>
+    </div>
+  <!-- ========================================================================= -->
+  <!-- TRANSACTION SETTINGS MODAL                                               -->
+  <!-- ========================================================================= -->
+  <div id="settingsModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-[#0F1420] border border-[#1A2337] rounded-3xl p-5 sm:p-6 max-w-sm w-full shadow-2xl relative">
+      <div class="flex items-center justify-between mb-4 pb-3 border-b border-[#1A2337]">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#38BDF8]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Transaction Settings
+        </h3>
+        <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-white p-1 text-lg">✕</button>
+      </div>
+
+      <!-- Slippage Tolerance Section -->
+      <div class="mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-300">Slippage Tolerance</span>
+          <span id="slippageToleranceLabel" class="text-xs font-mono font-bold text-[#38BDF8]">0.50%</span>
+        </div>
+        <div class="grid grid-cols-4 gap-1.5">
+          <button id="slipBtn01" data-val="0.1" onclick="setSlippage(0.1)" class="py-2 px-1 rounded-xl border border-[#1F293D] bg-[#141A28] text-slate-300 hover:text-white font-mono text-xs font-bold transition text-center">
+            0.1%
+          </button>
+          <button id="slipBtn05" data-val="0.5" onclick="setSlippage(0.5)" class="py-2 px-1 rounded-xl border border-[#0052FF] bg-[#0052FF] text-white font-mono text-xs font-bold transition text-center">
+            0.5%
+          </button>
+          <button id="slipBtn10" data-val="1.0" onclick="setSlippage(1.0)" class="py-2 px-1 rounded-xl border border-[#1F293D] bg-[#141A28] text-slate-300 hover:text-white font-mono text-xs font-bold transition text-center">
+            1.0%
+          </button>
+          <div class="relative">
+            <input 
+              type="number" 
+              step="0.1" 
+              min="0.05" 
+              max="50" 
+              id="customSlippageInput" 
+              placeholder="Custom" 
+              oninput="setCustomSlippage(this.value)"
+              class="w-full h-full bg-[#090C13] border border-[#1F293D] rounded-xl px-2 text-center text-xs font-mono font-bold text-white placeholder-slate-500 focus:outline-none focus:border-[#0052FF]"
+            >
+          </div>
+        </div>
+        <p id="slippageWarning" class="hidden text-[10px] text-amber-400 mt-1.5 font-mono">
+          ⚠️ High slippage may result in unfavorable trade execution.
+        </p>
+      </div>
+
+      <!-- Transaction Deadline -->
+      <div class="mb-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-300">Transaction Deadline</span>
+          <span class="text-xs font-mono text-slate-400">minutes</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <input 
+            type="number" 
+            id="txDeadlineInput" 
+            value="20" 
+            min="1" 
+            max="180" 
+            oninput="setTxDeadline(this.value)"
+            class="w-24 bg-[#090C13] border border-[#1F293D] rounded-xl px-3 py-2 text-xs font-mono font-bold text-white focus:outline-none focus:border-[#0052FF]"
+          >
+          <span class="text-xs text-slate-400">minutes before timeout</span>
+        </div>
+      </div>
+
+      <!-- Anti-MEV & Private RPC Routing -->
+      <div class="bg-[#090C13] border border-[#182133] rounded-2xl p-3 mb-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-white flex items-center gap-1.5">
+              <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+              MEV Shield / Private Routing
+            </div>
+            <div class="text-[10px] text-slate-400 mt-0.5">Bypasses public mempool to prevent sandwiches</div>
+          </div>
+          <span class="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-lg">ACTIVE</span>
+        </div>
+      </div>
+
+      <button onclick="closeSettingsModal()" class="w-full py-2.5 bg-[#0052FF] hover:bg-[#0045D8] text-white font-bold rounded-xl text-xs sm:text-sm transition active:scale-98">
+        Save & Close
+      </button>
     </div>
   </div>
 

@@ -160,6 +160,27 @@ async function connectWallet() {
   }
 
   try {
+    // Automatically ensure wallet is on Base Mainnet (chainId 8453 / 0x2105)
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x2105" }]
+      });
+    } catch (switchError) {
+      if (switchError.code === 4902 || (switchError.message && switchError.message.includes("Unrecognized chain"))) {
+        await window.ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [{
+            chainId: "0x2105",
+            chainName: "Base",
+            nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+            rpcUrls: ["https://mainnet.base.org"],
+            blockExplorerUrls: ["https://basescan.org"]
+          }]
+        });
+      }
+    }
+
     provider = new ethers.BrowserProvider(window.ethereum);
     const accounts = await provider.send("eth_requestAccounts", []);
     signer = await provider.getSigner();
@@ -585,8 +606,11 @@ async function submitNetOrder() {
     const amountIn = ethers.parseUnits(val.toString(), inDecimals);
 
     const estOut = parseFloat(document.getElementById("amountOut").value) || 0;
-    const minOutVal = (estOut * 0.99).toFixed(outDecimals > 6 ? 6 : outDecimals);
+    const slippageFraction = slippageTolerance / 100;
+    const minOutVal = Math.max(0, estOut * (1 - slippageFraction)).toFixed(outDecimals > 6 ? 6 : outDecimals);
     const minAmountOut = ethers.parseUnits(minOutVal, outDecimals);
+
+    const deadlineTimestamp = Math.floor(Date.now() / 1000) + (txDeadlineMinutes * 60);
 
     const order = {
       trader: userAddress,
@@ -595,7 +619,7 @@ async function submitNetOrder() {
       amountIn,
       minAmountOut,
       nonce: BigInt(Date.now()),
-      deadline: BigInt(Math.floor(Date.now() / 1000) + 3600)
+      deadline: BigInt(deadlineTimestamp)
     };
 
     const signature = await signer.signTypedData(domain, types, order);
@@ -605,7 +629,7 @@ async function submitNetOrder() {
     actionBtn.className = "w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-slate-950 py-4 rounded-2xl font-bold text-sm sm:text-base transition shadow-lg";
 
     setTimeout(async () => {
-      alert(`🎉 ORDER MATCHED P2P!\n\n• Sold: ${val} ${inToken.symbol}\n• Received: ${document.getElementById("amountOut").value} ${outToken.symbol}\n• Slippage: 0.00% (Matched at Mid-Market)\n• Anti-MEV: 100% Protected\n\nSettlement verified on Base Mainnet.`);
+      alert(`🎉 ORDER MATCHED P2P!\n\n• Sold: ${val} ${inToken.symbol}\n• Received: ${document.getElementById("amountOut").value} ${outToken.symbol}\n• Max Slippage: ${slippageTolerance.toFixed(2)}%\n• Anti-MEV: 100% Protected\n\nSettlement verified on Base Mainnet.`);
       await syncAllBalances();
       document.getElementById("amountIn").value = "";
       calculateNetOutput();
@@ -614,6 +638,79 @@ async function submitNetOrder() {
   } catch (err) {
     console.error("Order signing cancelled or failed:", err);
     updateActionBtnState();
+  }
+}
+
+// ==============================================================================
+// TRANSACTION SETTINGS & SLIPPAGE HANDLERS
+// ==============================================================================
+let slippageTolerance = 0.5; // percentage (0.5% default)
+let txDeadlineMinutes = 20;
+
+function openSettingsModal() {
+  const m = document.getElementById("settingsModal");
+  if (m) m.classList.remove("hidden");
+  updateSettingsUI();
+}
+
+function closeSettingsModal() {
+  const m = document.getElementById("settingsModal");
+  if (m) m.classList.add("hidden");
+}
+
+function setSlippage(val) {
+  slippageTolerance = parseFloat(val) || 0.5;
+  const customInput = document.getElementById("customSlippageInput");
+  if (customInput) customInput.value = "";
+  updateSettingsUI();
+}
+
+function setCustomSlippage(val) {
+  const num = parseFloat(val);
+  if (!isNaN(num) && num > 0) {
+    slippageTolerance = num;
+  }
+  updateSettingsUI();
+}
+
+function setTxDeadline(val) {
+  const num = parseInt(val);
+  if (!isNaN(num) && num > 0) {
+    txDeadlineMinutes = num;
+  }
+}
+
+function updateSettingsUI() {
+  const btn01 = document.getElementById("slipBtn01");
+  const btn05 = document.getElementById("slipBtn05");
+  const btn10 = document.getElementById("slipBtn10");
+  const warnEl = document.getElementById("slippageWarning");
+  const labelEl = document.getElementById("slippageToleranceLabel");
+  const badgeEl = document.getElementById("slippageBadge");
+
+  [btn01, btn05, btn10].forEach(b => {
+    if (!b) return;
+    const v = parseFloat(b.dataset.val);
+    if (Math.abs(v - slippageTolerance) < 0.001) {
+      b.className = "py-2 px-1 rounded-xl border border-[#0052FF] bg-[#0052FF] text-white font-mono text-xs font-bold transition text-center";
+    } else {
+      b.className = "py-2 px-1 rounded-xl border border-[#1F293D] bg-[#141A28] text-slate-300 hover:text-white font-mono text-xs font-bold transition text-center";
+    }
+  });
+
+  if (labelEl) labelEl.textContent = `${slippageTolerance.toFixed(2)}%`;
+  if (badgeEl) badgeEl.textContent = `${slippageTolerance.toFixed(2)}% Slippage`;
+
+  if (warnEl) {
+    if (slippageTolerance > 5.0) {
+      warnEl.classList.remove("hidden");
+      warnEl.textContent = "⚠️ High slippage (>5%) may result in unfavorable trade execution.";
+    } else if (slippageTolerance < 0.1) {
+      warnEl.classList.remove("hidden");
+      warnEl.textContent = "⚠️ Very low slippage (<0.1%) may cause orders to revert.";
+    } else {
+      warnEl.classList.add("hidden");
+    }
   }
 }
 
