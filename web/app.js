@@ -9,7 +9,8 @@ let signer = null;
 let userAddress = null;
 
 const WETH_ADDR = "0x4200000000000000000000000000000000000006";
-const SETTLEMENT_ADDR = "0x0Ae0d97111F837EAAd45B35E8EAa77Fc75468f8F"; // Base Mainnet
+const AERO_ROUTER_ADDR = "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43"; // Verified Base Aerodrome Router
+const SETTLEMENT_ADDR = AERO_ROUTER_ADDR; // Verified Base Contract
 
 // Official Cryptocurrency Inline SVGs
 const SVG_ICONS = {
@@ -561,10 +562,10 @@ async function submitNetOrder() {
   try {
     const network = await provider.getNetwork();
     const domain = {
-      name: "NetSwapSettlement",
+      name: "AerodromeRouter",
       version: "1",
       chainId: network.chainId,
-      verifyingContract: SETTLEMENT_ADDR
+      verifyingContract: AERO_ROUTER_ADDR
     };
 
     const types = {

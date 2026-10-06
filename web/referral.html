@@ -3,110 +3,167 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>NetSwap // Partner & Referral Hub — Earn 30% Lifetime Rev-Share</title>
+  <title>NetSwap // VIP Partner & Referral Hub — 30% Lifetime Rev-Share</title>
   
-  <meta property="og:title" content="NetSwap // Partner & Referral Hub — Earn 30% Lifetime Rev-Share">
-  <meta property="og:description" content="Share your link and earn 30% of all protocol trading fees forever in native Base ETH. Streamed directly to your wallet.">
+  <!-- OpenGraph / Social Metadata -->
+  <meta property="og:title" content="NetSwap // VIP Partner & Referral Hub — 30% Lifetime Rev-Share">
+  <meta property="og:description" content="Share your referral link and earn 30% of all protocol trading fees forever in native Base ETH. Streamed directly to your wallet.">
   <meta property="og:image" content="https://netswap.vercel.app/banner.jpg">
-  <meta property="og:url" content="https://netswap.vercel.app/referral.html">
+  <meta property="og:url" content="https://netswap.vercel.app/referral">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NetSwap Affiliate — 30% Lifetime Revenue Share">
+  <meta name="twitter:description" content="Earn 30% of all DEX trading fees from your community and friends forever on Base.">
+  <meta name="twitter:image" content="https://netswap.vercel.app/banner.jpg">
 
   <link rel="icon" type="image/jpeg" href="avatar.jpg">
   <link rel="apple-touch-icon" href="avatar.jpg">
   <script src="https://cdn.tailwindcss.com"></script>
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; -webkit-tap-highlight-color: transparent; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
-    @keyframes pulse-glow { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.65; } }
-    .glow-pulse { animation: pulse-glow 3.5s infinite ease-in-out; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    input[type=range] {
+      -webkit-appearance: none;
+      height: 6px;
+      border-radius: 9999px;
+      background: #1C2436;
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #6366F1;
+      cursor: pointer;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-cyan-500 selection:text-black pb-28 md:pb-10 relative overflow-x-hidden">
+<body class="bg-[#080B11] text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-indigo-500 selection:text-white pb-24 md:pb-10 relative overflow-x-hidden">
 
-  <!-- Glow Background -->
-  <div class="fixed inset-0 bg-radial from-indigo-950/20 via-transparent to-transparent glow-pulse pointer-events-none z-0"></div>
-  <div class="fixed -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-indigo-500/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+  <!-- Ambient Background Glow -->
+  <div class="fixed -top-40 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
 
-  <!-- Header -->
-  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-xl sticky top-0 z-40 px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between">
-    <div class="flex items-center gap-2.5">
-      <a href="index.html" class="flex items-center gap-2 group">
-        <img src="logo.jpg" alt="NetSwap Logo" class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl object-cover shadow-lg shadow-indigo-500/25 border border-indigo-500/30 group-hover:scale-105 transition">
-        <div>
-          <div class="flex items-center gap-1.5">
-            <span class="text-base sm:text-lg font-black tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent leading-none">NetSwap</span>
-            <span class="text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 px-1.5 py-0.2 rounded font-mono font-bold uppercase">Affiliate</span>
-          </div>
-          <p class="hidden sm:block text-[10px] text-indigo-400 font-semibold tracking-wider uppercase mt-0.5">30% Lifetime Rev-Share</p>
+  <!-- ========================================================================= -->
+  <!-- TOP NAVIGATION HEADER (MATCHING INDEX.HTML OBSIDIAN STANDARD)            -->
+  <!-- ========================================================================= -->
+  <header class="border-b border-[#161D2B] bg-[#0B0E17]/90 backdrop-blur-xl sticky top-0 z-40 px-3.5 sm:px-6 py-3 flex items-center justify-between">
+    
+    <!-- Brand / Logo -->
+    <div class="flex items-center gap-6">
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <img src="logo.jpg" alt="NetSwap Logo" class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl object-cover border border-[#1E293D] group-hover:border-indigo-500 transition shadow-md shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="text-base sm:text-lg font-extrabold tracking-tight text-white leading-none">NetSwap</span>
+          <span class="text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 px-1.5 py-0.5 rounded font-mono font-bold uppercase">Partner</span>
         </div>
       </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-1 text-sm font-medium text-slate-400">
+        <a href="index.html" class="px-3 py-1.5 rounded-xl hover:text-white hover:bg-[#141A28]/60 transition">Swap</a>
+        <a href="referral.html" class="px-3 py-1.5 rounded-xl text-white bg-[#141A28] border border-[#1E273A] font-semibold transition flex items-center gap-1.5">
+          <span>Earn 30%</span>
+          <span class="text-[9px] bg-indigo-500/20 text-indigo-300 px-1.5 py-0.2 rounded font-mono font-bold">ACTIVE</span>
+        </a>
+        <a href="store.html" class="px-3 py-1.5 rounded-xl hover:text-white hover:bg-[#141A28]/60 transition">Alpha Store</a>
+        <a href="audit.html" class="px-3 py-1.5 rounded-xl hover:text-white hover:bg-[#141A28]/60 transition">Loss Audit</a>
+        <a href="https://t.me/NetSwapBaseBot" target="_blank" class="px-3 py-1.5 rounded-xl text-cyan-400 hover:text-cyan-300 hover:bg-[#141A28]/60 transition flex items-center gap-1">
+          <span>Telegram Bot</span>
+          <span class="text-xs">↗</span>
+        </a>
+      </nav>
     </div>
 
-    <div class="flex items-center gap-2">
-      <a href="index.html" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5">
-        <span>⚡</span>
-        <span>Trade Terminal</span>
+    <!-- Header Actions (Clean, Non-wrapping on Mobile) -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      
+      <!-- Base Network Badge Pill -->
+      <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#121724] border border-[#1C2436] text-xs font-mono text-slate-300">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#0052FF"/><path d="M16 6.5C10.75 6.5 6.5 10.75 6.5 16s4.25 9.5 9.5 9.5c5 0 9.1-3.8 9.5-8.7H16v-2.1h10c-.4-4.5-4.2-8.2-10-8.2z" fill="#FFF"/></svg>
+        <span class="font-semibold text-white">Base</span>
+      </div>
+
+      <!-- Quick Swap Terminal Button -->
+      <a href="index.html" class="bg-[#141A28] hover:bg-[#1C2538] border border-[#202B42] text-slate-200 hover:text-white font-semibold px-3 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition shrink-0 whitespace-nowrap">
+        <span>Swap ⚡</span>
       </a>
-      <a href="https://t.me/NetSwapBaseBot" target="_blank" class="bg-indigo-500 hover:bg-indigo-400 text-slate-950 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-black transition shadow-md shadow-indigo-500/20">
-        Bot Engine ↗
-      </a>
+
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- ========================================================================= -->
+  <!-- MAIN CONTENT CONTAINER                                                    -->
+  <!-- ========================================================================= -->
   <main class="flex-1 max-w-4xl mx-auto w-full px-3.5 sm:px-6 py-6 sm:py-10 relative z-10">
     
+    <!-- Hero Headline -->
     <div class="text-center mb-8">
-      <div class="inline-flex items-center gap-2 bg-indigo-950/80 border border-indigo-500/40 text-indigo-300 text-[11px] sm:text-xs px-3.5 py-1.5 rounded-full font-semibold mb-3 shadow">
-        <span>💸</span>
-        <span>Passive Web3 Revenue Engine · Instant Payouts in Base ETH</span>
+      <div class="inline-flex items-center gap-2 bg-[#121724] border border-indigo-500/30 text-indigo-300 text-[11px] sm:text-xs px-3.5 py-1.5 rounded-full font-semibold mb-3.5 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span>Passive Web3 Revenue Engine · Payouts in Native Base ETH</span>
       </div>
       <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight mb-3">
-        Earn <span class="bg-gradient-to-r from-indigo-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">30% Lifetime Revenue</span> on Every Trade.
+        Earn <span class="bg-gradient-to-r from-indigo-400 via-cyan-400 to-emerald-400 bg-clip-text text-transparent">30% Lifetime Revenue</span> on Every Swap.
       </h1>
       <p class="text-slate-400 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
-        Invite crypto traders, alpha groups, and friends to NetSwap. You earn 30% of all protocol trading fees forever. Streamed straight into your wallet on Base.
+        Invite crypto traders, alpha groups, and communities to NetSwap. Earn 30% of all protocol trading fees forever, streamed directly into your wallet on Base.
       </p>
     </div>
 
-    <!-- 3 Value Pillars -->
+    <!-- 3 Value Pillars (Crisp SVGs, Zero Clown Emojis) -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 text-center">
-        <div class="text-2xl mb-1">💰</div>
+      <div class="bg-[#101522] border border-[#1A2337] rounded-2xl p-4 text-center">
+        <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mx-auto mb-2.5">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+        </div>
         <div class="font-bold text-white text-sm">30% Protocol Cut</div>
-        <div class="text-xs text-slate-400 mt-0.5">Highest affiliate rev-share in Base DeFi</div>
+        <div class="text-xs text-slate-400 mt-1">Highest affiliate rev-share in Base DeFi</div>
       </div>
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 text-center">
-        <div class="text-2xl mb-1">⚡</div>
+      
+      <div class="bg-[#101522] border border-[#1A2337] rounded-2xl p-4 text-center">
+        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-[#38BDF8] mx-auto mb-2.5">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
         <div class="font-bold text-white text-sm">Real Base ETH</div>
-        <div class="text-xs text-slate-400 mt-0.5">Paid in native ETH, no locked lockup tokens</div>
+        <div class="text-xs text-slate-400 mt-1">Direct native ETH payouts with zero token lockups</div>
       </div>
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 text-center">
-        <div class="text-2xl mb-1">🛡️</div>
-        <div class="font-bold text-white text-sm">0% Slippage For Them</div>
-        <div class="text-xs text-slate-400 mt-0.5">Your users save 3.5% vs Uniswap & Trojan</div>
+      
+      <div class="bg-[#101522] border border-[#1A2337] rounded-2xl p-4 text-center">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mx-auto mb-2.5">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <div class="font-bold text-white text-sm">0% Slippage For Traders</div>
+        <div class="text-xs text-slate-400 mt-1">Your users save 3.5% vs Uniswap & competitor bots</div>
       </div>
     </div>
 
     <!-- 1-Click Link Generator Card -->
-    <div class="bg-slate-900/90 border border-indigo-500/40 rounded-3xl p-5 sm:p-7 shadow-2xl backdrop-blur-xl mb-8">
-      <h2 class="text-lg sm:text-xl font-black text-white mb-1.5 flex items-center gap-2">
-        <span>🔗</span> Generate Your Personalized Referral Links
+    <div class="bg-[#101522] border border-[#1A2337] rounded-3xl p-5 sm:p-7 shadow-2xl backdrop-blur-xl mb-8">
+      <h2 class="text-lg sm:text-xl font-bold text-white mb-1.5 flex items-center gap-2">
+        <svg class="w-5 h-5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <span>Generate Your Personalized Tracking Links</span>
       </h2>
       <p class="text-xs text-slate-400 mb-4">
-        Enter your MetaMask wallet address or Telegram handle to generate your trackable links:
+        Enter your MetaMask wallet address or Telegram handle to generate your trackable referral links:
       </p>
 
-      <div class="flex flex-col sm:flex-row gap-2 mb-5">
+      <div class="flex flex-col sm:flex-row gap-2.5 mb-5">
         <input 
           type="text" 
           id="affiliateInput" 
           placeholder="Enter your Base address (0x...) or Telegram username..." 
-          class="flex-1 bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition font-mono"
+          class="flex-1 bg-[#090C13] border border-[#1A2337] rounded-2xl px-4 py-3 text-xs sm:text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition font-mono"
         >
         <button 
           onclick="generateLinks()" 
-          class="bg-indigo-500 hover:bg-indigo-400 active:scale-95 text-slate-950 font-black px-6 py-3 rounded-2xl text-xs sm:text-sm transition shadow-lg shadow-indigo-500/25 shrink-0"
+          class="bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold px-6 py-3 rounded-2xl text-xs sm:text-sm transition shadow-lg shadow-indigo-600/20 shrink-0"
         >
           Generate Links
         </button>
@@ -115,96 +172,136 @@
       <!-- Generated Link Display (Web & Telegram) -->
       <div class="space-y-3">
         <!-- Web Terminal Link -->
-        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div class="bg-[#090C13] border border-[#182133] rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <div class="min-w-0">
             <div class="text-[10px] uppercase font-mono tracking-wider text-indigo-400 font-bold">Web Terminal Referral Link</div>
             <div id="webRefLink" class="text-xs sm:text-sm font-mono text-slate-200 truncate mt-0.5">https://netswap.vercel.app?ref=YOUR_ID</div>
           </div>
-          <button onclick="copyToClipboard('webRefLink')" id="copyWebBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-1.5 rounded-xl text-xs font-bold transition shrink-0 self-start sm:self-auto">
+          <button onclick="copyToClipboard('webRefLink')" id="copyWebBtn" class="bg-[#141A28] hover:bg-[#1C2538] border border-[#202B42] text-slate-200 px-3.5 py-1.5 rounded-xl text-xs font-bold transition shrink-0 self-start sm:self-auto">
             Copy Link
           </button>
         </div>
 
         <!-- Telegram Bot Link -->
-        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+        <div class="bg-[#090C13] border border-[#182133] rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <div class="min-w-0">
-            <div class="text-[10px] uppercase font-mono tracking-wider text-cyan-400 font-bold">Telegram Bot Referral Link (Highest Conversion)</div>
+            <div class="text-[10px] uppercase font-mono tracking-wider text-[#38BDF8] font-bold">Telegram Bot Referral Link (Highest Conversion)</div>
             <div id="botRefLink" class="text-xs sm:text-sm font-mono text-slate-200 truncate mt-0.5">https://t.me/NetSwapBaseBot?start=ref_YOUR_ID</div>
           </div>
-          <button onclick="copyToClipboard('botRefLink')" id="copyBotBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-1.5 rounded-xl text-xs font-bold transition shrink-0 self-start sm:self-auto">
+          <button onclick="copyToClipboard('botRefLink')" id="copyBotBtn" class="bg-[#141A28] hover:bg-[#1C2538] border border-[#202B42] text-slate-200 px-3.5 py-1.5 rounded-xl text-xs font-bold transition shrink-0 self-start sm:self-auto">
             Copy Link
           </button>
         </div>
       </div>
 
       <!-- 1-Tap Viral Share Buttons -->
-      <div class="mt-5 pt-5 border-t border-slate-800 flex flex-wrap items-center gap-2">
-        <span class="text-xs text-slate-400 font-medium mr-2">1-Tap Share:</span>
-        <button onclick="shareToTelegram()" class="bg-[#229ED9]/20 hover:bg-[#229ED9]/30 border border-[#229ED9]/40 text-[#229ED9] px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-          <span>✈️</span> Telegram
+      <div class="mt-4 pt-4 border-t border-[#161D2B] flex flex-wrap items-center gap-2">
+        <span class="text-xs text-slate-400 font-medium mr-1">1-Tap Share:</span>
+        <button onclick="shareToTelegram()" class="px-3 py-1.5 rounded-xl bg-[#0088cc]/20 hover:bg-[#0088cc]/30 border border-[#0088cc]/40 text-[#38BDF8] text-xs font-semibold flex items-center gap-1.5 transition">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+          <span>Telegram</span>
         </button>
-        <button onclick="shareToTwitter()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-          <span>𝕏</span> Twitter
+        <button onclick="shareToTwitter()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 transition">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <span>X / Twitter</span>
         </button>
-        <button onclick="shareToWhatsApp()" class="bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-          <span>💬</span> WhatsApp
+        <button onclick="shareToWhatsApp()" class="px-3 py-1.5 rounded-xl bg-[#25D366]/20 hover:bg-[#25D366]/30 border border-[#25D366]/40 text-[#4ade80] text-xs font-semibold flex items-center gap-1.5 transition">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.71 4.3 3.8 2.53 1.09 2.53.73 2.99.69.45-.04 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.3z"/></svg>
+          <span>WhatsApp</span>
         </button>
       </div>
-
     </div>
 
-    <!-- Interactive Earnings Calculator -->
-    <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 sm:p-7 shadow-xl mb-8">
+    <!-- Interactive Revenue Calculator Widget -->
+    <div class="bg-[#101522] border border-[#1A2337] rounded-3xl p-5 sm:p-7 shadow-2xl backdrop-blur-xl">
       <div class="flex items-center justify-between mb-4">
         <div>
-          <h3 class="text-lg font-bold text-white">Interactive Monthly Revenue Calculator</h3>
-          <p class="text-xs text-slate-400">Estimate your monthly passive payouts based on your network:</p>
+          <h2 class="text-lg sm:text-xl font-bold text-white tracking-tight">Interactive Monthly Revenue Calculator</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Estimate your monthly passive payouts based on your active trader network:</p>
         </div>
-        <span class="text-2xl">🧮</span>
-      </div>
-
-      <!-- Sliders -->
-      <div class="space-y-4 mb-6">
-        <div>
-          <div class="flex justify-between text-xs text-slate-300 mb-1.5">
-            <span>Referred Active Traders:</span>
-            <span id="tradersCountDisplay" class="font-mono font-bold text-indigo-400">25 Traders</span>
-          </div>
-          <input type="range" id="tradersSlider" min="1" max="200" value="25" oninput="updateCalculator()" class="w-full accent-indigo-500 cursor-pointer">
-        </div>
-
-        <div>
-          <div class="flex justify-between text-xs text-slate-300 mb-1.5">
-            <span>Average Daily Trading Volume Per Trader:</span>
-            <span id="volumeDisplay" class="font-mono font-bold text-cyan-400">$500 / day</span>
-          </div>
-          <input type="range" id="volumeSlider" min="50" max="5000" step="50" value="500" oninput="updateCalculator()" class="w-full accent-cyan-500 cursor-pointer">
+        <div class="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-base font-mono">
+          %
         </div>
       </div>
 
-      <!-- Output Calculation Card -->
-      <div class="bg-gradient-to-r from-indigo-950/60 to-slate-950 border border-indigo-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <div class="space-y-6 mb-6">
+        <!-- Slider 1: Active Traders -->
         <div>
-          <div class="text-[11px] text-slate-400 uppercase font-mono">Your Projected Monthly Payout (30% Split):</div>
-          <div id="calcPayoutUsd" class="text-2xl sm:text-3xl font-black text-emerald-400 font-mono mt-0.5">$956.25 USD</div>
-          <div id="calcPayoutEth" class="text-xs text-indigo-300 font-mono mt-0.5">≈ 0.30 Base ETH / month</div>
+          <div class="flex items-center justify-between text-xs sm:text-sm font-semibold mb-2">
+            <span class="text-slate-300">Referred Active Traders:</span>
+            <span id="tradersCountDisplay" class="font-mono text-indigo-400 font-bold">25 Traders</span>
+          </div>
+          <input 
+            type="range" 
+            id="tradersSlider" 
+            min="1" 
+            max="250" 
+            value="25" 
+            oninput="updateCalculator()" 
+            class="w-full cursor-pointer accent-indigo-500"
+          >
+          <div class="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
+            <span>1</span>
+            <span>50</span>
+            <span>100</span>
+            <span>250+ Traders</span>
+          </div>
         </div>
-        <button onclick="document.getElementById('affiliateInput').focus()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-5 py-2.5 rounded-xl text-xs transition shadow-lg shrink-0">
+
+        <!-- Slider 2: Daily Trading Volume -->
+        <div>
+          <div class="flex items-center justify-between text-xs sm:text-sm font-semibold mb-2">
+            <span class="text-slate-300">Average Daily Volume Per Trader:</span>
+            <span id="volumeDisplay" class="font-mono text-[#38BDF8] font-bold">$500 / day</span>
+          </div>
+          <input 
+            type="range" 
+            id="volumeSlider" 
+            min="100" 
+            max="10000" 
+            step="100" 
+            value="500" 
+            oninput="updateCalculator()" 
+            class="w-full cursor-pointer accent-cyan-500"
+          >
+          <div class="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
+            <span>$100</span>
+            <span>$2,500</span>
+            <span>$5,000</span>
+            <span>$10,000+</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projected Payout Box -->
+      <div class="bg-[#090C13] border border-indigo-500/30 rounded-2xl p-5 text-center">
+        <div class="text-[10px] uppercase font-mono tracking-wider text-indigo-300 font-bold mb-1">
+          Your Projected Monthly Payout (30% Split):
+        </div>
+        <div id="calcPayoutUsd" class="text-3xl sm:text-4xl font-extrabold text-emerald-400 font-mono tracking-tight my-1">
+          $956.25 USD
+        </div>
+        <div id="calcPayoutEth" class="text-xs sm:text-sm text-slate-400 font-mono">
+          ≈ 0.299 Base ETH / month
+        </div>
+        <a href="#affiliateInput" class="inline-block mt-4 px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 active:scale-95 text-slate-950 text-xs font-bold transition shadow-lg shadow-emerald-500/20">
           Start Earning Now ➔
-        </button>
+        </a>
       </div>
 
     </div>
 
   </main>
 
-  <!-- Mobile Bottom Dock Navigation -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-2xl border-t border-slate-800/80 px-2 py-2 flex items-center justify-around shadow-2xl" style="padding-bottom: max(0.6rem, env(safe-area-inset-bottom));">
+  <!-- ========================================================================= -->
+  <!-- UNIVERSAL MOBILE BOTTOM SAFE-AREA DOCK NAVIGATION                         -->
+  <!-- ========================================================================= -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0B0E17]/95 backdrop-blur-2xl border-t border-[#161D2B] px-2 py-2 flex items-center justify-around shadow-2xl" style="padding-bottom: max(0.6rem, env(safe-area-inset-bottom));">
     <a href="index.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
       <span class="text-[10px] font-bold">Swap</span>
     </a>
-    <a href="referral.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-indigo-400 bg-indigo-500/10 border border-indigo-500/30 transition">
+    <a href="referral.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-white bg-[#141A28] border border-[#1E273A] transition">
       <svg class="w-5 h-5 text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       <span class="text-[10px] font-bold">Earn 30%</span>
     </a>
@@ -224,11 +321,16 @@
 
   <script>
     function generateLinks() {
-      const input = document.getElementById("affiliateInput").value.trim() || "vip_partner";
-      const cleanId = input.replace("@", "").replace(/[^a-zA-Z0-9_]/g, "");
-      
-      const webUrl = `https://netswap.vercel.app?ref=${cleanId}`;
-      const botUrl = `https://t.me/NetSwapBaseBot?start=ref_${cleanId}`;
+      let val = document.getElementById("affiliateInput").value.trim();
+      if (!val) {
+        val = "0x" + Math.random().toString(16).slice(2, 10);
+        document.getElementById("affiliateInput").value = val;
+      }
+      val = val.replace("@", "");
+      localStorage.setItem("netswap_referrer", val);
+
+      const webUrl = `https://netswap.vercel.app?ref=${val}`;
+      const botUrl = `https://t.me/NetSwapBaseBot?start=ref_${val}`;
 
       document.getElementById("webRefLink").innerText = webUrl;
       document.getElementById("botRefLink").innerText = botUrl;
@@ -241,10 +343,10 @@
         const btn = document.getElementById(btnId);
         const originalText = btn.innerText;
         btn.innerText = "✓ Copied!";
-        btn.classList.add("bg-emerald-500", "text-slate-950");
+        btn.classList.add("bg-emerald-500", "text-slate-950", "border-emerald-500");
         setTimeout(() => {
           btn.innerText = originalText;
-          btn.classList.remove("bg-emerald-500", "text-slate-950");
+          btn.classList.remove("bg-emerald-500", "text-slate-950", "border-emerald-500");
         }, 2000);
       });
     }
@@ -294,29 +396,5 @@
       updateCalculator();
     });
   </script>
-
-  <!-- Universal Mobile Bottom Navigation Dock -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0B0E17]/95 backdrop-blur-2xl border-t border-[#161D2B] px-2 py-2 flex items-center justify-around shadow-2xl" style="padding-bottom: max(0.6rem, env(safe-area-inset-bottom));">
-    <a href="index.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
-      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
-      <span class="text-[10px] font-bold">Swap</span>
-    </a>
-    <a href="referral.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-white bg-[#141A28] border border-[#1E273A] transition">
-      <svg class="w-5 h-5 text-[#818CF8]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      <span class="text-[10px] font-bold">Earn 30%</span>
-    </a>
-    <a href="store.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
-      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      <span class="text-[10px] font-bold">Alpha Store</span>
-    </a>
-    <a href="audit.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
-      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <span class="text-[10px] font-bold">Loss Audit</span>
-    </a>
-    <a href="https://t.me/NetSwapBaseBot" target="_blank" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-cyan-400 hover:text-white transition">
-      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-      <span class="text-[10px] font-bold">Bot ↗</span>
-    </a>
-  </nav>
 </body>
 </html>
