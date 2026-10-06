@@ -3114,20 +3114,22 @@ class TelegramBot:
 
     def send_sample_dm_alert(self, chat_id):
         alert_msg = (
-            "🚨 <b>SMART MONEY WHALE BUY DETECTED!</b>\n"
+            "🔔 <b>LOCKSCREEN PUSH STREAM ACTIVATED!</b>\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "✅ <b>Lockscreen Delivery Confirmed</b>\n"
+            "You are now receiving real-time alerts the instant smart money moves or genesis tokens seed on Base:\n\n"
             "🐋 <b>Whale #42 accumulated:</b> <code>$48,500 USD</code> of <b>$BRETT</b>\n"
             "📍 <b>CA:</b> <code>0x532f27101965dd16442e59d40670faf5ebb142e4</code>\n"
-            "⚡ <b>NetSwap Protection:</b> 🟢 <b>Anti-MEV Shield Active</b>\n"
+            "⚡ <b>NetSwap Protection:</b> 🟢 <b>Anti-MEV Private Relay Active (0% Slippage)</b>\n"
             "📊 <b>24h Momentum:</b> <b>+18.4%</b> | Volume: <b>$2.4M</b>\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "👇 <b>1-Click Mirror Buy with Zero AMM Slippage:</b>"
         )
         markup = {
             "inline_keyboard": [
-                [{"text": "⚡ 1-Click Buy $BRETT on NetSwap", "url": "https://t.me/NetSwapBaseBot?start=buy_0x532f27101965dd16442e59d40670faf5ebb142e4"}],
+                [{"text": "⚡ 1-Click Buy $BRETT on NetSwap", "callback_data": "select_token_0x532f27101965dd16442e59d40670faf5ebb142e4"}],
                 [{"text": "👑 VIP Alpha Store (Web)", "url": f"https://netswap.vercel.app/store.html?user_id={chat_id}"}],
-                [{"text": "🔙 Alerts Settings", "callback_data": "menu_alerts"}]
+                [{"text": "🔙 Back to Alert Settings", "callback_data": "menu_alerts"}]
             ]
         }
         self.send_message(chat_id, alert_msg, markup)
@@ -3647,8 +3649,9 @@ class TelegramBot:
             return
 
         if data == "alert_toggle_master_on":
-            update_user_alert_settings(chat_id, alerts_enabled=1, compulsory_ads=1, compulsory_rug=1)
+            update_user_alert_settings(chat_id, alerts_enabled=1, compulsory_ads=1, compulsory_rug=1, free_whale_radar=1, free_launch_radar=1)
             self.show_alerts_menu(chat_id)
+            self.send_sample_dm_alert(chat_id)
             return
 
         if data == "alert_toggle_master_off":
@@ -3941,6 +3944,7 @@ def start_group_alert_monitor(bot):
 
 def start_clanker_feed_monitor(bot=None):
     print("[CLANKER RADAR] Background launch monitor daemon started.")
+    seen_addresses = set()
     while True:
         try:
             resp = requests.get(
@@ -3967,6 +3971,10 @@ def start_clanker_feed_monitor(bot=None):
                             continue
                         fdv = float(attrs.get('fdv_usd') or 0.0)
                         vol_24h = float(attrs.get('volume_usd', {}).get('h24') or 0.0)
+
+                        cursor.execute("SELECT token_address FROM clanker_launches WHERE token_address = ?", (token_addr,))
+                        existing = cursor.fetchone()
+
                         cursor.execute("""
                             INSERT INTO clanker_launches (token_address, token_name, token_symbol, mcap_usd, volume_24h, timestamp)
                             VALUES (?, ?, ?, ?, ?, ?)
@@ -3975,11 +3983,40 @@ def start_clanker_feed_monitor(bot=None):
                                 volume_24h = excluded.volume_24h,
                                 timestamp = excluded.timestamp
                         """, (token_addr, token_sym, token_sym, fdv, vol_24h, int(time.time())))
+
+                        # Broadcast fresh genesis launch to active subscribers
+                        if not existing and token_addr not in seen_addresses:
+                            seen_addresses.add(token_addr)
+                            if bot:
+                                cursor.execute("SELECT user_id FROM user_alert_settings WHERE alerts_enabled = 1 AND free_launch_radar = 1")
+                                subs = cursor.fetchall()
+                                for (sub_id,) in subs:
+                                    launch_alert = (
+                                        f"⚙️ <b>GENESIS LAUNCH DETECTED ON BASE!</b>\n"
+                                        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                                        f"🪙 <b>Token:</b> ${token_sym} ({name_full})\n"
+                                        f"📍 <b>CA:</b> <code>{token_addr}</code>\n"
+                                        f"📊 <b>Initial MCap:</b> <code>${fdv:,.0f} USD</code> | 24h Vol: <code>${vol_24h:,.0f}</code>\n"
+                                        "🛡️ <b>Anti-MEV Private Relay:</b> 🟢 <b>ACTIVE</b>\n"
+                                        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                                        "👇 <b>1-Click Snipe with 0% AMM Slippage:</b>"
+                                    )
+                                    markup = {
+                                        "inline_keyboard": [
+                                            [{"text": f"⚡ Buy ${token_sym} on NetSwap", "callback_data": f"select_token_{token_addr}"}],
+                                            [{"text": "📊 Live DexScreener Chart ↗", "url": f"https://dexscreener.com/base/{token_addr}"}],
+                                            [{"text": "🔔 Alert Settings", "callback_data": "menu_alerts"}]
+                                        ]
+                                    }
+                                    try:
+                                        bot.send_message(sub_id, launch_alert, markup)
+                                    except Exception:
+                                        pass
                     conn.commit()
                     conn.close()
         except Exception:
             pass
-        time.sleep(60)
+        time.sleep(30)
 
 def start_subscription_expiry_monitor(bot):
     while True:
