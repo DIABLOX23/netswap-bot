@@ -1264,15 +1264,18 @@ class TelegramBot:
                     {"text": "💼 Positions", "callback_data": "menu_positions"}
                 ],
                 [
-                    {"text": "👥 Copy-Trade", "callback_data": "menu_copytrade"},
+                    {"text": "⚡ Flash-Arb Hunter (VIP)", "callback_data": "menu_arb"},
                     {"text": "🔔 Alpha Alerts", "callback_data": "menu_alerts"}
                 ],
                 [
-                    {"text": "🤝 Referral Hub (Earn 30%)", "callback_data": "menu_referral"},
-                    {"text": "💳 Wallets", "callback_data": "menu_wallet"}
+                    {"text": "👥 Copy-Trade", "callback_data": "menu_copytrade"},
+                    {"text": "🤝 Referral Hub (30%)", "callback_data": "menu_referral"}
                 ],
                 [
-                    {"text": "🌐 Web Terminal ↗", "url": "https://netswap.vercel.app"},
+                    {"text": "💳 Wallets", "callback_data": "menu_wallet"},
+                    {"text": "🌐 Web Terminal ↗", "url": "https://netswap.vercel.app"}
+                ],
+                [
                     {"text": "🔄 Refresh", "callback_data": "menu_refresh"}
                 ]
             ]
@@ -1523,6 +1526,62 @@ class TelegramBot:
         if text.startswith("/sponsor") or text.startswith("/ad") or text.startswith("/ads"):
             self.show_sponsor_info(chat_id)
             return
+
+        if text.startswith("/link"):
+            parts = text.split()
+            if len(parts) > 1 and parts[1].startswith("0x") and len(parts[1]) == 42:
+                try:
+                    ext_addr = Web3.to_checksum_address(parts[1])
+                    bal = get_token_balance(ext_addr, "0xf974469D1C72F198Cb43426509119AfC653abB07")
+                    if bal >= 100000 or ext_addr.lower() == FEE_RECIPIENT_BASE.lower():
+                        conn = get_db()
+                        cursor = conn.cursor()
+                        cursor.execute("UPDATE users SET is_vip = 1 WHERE user_id = ?", (chat_id,))
+                        conn.commit()
+                        conn.close()
+                        msg = (
+                            "🎉 <b>$NETSWAP HOLDER VERIFIED!</b>\n"
+                            "━━━━━━━━━━━━━━━━━━━━━━\n"
+                            f"👛 <b>Linked Wallet:</b> <code>{ext_addr}</code>\n"
+                            f"💎 <b>Holdings Detected:</b> <b>{bal:,.0f} $NETSWAP</b>\n\n"
+                            "👑 <b>VIP Alpha Status:</b> 🟢 <b>PERMANENTLY UNLOCKED</b>\n\n"
+                            "You now have unrestricted institutional access to:\n"
+                            "• ⚡ /flash (Autonomous DEX Flash-Arb Hunter)\n"
+                            "• 🐋 /whale (Real-Time Whale & Liquidation Radar)\n"
+                            "• 🛡️ Anti-MEV P2P Batch Settlement Terminal"
+                        )
+                        markup = {"inline_keyboard": [[{"text": "⚡ Open Flash-Arb Hunter", "callback_data": "menu_arb"}]]}
+                        self.send_message(chat_id, msg, markup)
+                        return
+                    else:
+                        msg = (
+                            "⚠️ <b>INSUFFICIENT $NETSWAP BALANCE</b>\n"
+                            "━━━━━━━━━━━━━━━━━━━━━━\n"
+                            f"👛 <b>Checked Wallet:</b> <code>{ext_addr}</code>\n"
+                            f"💎 <b>Current Holdings:</b> <code>{bal:,.0f} $NETSWAP</code>\n"
+                            "🎯 <b>Required for VIP Access:</b> <code>100,000 $NETSWAP</code> (~$0.03)\n\n"
+                            "Acquire $NETSWAP on Uniswap to unlock the institutional radar:"
+                        )
+                        markup = {
+                            "inline_keyboard": [
+                                [{"text": "🛒 Buy $NETSWAP on Uniswap ↗", "url": "https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6"}],
+                                [{"text": "🔄 Check Again", "callback_data": "menu_arb"}]
+                            ]
+                        }
+                        self.send_message(chat_id, msg, markup)
+                        return
+                except Exception as e:
+                    self.send_message(chat_id, f"❌ Error verifying wallet: {e}")
+                    return
+            else:
+                self.send_message(
+                    chat_id,
+                    "🔗 <b>LINK EXTERNAL WALLET USAGE:</b>\n\n"
+                    "<code>/link &lt;0xYourBaseAddress&gt;</code>\n"
+                    "Example: <code>/link 0xbE40c75844197fD334db4174CBd7D07F9bAb93f8</code>\n\n"
+                    "<i>Link your Phantom or MetaMask wallet to verify your $NETSWAP holdings and unlock VIP Alpha tools.</i>"
+                )
+                return
 
         if text == "/wallet":
             self.show_wallet(chat_id, username)
@@ -1856,7 +1915,46 @@ class TelegramBot:
         )
 
 
-    def show_arb_dashboard(self, chat_id):
+    def show_arb_dashboard(self, chat_id, username=""):
+        user = get_user_by_id(chat_id)
+        if not user:
+            user = get_or_create_user(chat_id, username)
+
+        user_addr = user[0] if user else None
+        is_vip = (user[3] == 1) if (user and len(user) > 3 and user[3] is not None) else False
+        is_operator = False
+        if user_addr and user_addr.lower() == FEE_RECIPIENT_BASE.lower():
+            is_operator = True
+
+        netswap_bal = get_token_balance(user_addr, "0xf974469D1C72F198Cb43426509119AfC653abB07") if user_addr else 0.0
+        REQUIRED_HOLDING = 100000.0  # 100,000 $NETSWAP (approx $0.03 USD)
+
+        if not is_operator and not is_vip and netswap_bal < REQUIRED_HOLDING:
+            msg = (
+                "🔒 <b>NETSWAP VIP ALPHA RADAR LOCKED</b>\n"
+                "━━━━━━━━━━━━━━━━━━━━━━\n"
+                "⚡ The <b>Autonomous Flash-Arb Hunter</b> & Real-Time Base DEX Telemetry is reserved for verified <b>$NETSWAP Holders</b>.\n\n"
+                f"💎 <b>Your In-Bot Balance:</b> <code>{netswap_bal:,.0f} $NETSWAP</code>\n"
+                f"🎯 <b>Required to Unlock:</b> <code>{REQUIRED_HOLDING:,.0f} $NETSWAP</code> (~$0.03 USD)\n\n"
+                "<b>Holding $NETSWAP Unlocks:</b>\n"
+                "• ⚡ 24/7 Base DEX Spread Telemetry (Aerodrome vs Uni v3)\n"
+                "• 🛡️ Zero-Revert Pre-Simulation Guarantee ($0 failed gas)\n"
+                "• 🐋 Real-Time Whale Radar & Liquidation Sniping\n"
+                "• 💸 50/50 Revenue-Share Netting Tolls\n\n"
+                f"<i>Buy $NETSWAP directly to your in-bot address:</i>\n<code>{user_addr}</code>\n\n"
+                "<i>Or if you hold $NETSWAP in Phantom/MetaMask, link it now:</i>\n"
+                "<code>/link &lt;0xYourExternalAddress&gt;</code>"
+            )
+            markup = {
+                "inline_keyboard": [
+                    [{"text": "🛒 Buy $NETSWAP on Uniswap ↗", "url": "https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6"}],
+                    [{"text": "🔄 Verify My Holdings", "callback_data": "menu_arb"}],
+                    [{"text": "🔙 Main Menu", "callback_data": "menu_main"}]
+                ]
+            }
+            self.send_message(chat_id, msg, markup)
+            return
+
         status_file = os.path.join(os.path.dirname(__file__), "flash_arb_status.json")
         data = None
         if os.path.exists(status_file):
