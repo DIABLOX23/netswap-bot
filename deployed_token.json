@@ -1,0 +1,9 @@
+{
+  "symbol": "NETSWAP",
+  "name": "NetSwap Protocol",
+  "chain": "base",
+  "address": "0xf974469D1C72F198Cb43426509119AfC653abB07",
+  "dexscreener": "https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6",
+  "uniswap": "https://app.uniswap.org/explore/tokens/base/0xf974469D1C72F198Cb43426509119AfC653abB07",
+  "feeRecipient": "0xbE40c75844197fD334db4174CBd7D07F9bAb93f8"
+}

@@ -87,16 +87,16 @@ const TOKENS = {
   NETSWAP: {
     symbol: "NETSWAP",
     name: "NetSwap Protocol",
-    address: "0x0000000000000000000000000000000000000000",
+    address: "0xf974469D1C72F198Cb43426509119AfC653abB07",
     decimals: 18,
     usdPrice: 0.045,
     iconSvg: SVG_ICONS.NETSWAP
   }
 };
 
-// Current Swap Pair State (Default: ETH -> USDC)
+// Current Swap Pair State (Default: ETH -> NETSWAP)
 let tokenInKey = "ETH";
-let tokenOutKey = "USDC";
+let tokenOutKey = "NETSWAP";
 let rateDisplayInverted = false;
 
 // Authenticated Onchain User Balances (Strictly 0.0 until verified onchain)

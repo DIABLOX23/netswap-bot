@@ -57,6 +57,7 @@ w3 = Web3(Web3.HTTPProvider(BASE_RPC))
 
 # Popular Base Tokens for 1-Tap Trading
 POPULAR_TOKENS = [
+    {"symbol": "NETSWAP", "name": "NetSwap Protocol", "address": "0xf974469D1C72F198Cb43426509119AfC653abB07"},
     {"symbol": "SPIKE", "name": "Brian's Iguana", "address": "0x1685981068dC0ec45Ee1D5a28EF051059e42a0f3"},
     {"symbol": "BSTONK", "name": "BaseStonk", "address": "0x0F61Edbfe6Cd86024C0f210c0695B08df55fdfc9"},
     {"symbol": "BRETT", "name": "Brett", "address": "0x532f27101965dd16442e59d40670faf5ebb142e4"},
@@ -1677,12 +1678,29 @@ class TelegramBot:
                         self.send_message(chat_id, f"❌ Unrecognized token or amount: <code>{arg}</code>")
                     return
             elif len(parts) >= 3:
-                token_target = parts[1]
-                try:
-                    amt = float(parts[2])
-                except ValueError:
-                    self.send_message(chat_id, f"❌ Invalid amount: <code>{parts[2]}</code>")
+                p1, p2 = parts[1], parts[2]
+                token_target = None
+                amt = None
+
+                # Support both /buy <address> <amount> AND /buy <amount> <address>
+                if (p1.startswith("0x") and len(p1) == 42) or (32 <= len(p1) <= 44):
+                    token_target = p1
+                    try:
+                        amt = float(p2)
+                    except ValueError:
+                        self.send_message(chat_id, f"❌ Invalid amount: <code>{p2}</code>")
+                        return
+                elif (p2.startswith("0x") and len(p2) == 42) or (32 <= len(p2) <= 44):
+                    token_target = p2
+                    try:
+                        amt = float(p1)
+                    except ValueError:
+                        self.send_message(chat_id, f"❌ Invalid amount: <code>{p1}</code>")
+                        return
+                else:
+                    self.send_message(chat_id, f"❌ Unrecognized token contract or amount. Use: <code>/buy &lt;token&gt; &lt;amount&gt;</code>")
                     return
+
                 if token_target.startswith("0x") and len(token_target) == 42:
                     self.execute_base_buy(chat_id, username, token_target, amt)
                 elif 32 <= len(token_target) <= 44:
