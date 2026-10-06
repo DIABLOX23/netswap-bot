@@ -3,169 +3,171 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>NetSwap — Continuous P2P Liquidity Netting & Zero-Slippage Trading</title>
+  <title>NetSwap — Institutional Continuous Liquidity Netting & Zero-Slippage DEX</title>
   
   <!-- OpenGraph / Social Metadata -->
-  <meta property="og:title" content="NetSwap — Continuous P2P Liquidity Netting on Base">
-  <meta property="og:description" content="Trade any Base token peer-to-peer with 0% AMM slippage and 100% anti-MEV protection. Earn 30% lifetime referral rewards.">
+  <meta property="og:title" content="NetSwap — Institutional P2P Liquidity Netting on Base">
+  <meta property="og:description" content="Trade any Base token peer-to-peer with 0.00% AMM slippage and 100% anti-MEV protection. Earn 30% lifetime referral rewards.">
   <meta property="og:image" content="https://netswap.vercel.app/banner.jpg">
   <meta property="og:url" content="https://netswap.vercel.app">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="NetSwap — Zero-Slippage Anti-MEV on Base">
-  <meta name="twitter:description" content="Peer-to-peer batch netting engine. Never pay AMM slippage or get sandwiched again.">
+  <meta name="twitter:description" content="Continuous peer-to-peer micro-batch netting engine. Never pay AMM slippage or get sandwiched again.">
   <meta name="twitter:image" content="https://netswap.vercel.app/banner.jpg">
 
   <link rel="icon" type="image/jpeg" href="avatar.jpg">
   <link rel="apple-touch-icon" href="avatar.jpg">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.2/ethers.umd.min.js"></script>
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; -webkit-tap-highlight-color: transparent; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
-    @keyframes pulse-glow { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.65; } }
-    .glow-pulse { animation: pulse-glow 3.5s infinite ease-in-out; }
-    @keyframes net-collision { 0% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.12); opacity: 1; filter: drop-shadow(0 0 12px rgba(6,182,212,0.9)); } 100% { transform: scale(1); opacity: 0.7; } }
-    .collide-anim { animation: net-collision 2s infinite ease-in-out; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-cyan-500 selection:text-black pb-28 md:pb-8 relative overflow-x-hidden">
-  
-  <!-- Background Glows -->
-  <div class="fixed inset-0 bg-radial from-cyan-950/20 via-transparent to-transparent glow-pulse pointer-events-none z-0"></div>
-  <div class="fixed -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
+<body class="bg-[#080B11] text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-[#0052FF] selection:text-white pb-24 md:pb-8 relative overflow-x-hidden">
 
-  <!-- Top Navigation Header -->
-  <header class="border-b border-slate-800/80 bg-slate-900/90 backdrop-blur-xl sticky top-0 z-40 px-3 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between">
-    <div class="flex items-center gap-2.5 shrink-0 min-w-0">
-      <a href="index.html" class="flex items-center gap-2 group shrink-0">
-        <img src="logo.jpg" alt="NetSwap Logo" class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl object-cover shadow-lg shadow-cyan-500/25 border border-cyan-500/30 group-hover:scale-105 transition shrink-0">
-        <div class="min-w-0">
-          <div class="flex items-center gap-1.5">
-            <h1 class="text-base sm:text-lg font-black tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent leading-none">NetSwap</h1>
-            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-1.5 py-0.2 rounded font-mono font-bold uppercase">v3.0</span>
-          </div>
-          <p class="hidden sm:block text-[10px] text-cyan-400 font-semibold tracking-wider uppercase mt-0.5 truncate">Continuous Netting · Base</p>
+  <!-- Subtle Ambient Glow -->
+  <div class="fixed -top-40 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-[#0052FF]/10 rounded-full blur-[140px] pointer-events-none z-0"></div>
+
+  <!-- ========================================================================= -->
+  <!-- TOP NAVIGATION HEADER (INSTITUTIONAL UNISWAP STYLE)                      -->
+  <!-- ========================================================================= -->
+  <header class="border-b border-[#161D2B] bg-[#0B0E17]/90 backdrop-blur-xl sticky top-0 z-40 px-3.5 sm:px-6 py-3 flex items-center justify-between">
+    
+    <!-- Brand / Logo -->
+    <div class="flex items-center gap-6">
+      <a href="index.html" class="flex items-center gap-2.5 group">
+        <img src="logo.jpg" alt="NetSwap Logo" class="h-8 w-8 sm:h-9 sm:w-9 rounded-xl object-cover border border-[#1E293D] group-hover:border-[#0052FF] transition shadow-md shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="text-base sm:text-lg font-extrabold tracking-tight text-white leading-none">NetSwap</span>
+          <span class="text-[10px] bg-[#0052FF]/20 text-[#38BDF8] border border-[#0052FF]/40 px-1.5 py-0.5 rounded font-mono font-bold uppercase">v4.0</span>
         </div>
       </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-1 text-sm font-medium text-slate-400">
+        <a href="index.html" class="px-3 py-1.5 rounded-xl text-white bg-[#141A28] border border-[#1E273A] font-semibold transition">Swap</a>
+        <a href="referral.html" class="px-3 py-1.5 rounded-xl hover:text-white hover:bg-[#141A28]/60 transition flex items-center gap-1.5">
+          <span>Earn 30%</span>
+          <span class="text-[9px] bg-indigo-500/20 text-indigo-300 px-1.5 py-0.2 rounded font-mono font-bold">REV-SHARE</span>
+        </a>
+        <a href="store.html" class="px-3 py-1.5 rounded-xl hover:text-white hover:bg-[#141A28]/60 transition">Alpha Store</a>
+        <a href="audit.html" class="px-3 py-1.5 rounded-xl hover:text-white hover:bg-[#141A28]/60 transition">Loss Audit</a>
+        <a href="https://t.me/NetSwapBaseBot" target="_blank" class="px-3 py-1.5 rounded-xl text-cyan-400 hover:text-cyan-300 hover:bg-[#141A28]/60 transition flex items-center gap-1">
+          <span>Telegram Bot</span>
+          <span class="text-xs">↗</span>
+        </a>
+      </nav>
     </div>
 
-    <!-- Live Desktop Stats -->
-    <div class="hidden lg:flex items-center gap-6 text-xs text-slate-400 font-mono">
-      <div class="flex items-center gap-2">
-        <span class="h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span>Batch Interval: <strong class="text-white font-bold">2.0s</strong></span>
+    <!-- Header Actions (Clean & Uncrowded on Mobile) -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      
+      <!-- Base Network Badge Pill -->
+      <div class="flex items-center gap-1.5 px-2.5 py-1.5 sm:py-2 rounded-xl bg-[#121724] border border-[#1C2436] text-xs font-mono text-slate-300">
+        <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#0052FF"/><path d="M16 6.5C10.75 6.5 6.5 10.75 6.5 16s4.25 9.5 9.5 9.5c5 0 9.1-3.8 9.5-8.7H16v-2.1h10c-.4-4.5-4.2-8.2-10-8.2z" fill="#FFF"/></svg>
+        <span class="font-semibold text-white">Base</span>
       </div>
-      <div>
-        <span>MEV Shield: <strong class="text-emerald-400 font-bold">100% Protected</strong></span>
-      </div>
-    </div>
 
-    <!-- Header Actions -->
-    <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-      <a href="referral.html" class="bg-indigo-500/15 hover:bg-indigo-500/25 border border-indigo-500/30 text-indigo-300 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-        <span>👥</span>
-        <span>Earn 30%</span>
-      </a>
-      <a href="store.html" class="hidden sm:flex bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition items-center gap-1.5 shrink-0 whitespace-nowrap">
-        <span>👑</span>
-        <span>Alpha Store</span>
-      </a>
-      <button id="connectWalletBtn" onclick="connectWallet()" class="bg-cyan-500 hover:bg-cyan-400 active:scale-95 text-slate-950 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition shadow-md shadow-cyan-500/20 shrink-0 whitespace-nowrap">
+      <!-- Connect Wallet Button -->
+      <button id="connectWalletBtn" onclick="connectWallet()" class="bg-[#0052FF] hover:bg-[#0045D8] active:scale-95 text-white font-semibold px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm transition shadow-sm whitespace-nowrap">
         Connect Wallet
       </button>
+
     </div>
   </header>
 
-  <!-- Referral Active Banner (Shows if user clicked an affiliate link) -->
-  <div id="referralBadge" class="hidden bg-gradient-to-r from-indigo-950/80 via-slate-900 to-indigo-950/80 border-b border-indigo-500/40 py-2 px-3 text-xs text-indigo-200 text-center font-mono">
-    🤝 <strong>Referral Partner Active:</strong> You were invited by <code id="referrerIdDisplay" class="bg-indigo-900/60 px-1.5 py-0.5 rounded text-white font-bold">...</code> · Zero Extra Slippage Guaranteed
+  <!-- Referral Active Banner (Shows if user arrived with an affiliate link) -->
+  <div id="referralBadge" class="hidden bg-[#0F1424] border-b border-indigo-500/30 py-2 px-3 text-xs text-indigo-200 text-center font-mono">
+    🤝 <strong>Invited by Partner:</strong> <code id="referrerIdDisplay" class="bg-indigo-900/40 px-1.5 py-0.5 rounded text-white font-bold">...</code> · Zero Extra Slippage Guaranteed
   </div>
 
-  <!-- Main Swap Terminal -->
-  <main class="flex-1 flex flex-col items-center justify-center px-3 sm:px-4 py-4 sm:py-8 relative z-10">
+  <!-- ========================================================================= -->
+  <!-- MAIN TERMINAL AREA                                                        -->
+  <!-- ========================================================================= -->
+  <main class="flex-1 flex flex-col items-center justify-center px-3.5 sm:px-4 py-4 sm:py-8 relative z-10">
 
-    <!-- Mobile Telegram App Callout Banner -->
-    <a href="https://t.me/NetSwapBaseBot" target="_blank" class="w-full max-w-md mb-4 bg-gradient-to-r from-cyan-950/90 via-slate-900 to-blue-950/90 border border-cyan-500/40 hover:border-cyan-400 rounded-2xl p-3 flex items-center justify-between text-xs transition shadow-xl shadow-cyan-950/40 active:scale-[0.99]">
-      <div class="flex items-center gap-2.5">
-        <span class="text-xl">🤖</span>
-        <div>
-          <div class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5">
-            Trade inside Telegram <span class="bg-cyan-500 text-slate-950 text-[10px] px-1.5 py-0.2 rounded font-bold uppercase">1-Tap</span>
-          </div>
-          <div class="text-[11px] text-cyan-300">Open @NetSwapBaseBot · Zero slippage · Buy alerts</div>
-        </div>
+    <!-- Compact Telegram Announcement Pill -->
+    <a href="https://t.me/NetSwapBaseBot" target="_blank" class="w-full max-w-[460px] mb-3 py-2 px-3.5 rounded-2xl bg-[#101522]/90 hover:bg-[#151D2E] border border-[#1B2336] flex items-center justify-between text-xs transition group shadow-sm active:scale-[0.99]">
+      <div class="flex items-center gap-2 text-slate-300">
+        <span class="flex h-2 w-2 rounded-full bg-[#00D2FF] animate-pulse"></span>
+        <span class="font-medium text-[11px] sm:text-xs">Prefer mobile Telegram?</span>
+        <span class="bg-[#0052FF]/20 text-[#38BDF8] text-[10px] font-mono px-1.5 py-0.5 rounded font-bold">@NetSwapBaseBot</span>
       </div>
-      <span class="bg-cyan-500 text-slate-950 px-2.5 py-1 rounded-xl font-bold text-xs shrink-0 shadow">Open ➔</span>
+      <span class="text-slate-400 group-hover:text-white text-xs font-bold transition">Open ➔</span>
     </a>
 
-    <!-- Universal DEX Swap Card -->
-    <div class="w-full max-w-md bg-slate-900/90 border border-slate-800 rounded-3xl p-4 sm:p-6 shadow-2xl backdrop-blur-2xl relative">
+    <!-- Universal Swap Terminal Card -->
+    <div class="w-full max-w-[460px] bg-[#101522] border border-[#1A2337] rounded-3xl p-4 sm:p-5 shadow-2xl backdrop-blur-2xl relative">
       
-      <!-- Top Title & Slip Badge -->
-      <div class="flex items-center justify-between mb-3.5 pb-2 border-b border-slate-800/80">
+      <!-- Top Title & Slippage Header -->
+      <div class="flex items-center justify-between mb-3.5 pb-2.5 border-b border-[#161D2E]">
         <div class="flex items-center gap-2">
-          <span class="text-sm font-bold text-white tracking-wide">P2P Swap Terminal</span>
-          <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold px-2 py-0.5 rounded-full font-mono">0% Slippage</span>
+          <span class="text-base font-bold text-white tracking-tight">Swap</span>
+          <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold px-2 py-0.5 rounded-full font-mono">0.00% Slippage</span>
         </div>
-        <div class="flex items-center gap-1 text-[11px] text-slate-400 font-mono">
-          <span>Shield:</span>
-          <span class="text-cyan-400 font-bold">Anti-MEV</span>
-        </div>
-      </div>
-
-      <!-- Quick Asset Filter Pills -->
-      <div class="mb-3">
-        <div class="text-[11px] font-semibold text-slate-400 mb-1.5 flex items-center justify-between">
-          <span>Popular Base Assets:</span>
-          <span class="text-[10px] text-slate-500">Click to pair</span>
-        </div>
-        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
-          <button onclick="selectQuickAsset('USDC')" data-symbol="USDC" class="token-pill px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-xs font-mono font-bold shrink-0">$USDC</button>
-          <button onclick="selectQuickAsset('NETSWAP')" data-symbol="NETSWAP" class="token-pill px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-xs font-mono font-bold shrink-0">⚡ $NETSWAP</button>
-          <button onclick="selectQuickAsset('VIRTUAL')" data-symbol="VIRTUAL" class="token-pill px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-xs font-mono font-bold shrink-0">$VIRTUAL</button>
-          <button onclick="selectQuickAsset('BRETT')" data-symbol="BRETT" class="token-pill px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-xs font-mono font-bold shrink-0">$BRETT</button>
-          <button onclick="selectQuickAsset('AERO')" data-symbol="AERO" class="token-pill px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-xs font-mono font-bold shrink-0">$AERO</button>
-          <button onclick="selectQuickAsset('DEGEN')" data-symbol="DEGEN" class="token-pill px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 text-xs font-mono font-bold shrink-0">$DEGEN</button>
-        </div>
-      </div>
-
-      <!-- PAY CONTAINER (Token In) -->
-      <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-3.5 sm:p-4 mb-1 hover:border-slate-700 transition">
-        <div class="flex items-center justify-between text-xs text-slate-400 mb-1.5">
-          <span class="font-medium">You Pay</span>
-          <div class="flex items-center gap-1 font-mono text-[11px]">
-            <span id="tokenInBalance" class="text-slate-400">Balance: 0.00</span>
-            <button onclick="setAmountPercent(0.25)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">25%</button>
-            <button onclick="setAmountPercent(0.50)" class="px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">50%</button>
-            <button onclick="setAmountPercent(1.0)" class="px-1.5 py-0.5 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 font-bold border border-cyan-500/40">MAX</button>
-          </div>
-        </div>
-        <div class="flex items-center justify-between gap-3">
-          <input 
-            type="number" 
-            id="amountIn" 
-            placeholder="0.0" 
-            oninput="calculateNetOutput()" 
-            class="bg-transparent text-2xl sm:text-3xl font-black text-white focus:outline-none w-2/3 font-mono placeholder-slate-600"
-          >
-          <button onclick="openTokenModal('IN')" class="bg-slate-800/90 hover:bg-slate-700 border border-slate-700/80 px-3 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition shrink-0 shadow">
-            <span id="tokenInIcon" class="text-base sm:text-lg">🔷</span>
-            <span id="tokenInSymbol" class="text-white font-mono">ETH</span>
-            <span class="text-[10px] text-slate-400">▼</span>
+        
+        <div class="flex items-center gap-2">
+          <span class="text-[11px] text-slate-400 font-mono hidden sm:inline">Anti-MEV Active</span>
+          <button title="Settings" class="p-1.5 rounded-xl hover:bg-[#172033] text-slate-400 hover:text-white transition">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           </button>
         </div>
       </div>
 
-      <!-- SEAMLESS FLIP BUTTON -->
-      <div class="flex justify-center -my-3 relative z-20">
+      <!-- Quick Popular Assets Filter Pills -->
+      <div class="mb-3.5">
+        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
+          <button onclick="selectQuickAsset('USDC')" data-symbol="USDC" class="token-pill px-3 py-1.5 rounded-xl bg-[#141A28] border border-[#1F293D] text-slate-300 text-xs font-semibold shrink-0">USDC</button>
+          <button onclick="selectQuickAsset('ETH')" data-symbol="ETH" class="token-pill px-3 py-1.5 rounded-xl bg-[#141A28] border border-[#1F293D] text-slate-300 text-xs font-semibold shrink-0">ETH</button>
+          <button onclick="selectQuickAsset('AERO')" data-symbol="AERO" class="token-pill px-3 py-1.5 rounded-xl bg-[#141A28] border border-[#1F293D] text-slate-300 text-xs font-semibold shrink-0">AERO</button>
+          <button onclick="selectQuickAsset('VIRTUAL')" data-symbol="VIRTUAL" class="token-pill px-3 py-1.5 rounded-xl bg-[#141A28] border border-[#1F293D] text-slate-300 text-xs font-semibold shrink-0">VIRTUAL</button>
+          <button onclick="selectQuickAsset('BRETT')" data-symbol="BRETT" class="token-pill px-3 py-1.5 rounded-xl bg-[#141A28] border border-[#1F293D] text-slate-300 text-xs font-semibold shrink-0">BRETT</button>
+          <button onclick="selectQuickAsset('DEGEN')" data-symbol="DEGEN" class="token-pill px-3 py-1.5 rounded-xl bg-[#141A28] border border-[#1F293D] text-slate-300 text-xs font-semibold shrink-0">DEGEN</button>
+        </div>
+      </div>
+
+      <!-- PAY CONTAINER (Token In) -->
+      <div class="bg-[#090C13] border border-[#182133] rounded-2xl p-3.5 sm:p-4 hover:border-[#222E47] transition">
+        <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+          <span class="font-medium">You pay</span>
+          <div class="flex items-center gap-1.5 font-mono text-[11px]">
+            <span id="tokenInBalance" class="text-slate-400">Balance: --</span>
+            <button onclick="setAmountPercent(1.0)" class="px-1.5 py-0.5 rounded bg-[#161E30] hover:bg-[#202B45] text-[#38BDF8] font-bold text-[10px] transition">MAX</button>
+          </div>
+        </div>
+        
+        <div class="flex items-center justify-between gap-3">
+          <input 
+            type="text" 
+            inputmode="decimal" 
+            autocomplete="off" 
+            id="amountIn" 
+            placeholder="0" 
+            oninput="calculateNetOutput()" 
+            class="bg-transparent text-2xl sm:text-3xl font-bold text-white focus:outline-none w-full font-mono placeholder-slate-600"
+          >
+          <button onclick="openTokenModal('IN')" class="bg-[#141A28] hover:bg-[#1A2338] border border-[#202A3F] px-3 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition shrink-0 shadow-sm">
+            <div id="tokenInIconWrap" class="w-6 h-6 flex items-center justify-center shrink-0"></div>
+            <span id="tokenInSymbol" class="text-white font-mono font-bold">ETH</span>
+            <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </button>
+        </div>
+
+        <div id="amountInUsd" class="text-xs text-slate-500 font-mono mt-1.5">$0.00</div>
+      </div>
+
+      <!-- SEAMLESS REVERSE / FLIP BUTTON -->
+      <div class="flex justify-center -my-2.5 relative z-20">
         <button 
           id="flipTokensBtn" 
           onclick="flipTokens()" 
           title="Switch Tokens" 
-          class="bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 active:scale-90 border-2 border-slate-900 p-2.5 rounded-full transition shadow-lg text-cyan-400"
+          class="w-9 h-9 rounded-xl bg-[#141A28] hover:bg-[#0052FF] hover:text-white active:scale-90 border-2 border-[#101522] flex items-center justify-center transition shadow-md text-slate-300"
         >
           <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
@@ -174,142 +176,174 @@
       </div>
 
       <!-- RECEIVE CONTAINER (Token Out) -->
-      <div class="bg-slate-950/80 border border-slate-800/90 rounded-2xl p-3.5 sm:p-4 mt-1 mb-4 hover:border-slate-700 transition">
-        <div class="flex items-center justify-between text-xs text-slate-400 mb-1.5">
-          <span class="font-medium">You Receive (Netted Fair Value)</span>
-          <span id="tokenOutBalance" class="font-mono text-[11px] text-slate-400">Balance: 0.00</span>
+      <div class="bg-[#090C13] border border-[#182133] rounded-2xl p-3.5 sm:p-4 hover:border-[#222E47] transition">
+        <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+          <span class="font-medium">You receive</span>
+          <span id="tokenOutBalance" class="font-mono text-[11px] text-slate-400">Balance: --</span>
         </div>
+
         <div class="flex items-center justify-between gap-3">
           <input 
             type="text" 
             id="amountOut" 
-            placeholder="0.0" 
+            placeholder="0" 
             readonly 
-            class="bg-transparent text-2xl sm:text-3xl font-black text-emerald-400 focus:outline-none w-2/3 font-mono placeholder-slate-600"
+            class="bg-transparent text-2xl sm:text-3xl font-bold text-emerald-400 focus:outline-none w-full font-mono placeholder-slate-600"
           >
-          <button onclick="openTokenModal('OUT')" class="bg-slate-800/90 hover:bg-slate-700 border border-slate-700/80 px-3 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition shrink-0 shadow">
-            <span id="tokenOutIcon" class="text-base sm:text-lg">💵</span>
-            <span id="tokenOutSymbol" class="text-white font-mono">USDC</span>
-            <span class="text-[10px] text-slate-400">▼</span>
+          <button onclick="openTokenModal('OUT')" class="bg-[#141A28] hover:bg-[#1A2338] border border-[#202A3F] px-3 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition shrink-0 shadow-sm">
+            <div id="tokenOutIconWrap" class="w-6 h-6 flex items-center justify-center shrink-0"></div>
+            <span id="tokenOutSymbol" class="text-white font-mono font-bold">USDC</span>
+            <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </button>
+        </div>
+
+        <div class="flex items-center justify-between mt-1.5 text-xs font-mono">
+          <span id="amountOutUsd" class="text-slate-500">$0.00</span>
+          <span class="text-emerald-400 font-medium">0.00% AMM Slippage</span>
         </div>
       </div>
 
-      <!-- Savings & AMM Comparison Box -->
-      <div class="bg-emerald-950/30 border border-emerald-500/30 rounded-2xl p-3 mb-4 text-xs text-emerald-300 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="text-emerald-400 text-base">🛡️</span>
-          <span>Estimated Savings vs Uniswap:</span>
+      <!-- Compact Routing & Exchange Rate Strip -->
+      <div class="mt-3.5 p-3 rounded-2xl bg-[#090C13]/70 border border-[#182133] text-xs font-mono">
+        <div class="flex items-center justify-between text-slate-300">
+          <span id="exchangeRateText" class="flex items-center gap-1.5 cursor-pointer hover:text-white" onclick="toggleRateDisplay()">
+            1 ETH = 3,200.00 USDC
+          </span>
+          <span class="text-emerald-400 flex items-center gap-1">⛽ &lt;$0.01</span>
         </div>
-        <span id="estimatedSavings" class="font-mono font-bold text-sm text-emerald-400">+$0.00</span>
+        
+        <div class="mt-2 pt-2 border-t border-[#141A28] flex items-center justify-between text-[11px] text-slate-400">
+          <span class="flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>Batch Netting Protocol</span>
+          </span>
+          <span id="estimatedSavings" class="text-emerald-400 font-bold">+$0.00 Saved</span>
+        </div>
       </div>
 
       <!-- Action Button -->
       <button 
         id="actionBtn" 
-        onclick="submitNetOrder()" 
-        class="w-full bg-gradient-to-r from-cyan-500 via-teal-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 active:scale-98 text-slate-950 py-3.5 rounded-2xl font-black text-sm sm:text-base transition shadow-lg shadow-cyan-500/25"
+        onclick="connectWallet()" 
+        class="mt-4 w-full py-4 rounded-2xl font-bold text-sm sm:text-base transition bg-[#0052FF] hover:bg-[#0045D8] active:scale-[0.99] text-white shadow-lg shadow-blue-500/20"
       >
-        Swap ETH for USDC
+        Connect Wallet
       </button>
 
-      <div class="flex items-center justify-between mt-3 text-[11px] text-slate-500 font-mono">
-        <span>Continuous 2.0s Netting</span>
-        <button onclick="simulateDemoBatchNetting()" class="text-cyan-400 hover:underline font-bold">Try Interactive Simulation ➔</button>
-      </div>
-
-    </div>
-
-    <!-- Batch Visualizer Widget -->
-    <div class="w-full max-w-md mt-4 bg-slate-900/60 border border-slate-800/80 rounded-3xl p-4 text-xs">
-      <div class="flex items-center justify-between pb-2.5 border-b border-slate-800/80 mb-2.5">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
-          <span class="font-bold text-white text-[11px] uppercase tracking-wide">Continuous Netting Window</span>
-        </div>
-        <div class="font-mono text-[11px] text-cyan-300 bg-cyan-500/10 px-2 py-0.5 rounded-lg border border-cyan-500/20">
-          <span>Batch:</span>
-          <strong id="batchCountdown" class="text-white">2.0s</strong>
+      <!-- Trust & Telemetry Subtext -->
+      <div class="mt-3 flex items-center justify-between text-[11px] text-slate-500 font-mono px-1">
+        <span class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          MEV Shield Active
+        </span>
+        <div class="flex items-center gap-1 text-slate-400">
+          <span>Micro-Batch:</span>
+          <strong id="batchCountdown" class="text-white font-bold">2.0s</strong>
         </div>
       </div>
-      <p class="text-[11px] text-slate-400 leading-relaxed">
-        Trades are coalesced every 2 seconds. Counterparty orders match at mid-market with <strong>0% price impact</strong>. Unmatched volume executes privately without mempool sandwich risk.
-      </p>
+
     </div>
 
   </main>
 
   <!-- ========================================================================= -->
-  <!-- TOKEN SELECTOR MODAL                                                      -->
+  <!-- TOKEN SELECTOR MODAL (SHEET ON MOBILE, MODAL ON DESKTOP)                  -->
   <!-- ========================================================================= -->
-  <div id="tokenSelectorModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 max-w-sm w-full shadow-2xl relative">
+  <div id="tokenSelectorModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="bg-[#0F1420] border border-[#1A2337] rounded-t-3xl sm:rounded-3xl p-5 max-w-sm w-full shadow-2xl relative max-h-[85vh] flex flex-col">
       <div class="flex items-center justify-between mb-3.5">
         <h3 class="text-base font-bold text-white flex items-center gap-2">
-          <span>🪙</span> Select Token
+          Select Token
         </h3>
-        <button onclick="closeTokenModal()" class="text-slate-400 hover:text-white p-1">✕</button>
+        <button onclick="closeTokenModal()" class="text-slate-400 hover:text-white p-1 text-lg">✕</button>
       </div>
       
       <input 
         type="text" 
         id="tokenSearchInput" 
         oninput="renderTokenModalList(this.value)" 
-        placeholder="Search name or symbol (e.g. USDC, BRETT)..." 
-        class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 transition mb-3"
+        placeholder="Search token name or symbol..." 
+        class="w-full bg-[#080B11] border border-[#1C2538] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#0052FF] transition mb-3"
       >
 
-      <div id="tokenModalList" class="space-y-1.5 max-h-72 overflow-y-auto pr-1"></div>
+      <div id="tokenModalList" class="space-y-1.5 overflow-y-auto pr-1 flex-1"></div>
     </div>
   </div>
 
-  <!-- Wallet Connect Modal (Mobile / No Web3) -->
-  <div id="mobileWalletModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-sm w-full shadow-2xl relative">
+  <!-- ========================================================================= -->
+  <!-- WALLET CONNECT MODAL                                                      -->
+  <!-- ========================================================================= -->
+  <div id="walletConnectModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-[#0F1420] border border-[#1A2337] rounded-3xl p-6 max-w-sm w-full shadow-2xl relative">
       <div class="flex items-center justify-between mb-3">
         <h3 class="text-base font-bold text-white flex items-center gap-2">
-          <span>⚡</span> Connect to NetSwap
+          Connect to NetSwap
         </h3>
-        <button onclick="closeMobileModal()" class="text-slate-400 hover:text-white p-1">✕</button>
+        <button onclick="closeWalletModal()" class="text-slate-400 hover:text-white p-1">✕</button>
       </div>
       <p class="text-xs text-slate-400 mb-4 leading-relaxed">
-        Choose how you'd like to trade with 0% AMM slippage and Anti-MEV protection:
+        Trade on Base Mainnet with 0.00% AMM slippage and Anti-MEV protection:
       </p>
+      
       <div class="space-y-2">
-        <a href="https://t.me/NetSwapBaseBot" target="_blank" class="flex items-center justify-between p-3.5 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 border border-cyan-500/40 rounded-2xl transition">
+        <button onclick="connectWallet()" class="w-full flex items-center justify-between p-3.5 bg-[#141A28] hover:bg-[#1C2538] border border-[#202B42] rounded-2xl transition">
           <div class="flex items-center gap-3">
-            <span class="text-2xl">🤖</span>
-            <div>
-              <div class="text-sm font-bold text-white">Telegram Bot <span class="bg-cyan-500 text-slate-950 text-[9px] px-1.5 py-0.2 rounded font-bold uppercase">1-Tap</span></div>
-              <div class="text-[11px] text-slate-400">Zero popups · Instant mobile execution</div>
+            <svg class="w-6 h-6 text-[#0052FF]" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#0052FF"/><path d="M16 6.5C10.75 6.5 6.5 10.75 6.5 16s4.25 9.5 9.5 9.5c5 0 9.1-3.8 9.5-8.7H16v-2.1h10c-.4-4.5-4.2-8.2-10-8.2z" fill="#FFF"/></svg>
+            <div class="text-left">
+              <div class="text-sm font-bold text-white">Browser / Extension Wallet</div>
+              <div class="text-[11px] text-slate-400">MetaMask, Rabby, Coinbase</div>
             </div>
           </div>
-          <span class="text-cyan-400 text-lg">➔</span>
-        </a>
-        <button onclick="closeMobileModal(); simulateDemoBatchNetting();" class="w-full flex items-center justify-between p-3.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-2xl transition">
-          <div class="flex items-center gap-3">
-            <span class="text-2xl">🧪</span>
-            <div>
-              <div class="text-sm font-bold text-emerald-300">Interactive Demo</div>
-              <div class="text-[11px] text-slate-400">Simulate order netting in browser</div>
-            </div>
-          </div>
-          <span class="text-emerald-400 text-lg">➔</span>
+          <span class="text-slate-400 text-lg">➔</span>
         </button>
+
+        <a href="https://go.cb-w.com/dapp?cb_url=https%3A%2F%2Fnetswap.vercel.app" class="flex items-center justify-between p-3.5 bg-[#141A28] hover:bg-[#1C2538] border border-[#202B42] rounded-2xl transition">
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full bg-[#0052FF] flex items-center justify-center text-white font-bold text-xs">C</div>
+            <div class="text-left">
+              <div class="text-sm font-bold text-white">Coinbase Wallet App</div>
+              <div class="text-[11px] text-slate-400">Open in Mobile App</div>
+            </div>
+          </div>
+          <span class="text-slate-400 text-lg">➔</span>
+        </a>
+
+        <a href="https://metamask.app.link/dapp/netswap.vercel.app" class="flex items-center justify-between p-3.5 bg-[#141A28] hover:bg-[#1C2538] border border-[#202B42] rounded-2xl transition">
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-6 rounded-full bg-[#E2761B] flex items-center justify-center text-white font-bold text-xs">M</div>
+            <div class="text-left">
+              <div class="text-sm font-bold text-white">MetaMask Mobile</div>
+              <div class="text-[11px] text-slate-400">Open in Mobile App</div>
+            </div>
+          </div>
+          <span class="text-slate-400 text-lg">➔</span>
+        </a>
+
+        <a href="https://t.me/NetSwapBaseBot" target="_blank" class="flex items-center justify-between p-3.5 bg-[#0052FF]/10 hover:bg-[#0052FF]/20 border border-[#0052FF]/30 rounded-2xl transition">
+          <div class="flex items-center gap-3">
+            <span class="text-xl">🤖</span>
+            <div class="text-left">
+              <div class="text-sm font-bold text-white">Telegram 1-Tap Trading</div>
+              <div class="text-[11px] text-[#38BDF8]">@NetSwapBaseBot</div>
+            </div>
+          </div>
+          <span class="text-[#38BDF8] text-lg">➔</span>
+        </a>
       </div>
-      <button onclick="closeMobileModal()" class="w-full mt-4 py-2 bg-slate-800 text-slate-400 hover:text-white rounded-xl text-xs font-semibold">Dismiss</button>
+
+      <button onclick="closeWalletModal()" class="w-full mt-4 py-2.5 bg-[#141A28] text-slate-400 hover:text-white rounded-xl text-xs font-semibold">Dismiss</button>
     </div>
   </div>
 
   <!-- ========================================================================= -->
   <!-- UNIVERSAL MOBILE BOTTOM SAFE-AREA DOCK NAVIGATION                         -->
   <!-- ========================================================================= -->
-  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-2xl border-t border-slate-800/80 px-2 py-2 flex items-center justify-around shadow-2xl" style="padding-bottom: max(0.6rem, env(safe-area-inset-bottom));">
-    <a href="index.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 transition">
-      <svg class="w-5 h-5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0B0E17]/95 backdrop-blur-2xl border-t border-[#161D2B] px-2 py-2 flex items-center justify-around shadow-2xl" style="padding-bottom: max(0.6rem, env(safe-area-inset-bottom));">
+    <a href="index.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-white bg-[#141A28] border border-[#1E273A] transition">
+      <svg class="w-5 h-5 text-[#38BDF8]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 16V4M7 4L3 8M7 4L11 8M17 8V20M17 20L21 16M17 20L13 16"/></svg>
       <span class="text-[10px] font-bold">Swap</span>
     </a>
-    <a href="referral.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-indigo-400 hover:text-white transition">
+    <a href="referral.html" class="flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-slate-400 hover:text-white transition">
       <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       <span class="text-[10px] font-bold">Earn 30%</span>
     </a>
