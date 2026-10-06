@@ -1560,11 +1560,12 @@ class TelegramBot:
                             f"👛 <b>Checked Wallet:</b> <code>{ext_addr}</code>\n"
                             f"💎 <b>Current Holdings:</b> <code>{bal:,.0f} $NETSWAP</code>\n"
                             "🎯 <b>Required for VIP Access:</b> <code>100,000 $NETSWAP</code> (~$0.03)\n\n"
-                            "Acquire $NETSWAP on Uniswap to unlock the institutional radar:"
+                            "Acquire $NETSWAP on NetSwap to unlock the institutional radar:"
                         )
                         markup = {
                             "inline_keyboard": [
-                                [{"text": "🛒 Buy $NETSWAP on Uniswap ↗", "url": "https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6"}],
+                                [{"text": "⚡ Buy $NETSWAP on NetSwap ↗", "url": "https://netswap.vercel.app"}],
+                                [{"text": "📊 Live DexScreener Chart ↗", "url": "https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6"}],
                                 [{"text": "🔄 Check Again", "callback_data": "menu_arb"}]
                             ]
                         }
@@ -1947,7 +1948,8 @@ class TelegramBot:
             )
             markup = {
                 "inline_keyboard": [
-                    [{"text": "🛒 Buy $NETSWAP on Uniswap ↗", "url": "https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6"}],
+                    [{"text": "⚡ Buy $NETSWAP on NetSwap ↗", "url": "https://netswap.vercel.app"}],
+                    [{"text": "📊 Live DexScreener Chart ↗", "url": "https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6"}],
                     [{"text": "🔄 Verify My Holdings", "callback_data": "menu_arb"}],
                     [{"text": "🔙 Main Menu", "callback_data": "menu_main"}]
                 ]
