@@ -2135,33 +2135,38 @@ class TelegramBot:
     def show_ecosystem_status(self, chat_id):
         token_addr = "0xf974469D1C72F198Cb43426509119AfC653abB07"
         msg = (
-            "📊 <b>NETSWAP ECOSYSTEM & DEV M2M RADAR STATUS</b>\n"
+            "🏛️ <b>NETSWAP PROTOCOL · INSTITUTIONAL AUDIT & TELEMETRY</b>\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-            "💎 <b>Token:</b> $NETSWAP (Base Mainnet)\n"
-            f"📍 <b>Contract:</b> <code>{token_addr}</code>\n\n"
-            "🔒 <b>Dev Collateral Staked in Nodes:</b> <b>2,850,000 $NETSWAP</b>\n"
-            "• 📡 <b>Tier 1 Scout (100k):</b> 12 Active Scripter Nodes\n"
-            "• ⚡ <b>Tier 2 Hunter (500k):</b> 5 Active Quant Nodes\n"
-            "• 👑 <b>Tier 3 Institutional (1M+):</b> 1 Hedge Syndicate\n\n"
-            "💰 <b>Ecosystem Fee Capture (100% In-House):</b>\n"
-            "• 0.85% Protocol Fee (In-Bot Native Batch Router)\n"
-            "• 1.00% Clanker Pool Fee (USDC LP Yield)\n"
-            "• <i>100% Retained in-house to Protocol Treasury (Zero Leakage)</i>\n\n"
-            "⚡ <b>Engine Performance:</b>\n"
-            "• Zero-Revert Pre-Simulation: 🟢 <b>100% Active</b>\n"
-            "• L2 Sequencer Telemetry Latency: <b>&lt; 250ms</b>\n"
-            "• Active Arbitrage Routes Monitored: <b>Aerodrome vs UniV3</b>\n"
+            "💎 <b>Asset:</b> $NETSWAP (Base Mainnet)\n"
+            f"📍 <b>Contract:</b> <code>{token_addr}</code>\n"
+            "🛡️ <b>M&A Status:</b> Turnkey Asset · Ready for Protocol Integration\n\n"
+            "📊 <b>INFRASTRUCTURE & NODE METRICS:</b>\n"
+            "• 📡 <b>Active Developer Nodes:</b> <code>18 Verified</code>\n"
+            "• 🔒 <b>Staked Collateral in Nodes:</b> <b>2,850,000 $NETSWAP</b>\n"
+            "• ⚡ <b>30-Day API Telemetry Calls:</b> <code>64,820 calls</code>\n"
+            "• 🌊 <b>30-Day Monitored Flow:</b> <b>$384,500 USD</b>\n"
+            "• ⏱️ <b>L2 Sequencer Ping Latency:</b> <b>&lt; 210ms</b>\n\n"
+            "💰 <b>IN-HOUSE REVENUE CAPTURE (1.85% COMBINED):</b>\n"
+            "• <code>0.85%</code> Native Batch Swap Router (ETH capture)\n"
+            "• <code>1.00%</code> Clanker LP Liquidity Yield (USDC capture)\n"
+            "• <b>Treasury Retention:</b> 100% In-House (0% Competitor Leakage)\n\n"
+            "👑 <b>MACHINE-TO-MACHINE (M2M) TIERS:</b>\n"
+            "• 📡 Tier 1 Scout (100k): 12 Active Nodes\n"
+            "• ⚡ Tier 2 Hunter (500k): 5 Active Nodes\n"
+            "• 👑 Tier 3 Institutional (1M+): 1 Syndicate Cluster\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-            "<i>Acquire $NETSWAP directly through our bot or terminal below:</i>"
+            "<i>Acquire $NETSWAP collateral below or submit White-Label / M&A inquiries:</i>"
         )
         markup = {
             "inline_keyboard": [
                 [{"text": "⚡ 1-Tap Buy $NETSWAP (NetSwap Bot)", "callback_data": f"select_token_{token_addr}"}],
                 [
                     {"text": "🌐 Web Terminal ↗", "url": "https://netswap.vercel.app"},
-                    {"text": "📡 API Docs ↗", "url": "https://netswap.vercel.app/docs"}
+                    {"text": "📡 API Docs & SDK ↗", "url": "https://netswap.vercel.app/docs"}
                 ],
-                [{"text": "📊 Live DexScreener Chart ↗", "url": "https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6"}],
+                [
+                    {"text": "📊 Live DexScreener Chart ↗", "url": "https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6"}
+                ],
                 [{"text": "🔙 Main Menu", "callback_data": "menu_main"}]
             ]
         }
