@@ -1301,6 +1301,22 @@ class TelegramBot:
                     get_or_create_user(chat_id, username)
                     self.show_token_quote(chat_id, username, token_addr)
                     return
+                elif arg.startswith("rescue_"):
+                    token_addr = arg.replace("rescue_", "")
+                    if token_addr.lower() in ("netswap", "$netswap"):
+                        token_addr = "0xf974469D1C72F198Cb43426509119AfC653abB07"
+                    get_or_create_user(chat_id, username)
+                    rescue_toast = (
+                        "🚑 <b>NETSWAP ZERO-REVERT RESCUE ENGAGED</b>\n"
+                        "━━━━━━━━━━━━━━━━━━━━━━\n"
+                        "🛡️ <b>Pre-Simulation:</b> 100% Active\n"
+                        "⚡ <b>Slippage Optimization:</b> Dynamic Auto-Curve\n"
+                        "🚫 <b>Failed TX Gas Waste:</b> Eliminated\n\n"
+                        "<i>Select your buy amount below. Your transaction will route via NetSwap batch anti-MEV protection:</i>"
+                    )
+                    self.send_message(chat_id, rescue_toast)
+                    self.show_token_quote(chat_id, username, token_addr)
+                    return
                 elif arg in ("status", "ecosystem", "treasury"):
                     get_or_create_user(chat_id, username)
                     self.show_ecosystem_status(chat_id)
@@ -1528,6 +1544,33 @@ class TelegramBot:
                 return
 
             self.show_vip_info(chat_id)
+            return
+
+        if text.startswith("/rescue"):
+            parts = text.split()
+            if len(parts) > 1:
+                token_target = parts[1]
+                if token_target.lower() in ("netswap", "$netswap"):
+                    token_target = "0xf974469D1C72F198Cb43426509119AfC653abB07"
+                rescue_toast = (
+                    "🚑 <b>NETSWAP ZERO-REVERT RESCUE ENGAGED</b>\n"
+                    "━━━━━━━━━━━━━━━━━━━━━━\n"
+                    "🛡️ <b>Pre-Simulation:</b> 100% Active\n"
+                    "⚡ <b>Slippage Optimization:</b> Dynamic Auto-Curve\n"
+                    "🚫 <b>Failed TX Gas Waste:</b> Eliminated\n\n"
+                    "<i>Select your buy amount below. Your transaction will route via NetSwap batch anti-MEV protection:</i>"
+                )
+                self.send_message(chat_id, rescue_toast)
+                self.show_token_quote(chat_id, username, token_target)
+            else:
+                self.send_message(
+                    chat_id,
+                    "🚑 <b>NETSWAP ZERO-REVERT TRADE RESCUE</b>\n"
+                    "━━━━━━━━━━━━━━━━━━━━━━\n"
+                    "Did your swap fail or revert on Uniswap, Aerodrome, or Trojan?\n\n"
+                    "Send <code>/rescue [Token Address]</code> to route with 0% revert pre-simulation and direct anti-MEV protection!\n\n"
+                    "Example: <code>/rescue 0xf974469D1C72F198Cb43426509119AfC653abB07</code>"
+                )
             return
 
         if text in ["/status", "/stats", "/ecosystem", "/treasury", "/nodes"]:
