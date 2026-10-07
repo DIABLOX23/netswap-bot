@@ -4114,19 +4114,25 @@ def start_group_alert_monitor(bot):
                         amount_token = raw_val / (10 ** decimals)
 
                         if amount_token > 1.0:
+                            tx_h = log.get("transactionHash", b"").hex() if hasattr(log.get("transactionHash", b""), "hex") else str(log.get("transactionHash", ""))
+                            tx_link = f"https://basescan.org/tx/{tx_h}" if tx_h else f"https://basescan.org/token/{token_addr}"
                             alert_msg = (
-                                f"🟢🟢🟢 <b>{symbol} BUY ON BASE!</b>\n"
+                                f"🚨 <b>WHALE ALERT (2m delay)</b>\n"
                                 "━━━━━━━━━━━━━━━━━━━━━━\n"
-                                f"💰 <b>Bought:</b> <code>{amount_token:,.1f} {symbol}</code>\n"
+                                f"🐋 <b>Target:</b> ${symbol} (Base Mainnet)\n"
+                                f"💰 <b>Volume:</b> <code>{amount_token:,.1f} {symbol}</code>\n"
                                 "🛡️ <b>MEV Sandwich Shield:</b> 🟢 <b>100% PROTECTED</b>\n"
-                                "⚡ <b>Estimated AMM Slippage Saved:</b> <b>+3.4%</b>\n"
+                                f"🔗 <a href='{tx_link}'>View on BaseScan ↗</a>\n\n"
+                                "🔓 <b>Want this alert in REAL-TIME (0s latency)?</b>\n"
+                                "Hold <b>500,000 $NETSWAP</b> to unlock Tier 2 Whale Hunter & Flash-Arb feeds!\n"
                                 "━━━━━━━━━━━━━━━━━━━━━━\n"
-                                f"👇 <b>Trade ${symbol} with Zero AMM Slippage:</b>"
+                                f"👇 <b>Trade ${symbol} or Unlock Real-Time:</b>"
                             )
                             markup = {
                                 "inline_keyboard": [
                                     [{"text": f"⚡ 1-Click Buy ${symbol} on NetSwap", "url": f"https://t.me/NetSwapBaseBot?start=buy_{token_addr}"}],
-                                    [{"text": "📢 Sponsor This Alert (0.1 ETH)", "url": "https://t.me/NetSwapBaseBot?start=sponsor"}]
+                                    [{"text": "👑 Unlock Real-Time (Buy $NETSWAP)", "url": "https://t.me/NetSwapBaseBot?start=buy_NETSWAP"}],
+                                    [{"text": "📊 Ecosystem Status (/status)", "url": "https://t.me/NetSwapBaseBot?start=status"}]
                                 ]
                             }
                             bot.send_message(chat_id, alert_msg, markup)
