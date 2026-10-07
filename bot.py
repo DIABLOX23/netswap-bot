@@ -1273,9 +1273,10 @@ class TelegramBot:
                 ],
                 [
                     {"text": "💳 Wallets", "callback_data": "menu_wallet"},
-                    {"text": "🌐 Web Terminal ↗", "url": "https://netswap.vercel.app"}
+                    {"text": "📊 Status & API", "callback_data": "menu_status"}
                 ],
                 [
+                    {"text": "🌐 Web Terminal ↗", "url": "https://netswap.vercel.app"},
                     {"text": "🔄 Refresh", "callback_data": "menu_refresh"}
                 ]
             ]
@@ -1295,8 +1296,14 @@ class TelegramBot:
                     ref_arg = arg
                 elif arg.startswith("buy_"):
                     token_addr = arg.replace("buy_", "")
+                    if token_addr.lower() in ("netswap", "$netswap"):
+                        token_addr = "0xf974469D1C72F198Cb43426509119AfC653abB07"
                     get_or_create_user(chat_id, username)
                     self.show_token_quote(chat_id, username, token_addr)
+                    return
+                elif arg in ("status", "ecosystem", "treasury"):
+                    get_or_create_user(chat_id, username)
+                    self.show_ecosystem_status(chat_id)
                     return
                 elif arg == "sponsor":
                     get_or_create_user(chat_id, username)
@@ -1523,8 +1530,8 @@ class TelegramBot:
             self.show_vip_info(chat_id)
             return
 
-        if text.startswith("/sponsor") or text.startswith("/ad") or text.startswith("/ads"):
-            self.show_sponsor_info(chat_id)
+        if text in ["/status", "/stats", "/ecosystem", "/treasury", "/nodes"]:
+            self.show_ecosystem_status(chat_id)
             return
 
         if text.startswith("/link"):
@@ -1730,7 +1737,9 @@ class TelegramBot:
                         self.execute_solana_buy(chat_id, q["mint"], amt)
                     return
                 except ValueError:
-                    if arg.startswith("0x") and len(arg) == 42:
+                    if arg.lower() in ("netswap", "$netswap"):
+                        self.show_token_quote(chat_id, username, "0xf974469D1C72F198Cb43426509119AfC653abB07")
+                    elif arg.startswith("0x") and len(arg) == 42:
                         self.show_token_quote(chat_id, username, arg)
                     elif 32 <= len(arg) <= 44:
                         self.show_solana_token_quote(chat_id, username, arg)
@@ -1742,8 +1751,22 @@ class TelegramBot:
                 token_target = None
                 amt = None
 
-                # Support both /buy <address> <amount> AND /buy <amount> <address>
-                if (p1.startswith("0x") and len(p1) == 42) or (32 <= len(p1) <= 44):
+                # Support both /buy <address> <amount> AND /buy <amount> <address>, plus netswap symbol
+                if p1.lower() in ("netswap", "$netswap"):
+                    token_target = "0xf974469D1C72F198Cb43426509119AfC653abB07"
+                    try:
+                        amt = float(p2)
+                    except ValueError:
+                        self.send_message(chat_id, f"❌ Invalid amount: <code>{p2}</code>")
+                        return
+                elif p2.lower() in ("netswap", "$netswap"):
+                    token_target = "0xf974469D1C72F198Cb43426509119AfC653abB07"
+                    try:
+                        amt = float(p1)
+                    except ValueError:
+                        self.send_message(chat_id, f"❌ Invalid amount: <code>{p1}</code>")
+                        return
+                elif (p1.startswith("0x") and len(p1) == 42) or (32 <= len(p1) <= 44):
                     token_target = p1
                     try:
                         amt = float(p2)
@@ -2105,6 +2128,41 @@ class TelegramBot:
         markup = {
             "inline_keyboard": [
                 [{"text": "🔙 Back to Main Menu", "callback_data": "menu_main"}]
+            ]
+        }
+        self.send_message(chat_id, msg, markup)
+
+    def show_ecosystem_status(self, chat_id):
+        token_addr = "0xf974469D1C72F198Cb43426509119AfC653abB07"
+        msg = (
+            "📊 <b>NETSWAP ECOSYSTEM & DEV M2M RADAR STATUS</b>\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "💎 <b>Token:</b> $NETSWAP (Base Mainnet)\n"
+            f"📍 <b>Contract:</b> <code>{token_addr}</code>\n\n"
+            "🔒 <b>Dev Collateral Staked in Nodes:</b> <b>2,850,000 $NETSWAP</b>\n"
+            "• 📡 <b>Tier 1 Scout (100k):</b> 12 Active Scripter Nodes\n"
+            "• ⚡ <b>Tier 2 Hunter (500k):</b> 5 Active Quant Nodes\n"
+            "• 👑 <b>Tier 3 Institutional (1M+):</b> 1 Hedge Syndicate\n\n"
+            "💰 <b>Ecosystem Fee Capture (100% In-House):</b>\n"
+            "• 0.85% Protocol Fee (In-Bot Native Batch Router)\n"
+            "• 1.00% Clanker Pool Fee (USDC LP Yield)\n"
+            "• <i>100% Retained in-house to Protocol Treasury (Zero Leakage)</i>\n\n"
+            "⚡ <b>Engine Performance:</b>\n"
+            "• Zero-Revert Pre-Simulation: 🟢 <b>100% Active</b>\n"
+            "• L2 Sequencer Telemetry Latency: <b>&lt; 250ms</b>\n"
+            "• Active Arbitrage Routes Monitored: <b>Aerodrome vs UniV3</b>\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "<i>Acquire $NETSWAP directly through our bot or terminal below:</i>"
+        )
+        markup = {
+            "inline_keyboard": [
+                [{"text": "⚡ 1-Tap Buy $NETSWAP (NetSwap Bot)", "callback_data": f"select_token_{token_addr}"}],
+                [
+                    {"text": "🌐 Web Terminal ↗", "url": "https://netswap.vercel.app"},
+                    {"text": "📡 API Docs ↗", "url": "https://netswap.vercel.app/docs"}
+                ],
+                [{"text": "📊 Live DexScreener Chart ↗", "url": "https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6"}],
+                [{"text": "🔙 Main Menu", "callback_data": "menu_main"}]
             ]
         }
         self.send_message(chat_id, msg, markup)
@@ -2508,6 +2566,9 @@ class TelegramBot:
         self.send_message(chat_id, msg, markup)
 
     def show_token_quote(self, chat_id, username, token_address):
+        if token_address.lower() in ("netswap", "$netswap"):
+            token_address = "0xf974469D1C72F198Cb43426509119AfC653abB07"
+
         token = fetch_token_info(token_address)
         if not token["valid"]:
             self.send_message(
@@ -2523,13 +2584,26 @@ class TelegramBot:
 
         USER_ACTIVE_QUOTE[chat_id] = {"chain": "base", "address": token['address'], "symbol": token['symbol']}
 
+        is_netswap = token['address'].lower() == "0xf974469D1C72F198Cb43426509119AfC653abB07".lower()
+        extra_utility = ""
+        if is_netswap:
+            extra_utility = (
+                "👑 <b>PROTOCOL UTILITY & BOT ACCESS COLLATERAL</b>\n"
+                "• 📡 <b>Tier 1 Scout (100k):</b> 50 calls/day API telemetry\n"
+                "• ⚡ <b>Tier 2 Hunter (500k):</b> Flash-Arb radar feeds\n"
+                "• 👑 <b>Tier 3 Inst. (1M+):</b> Real-time 0s mempool access\n"
+                "• 💰 <b>Double-Dip Retention:</b> 0.85% NetSwap + 1.00% Clanker Yield\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            )
+
         msg = (
             f"🔷 <b>${token['symbol']} // {token['name']}</b>\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             f"📍 <code>{token['address']}</code>\n\n"
+            f"{extra_utility}"
             f"🛡️ <b>Safety Score:</b> {sec['badge']}\n"
             f"🔒 <b>Anti-MEV Shield:</b> 🟢 Active (Private Relay)\n"
-            f"⚡ <b>Execution Fee:</b> <code>0.50%</code> <i>(Half of competitor bots)</i>\n"
+            f"⚡ <b>Execution Fee:</b> <code>0.85%</code> <i>(Native batch settlement)</i>\n"
             f"💳 <b>Base Balance:</b> <code>{balance:.4f} ETH</code> (~${balance * 3200:.2f})\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "⚡ <b>Select Buy Preset:</b>"
@@ -3512,6 +3586,10 @@ class TelegramBot:
         if data in ["menu_main", "menu_refresh"]:
             caption, markup = self.build_main_menu(chat_id, username)
             self.send_message(chat_id, caption, markup)
+            return
+
+        if data in ["menu_status", "status"]:
+            self.show_ecosystem_status(chat_id)
             return
 
         if data == "menu_clanker":
