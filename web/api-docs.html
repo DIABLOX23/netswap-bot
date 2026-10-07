@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetSwap M2M Developer API — Base Whale & Flash-Arb Oracle</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #07090E; color: #F8FAFC; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .code-block { background: #0D111A; border: 1px solid #1E293B; border-radius: 12px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+  <!-- Header -->
+  <header class="border-b border-slate-800 bg-[#0B0F17]/80 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">N</div>
+          <span class="font-bold text-lg tracking-tight">NetSwap <span class="text-xs px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 font-mono border border-blue-500/20 ml-1">M2M ORACLE</span></span>
+        </a>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="/" class="text-xs text-slate-400 hover:text-white transition">Web Terminal</a>
+        <a href="https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6" target="_blank" class="text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/20 hover:bg-emerald-500/20 transition font-mono">
+          $NETSWAP Chart ↗
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-5xl mx-auto px-4 py-12 flex-1 w-full">
+    <!-- Hero Banner -->
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-4">
+        <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+        Zero-Fiat · Token-Gated B2B Data Infrastructure
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+        Institutional Whale & Arbitrage API on <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">Base</span>
+      </h1>
+      <p class="text-slate-400 max-w-2xl mx-auto text-sm sm:text-base">
+        Sub-second machine-to-machine telemetry for automated trading bots and DeFi algorithms. No credit cards, no SaaS invoices. Simply hold <span class="text-cyan-400 font-mono font-semibold">100,000 $NETSWAP</span> in your server wallet.
+      </p>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+      <div class="p-4 rounded-xl bg-[#0F1420] border border-slate-800">
+        <div class="text-xs font-mono text-slate-400 mb-1">LATENCY</div>
+        <div class="text-2xl font-bold font-mono text-emerald-400">< 250ms</div>
+        <div class="text-[11px] text-slate-500">Direct Base L2 Sequencer Sync</div>
+      </div>
+      <div class="p-4 rounded-xl bg-[#0F1420] border border-slate-800">
+        <div class="text-xs font-mono text-slate-400 mb-1">AUTHENTICATION</div>
+        <div class="text-2xl font-bold font-mono text-blue-400">Onchain Gate</div>
+        <div class="text-[11px] text-slate-500">Hold 100k $NETSWAP Collateral</div>
+      </div>
+      <div class="p-4 rounded-xl bg-[#0F1420] border border-slate-800">
+        <div class="text-xs font-mono text-slate-400 mb-1">COST / SUBSCRIPTION</div>
+        <div class="text-2xl font-bold font-mono text-purple-400">$0 / month</div>
+        <div class="text-[11px] text-slate-500">Permanent Token-Locked Access</div>
+      </div>
+    </div>
+
+    <!-- Endpoints -->
+    <div class="space-y-8 mb-12">
+      <!-- Endpoint 1 -->
+      <div class="p-6 rounded-2xl bg-[#0B0F17] border border-slate-800">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 text-xs font-mono font-bold bg-blue-500/20 text-blue-400 rounded">GET</span>
+            <span class="font-mono text-sm font-semibold">/api/whales</span>
+          </div>
+          <span class="text-xs text-slate-400 font-mono">Real-Time Whale Accumulation</span>
+        </div>
+        <p class="text-xs text-slate-400 mb-4">
+          Streams smart-money buy entries ($100k+ volume) detected across Base AMMs with AMM slippage savings metrics.
+        </p>
+        <div class="code-block p-4 font-mono text-xs text-slate-300 overflow-x-auto">
+<pre><span class="text-slate-500"># Header: X-Wallet-Address (must hold 100k $NETSWAP)</span>
+curl -H "X-Wallet-Address: 0xYourServerWallet" https://netswap.vercel.app/api/whales</pre>
+        </div>
+      </div>
+
+      <!-- Endpoint 2 -->
+      <div class="p-6 rounded-2xl bg-[#0B0F17] border border-slate-800">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 text-xs font-mono font-bold bg-blue-500/20 text-blue-400 rounded">GET</span>
+            <span class="font-mono text-sm font-semibold">/api/spreads</span>
+          </div>
+          <span class="text-xs text-slate-400 font-mono">DEX Flash-Arb Radar</span>
+        </div>
+        <p class="text-xs text-slate-400 mb-4">
+          Autonomous cross-DEX price discrepancies between Aerodrome and Uniswap V3 on Base, pre-simulated for zero-revert execution.
+        </p>
+        <div class="code-block p-4 font-mono text-xs text-slate-300 overflow-x-auto">
+<pre><span class="text-slate-500"># Header: X-Wallet-Address (must hold 100k $NETSWAP)</span>
+curl -H "X-Wallet-Address: 0xYourServerWallet" https://netswap.vercel.app/api/spreads</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5-Line Python SDK -->
+    <div class="p-6 rounded-2xl bg-[#0B0F17] border border-blue-500/30 shadow-xl shadow-blue-500/5 mb-12">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <i class="fa-brands fa-python text-yellow-400 text-lg"></i>
+          <h3 class="font-bold text-base">5-Line Python Bot Integration</h3>
+        </div>
+        <span class="text-xs font-mono text-slate-400">Drop into any trading bot</span>
+      </div>
+      <div class="code-block p-4 font-mono text-xs text-slate-300 overflow-x-auto">
+<pre><span class="text-purple-400">import</span> requests
+
+<span class="text-slate-500"># Replace with the Base address holding your 100k $NETSWAP collateral</span>
+HEADERS = {<span class="text-green-400">"X-Wallet-Address"</span>: <span class="text-green-400">"0xYourServerWalletAddress"</span>}
+
+data = requests.get(<span class="text-green-400">"https://netswap.vercel.app/api/whales"</span>, headers=HEADERS).json()
+<span class="text-purple-400">if</span> data.get(<span class="text-green-400">"status"</span>) == <span class="text-green-400">"success"</span>:
+    print(<span class="text-green-400">"🔥 Real-Time Whale Alert:"</span>, data[<span class="text-green-400">"live_whale_entries"</span>][<span class="text-yellow-400">0</span>])
+<span class="text-purple-400">else</span>:
+    print(<span class="text-red-400">"🔒 Paywall:"</span>, data.get(<span class="text-green-400">"message"</span>), <span class="text-green-400">"Buy:"</span>, data.get(<span class="text-green-400">"buy_link"</span>))</pre>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="p-8 rounded-2xl bg-gradient-to-r from-blue-900/30 to-cyan-900/30 border border-blue-500/30 text-center">
+      <h3 class="text-xl font-bold mb-2">Need $NETSWAP to Unlock Full Institutional Throughput?</h3>
+      <p class="text-xs text-slate-300 mb-6 max-w-lg mx-auto">
+        Acquire 100,000 $NETSWAP directly on Base. Once tokens arrive in your server wallet, all API endpoints unlock automatically in under 5 seconds.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6" target="_blank" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-xs font-mono transition shadow-lg shadow-blue-500/20">
+          Buy $NETSWAP on DexScreener ↗
+        </a>
+        <a href="https://t.me/NetSwapBaseBot" target="_blank" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl font-bold text-xs font-mono transition">
+          Open Telegram Trading Bot ↗
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 py-6 text-center text-xs text-slate-600 font-mono">
+    NetSwap Protocol · Base Mainnet · Contract: 0xf974469D1C72F198Cb43426509119AfC653abB07
+  </footer>
+</body>
+</html>

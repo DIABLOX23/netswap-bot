@@ -9,6 +9,8 @@
     { "source": "/raydium-loss-calculator", "destination": "/calculator.html" },
     { "source": "/audit", "destination": "/audit.html" },
     { "source": "/store", "destination": "/store.html" },
-    { "source": "/vault", "destination": "/vault.html" }
+    { "source": "/vault", "destination": "/vault.html" },
+    { "source": "/api-docs", "destination": "/api-docs.html" },
+    { "source": "/docs", "destination": "/api-docs" }
   ]
 }
