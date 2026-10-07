@@ -1,95 +1,135 @@
-# 🏛️ Aeterna Protocol: Sovereign Continuity & Anti-Hijack Module for Gnosis Safe
+# ⚡ NetSwap Protocol: Autonomous Zero-Revert Execution Router & Mempool Telemetry Engine
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Verification: 7/7 Formal Suites Passed](https://img.shields.io/badge/Verification-7%2F7%20Suites%20Passed-emerald.svg)](https://github.com/DIABLOX23/netswap-bot)
-[![Safe Compatibility](https://img.shields.io/badge/Gnosis%20Safe-v1.3.0%20%7C%20v1.4.1-purple.svg)](https://safe.global)
-[![Zero-Slippage Routing](https://img.shields.io/badge/Settlement-NetSwap%20Private%20Builder-cyan.svg)](https://netswap.vercel.app/vault)
+[![Network: Base Mainnet](https://img.shields.io/badge/Network-Base%20Mainnet%20(8453)-blue.svg)](https://base.org)
+[![Python: 3.10+](https://img.shields.io/badge/Python-3.10%2B-yellow.svg)](https://python.org)
+[![Execution: Zero--Revert Pre--Simulation](https://img.shields.io/badge/Pre--Simulation-Zero--Revert%20Guaranteed-emerald.svg)](https://netswap.vercel.app)
+[![API Gateway](https://img.shields.io/badge/API%20Gateway-Vercel%20Edge%20REST-purple.svg)](https://netswap.vercel.app/docs)
+[![License: MIT](https://img.shields.io/badge/License-MIT-gray.svg)](LICENSE)
 
-Aeterna is an open-source, non-custodial **Gnosis Safe Module** (`AeternaCascadeSafeModule.sol`) designed to protect digital assets against signer loss, incapacitation, and multisig compromise. 
+**NetSwap** is an open-source, high-throughput liquidity execution router and Machine-to-Machine (M2M) mempool telemetry platform purpose-built for **Base Mainnet (Coinbase L2)**.
 
-If key signers go dark or become compromised, Aeterna autonomously executes pre-approved continuity instructions (succession to heirs or emergency evacuation to air-gapped cold storage) with an inviolable 30-day "Scream Window" challenge period.
-
----
-
-## 🛡️ Core Security Architecture & Invariants
-
-```
-                                  [ Safe In Normal Operation ]
-                                                │
-                                                ▼  (Inactivity Threshold: 30d - 20y)
-                                  [ Stage 1: Inactivity Breach ]
-                                                │
-                                                ▼  (3-of-5 Independent Signatures)
-                                  [ Stage 2: Guardian Attestation Quorum ]
-                                                │
-                                                ▼  (Mandatory Timelock Delay)
-                                  [ Stage 3: 30-Day Immutable Scream Window ]
-                                                │
-                         ┌──────────────────────┴──────────────────────┐
-                         ▼                                             ▼
-            [ Legitimate Safe Heartbeat ]                [ 30 Days Expire With 0 Aborts ]
-                         │                                             │
-                         ▼                                             ▼
-                 [ Cascade Aborted ]                     [ Stage 4: Autonomous Execution ]
-             (Returns to Stage 1 Active)                 (Native ETH & ERC-20 to Heirs)
-```
-
-### Key Cryptographic Invariants:
-1. **0% Custody Risk:** The module never holds funds. 100% of reserves remain inside the Safe.
-2. **Strict Access Control (Zero `tx.origin`):** Registration, heartbeats, and aborts require direct calls from the Safe itself or verified Safe signers (`ISafe.isOwner(msg.sender)`), providing full immunity against phishing attacks.
-3. **No Frontrunning / Griefing:** `registerLegacyVault` is strictly gated to authorized Safe owners.
-4. **Duplicate-Free Guardian Consensus:** Dynamic verification prevents guardian key duplication or zero addresses.
-5. **Execution Verification:** Atomic execution with strict return value validation on Safe module transactions.
-6. **Flashbots for Inheritance:** All liquidations bypass public mempools, settling through NetSwap's private builder to eliminate sandwich bots and frontrunning.
+In volatile decentralized markets, algorithmic bots and traders lose thousands of dollars daily to **reverted transactions (`status == 0`)** caused by stale AMM prices, low default slippage tolerances, and router congestion across Uniswap V3 and Aerodrome. NetSwap eliminates transaction reverts through local pre-simulation and dynamic slippage routing, while providing real-time REST telemetry streams for automated bot builders.
 
 ---
 
-## 📂 Repository Structure
+## 🏛️ Ecosystem Architecture
 
 ```
-├── contracts/
-│   ├── AeternaCascadeSafeModule.sol   # Core Gnosis Safe module contract
-│   └── DeployAeternaGovernance.s.sol  # Foundry deployment & Safe calldata script
-├── test/
-│   └── test_aeterna_simulation.py     # 7 formal mathematical simulation suites
-├── web/                               # Live Citadel Vault Web Terminal
-│   ├── vault.html                     # Interactive dashboard & horizon calculator
-│   ├── index.html                     # NetSwap Zero-Slippage DEX terminal
-│   └── slippage-calculator.html       # MEV and price impact diagnostic tool
-├── generate_safe_payload.py           # Deterministic Safe multisig payload generator
-├── AETERNA_MANIFESTO.md               # The sovereign continuity thesis
-├── AETERNA_GOD_MODE_PACK.md           # Pre-baked DAO governance proposals
-└── bot.py                             # NetSwap telemetry & liquidity coordination
+                             [ Base L2 Mempool / RPC ]
+                                        │
+                    ┌───────────────────┴───────────────────┐
+                    ▼                                       ▼
+        [ Reverted TX Interceptor ]              [ Live Whale Accumulation ]
+        (Detects status == 0 swaps)              (Tracks $50k+ AMM entries)
+                    │                                       │
+                    ▼                                       ▼
+      [ Dynamic Slippage Resolver ]            [ Token-Gated M2M Gateway ]
+      (Pre-simulates against pools)            (/api/whales & /api/spreads)
+                    │                                       │
+                    ▼                                       ▼
+       [ NetSwap Batch Router ]                 [ Autonomous Bot Desks ]
+    (Zero-revert onchain settlement)            (5-line drop-in Python SDK)
 ```
 
 ---
 
-## 🧪 Formal Verification & Testing
+## 🚀 Key Features
 
-The state machine has been verified across 7 formal simulation suites covering all edge cases, quorum permutations, and attack vectors:
+### 1. 🚑 Failed Trade Interceptor (`scripts/failed_trade_interceptor.py`)
+Autonomous block scanner monitoring Base Mainnet for reverted swap transactions:
+* Identifies target tokens and failed router contracts (Uniswap V3 SwapRouter02, Universal Router, Aerodrome Slipstream, Odos).
+* Calculates exact burned gas losses in ETH and USD.
+* Generates 1-click zero-revert rescue routes with dynamic slippage pre-simulation.
 
 ```bash
-# Run the formal test suite
-python test/test_aeterna_simulation.py
+# Run real-time block scanner
+python scripts/failed_trade_interceptor.py --blocks 10
+
+# Generate demonstration rescue pack
+python scripts/failed_trade_interceptor.py --demo
 ```
 
-### Verified Test Suites:
-- `SUITE 1`: Normal Genesis, Heartbeat Pulses, & Multi-Decade Horizon Tracking.
-- `SUITE 2`: Inactivity Breach & Guardian Attestation (Quorum Edge Cases).
-- `SUITE 3`: The 30-Day "Scream Window" State Machine & Timelock Math.
-- `SUITE 4`: 1-Signature Heartbeat Abort During Scream Window (Anti-False-Positive).
-- `SUITE 5`: Autonomous Heir Succession & Fee Arithmetic.
-- `SUITE 6`: Malicious Reentrancy & Early-Execution Invariant Resistance.
-- `SUITE 7`: Float Yield Siphon Compounding Calculations.
+### 2. 📡 Tiered REST API Gateway ([Docs](https://netswap.vercel.app/docs))
+Token-gated, machine-to-machine telemetry streams hosted serverless on Vercel Edge:
+* **`/api/whales`**: Real-time smart-money buy accumulation ($50k–$500k+ entries) across Base AMMs.
+* **`/api/spreads`**: Sub-second cross-DEX flash-arbitrage spreads between Aerodrome and Uniswap V3.
+* **Access Tiers**:
+  * **Tier 1 (Scout):** Holds $\ge 100,000\text{ } \$NETSWAP$ — 50 calls/day.
+  * **Tier 2 (Whale Hunter):** Holds $\ge 500,000\text{ } \$NETSWAP$ — 1,000 calls/day + live spreads.
+  * **Tier 3 (Institutional):** Holds $\ge 1,000,000\text{ } \$NETSWAP$ — Unlimited calls, 0s latency mempool cluster.
+
+### 3. 🤖 High-Speed Telegram Execution Engine (`bot.py`)
+Production-grade Telegram interface with native Base DEX execution:
+* **Zero-Revert Router:** Pre-simulates transactions locally to prevent burnt gas fees.
+* **Anti-MEV Batching:** Protects swaps against public mempool sandwich bots.
+* **1-Click Deep Links:** Instant swap cards via `/start buy_[TOKEN]` and `/start rescue_[TOKEN]`.
+* **Institutional Audit Card:** Real-time node telemetry and ecosystem metrics via `/status`.
 
 ---
 
-## 🚀 Live Deployments & Challenge
+## ⚡ 5-Line Python SDK Integration
 
-- **Live Citadel Terminal:** [netswap.vercel.app/vault](https://netswap.vercel.app/vault)
-- **Active Mainnet Challenge:** We invite white-hats and security researchers to review the codebase. The first entity to submit a reproducible critical exploit will be awarded **Core Security Contributor** status and a **5% lifetime royalty** of all Aeterna protocol execution fees.
+Any algorithmic bot or Python script can ingest NetSwap telemetry in seconds:
+
+```python
+import requests
+
+# Header: Server wallet holding your $NETSWAP access collateral
+HEADERS = {"X-Wallet-Address": "0xYourServerWalletAddress"}
+
+# Ingest live Base whale telemetry
+response = requests.get("https://netswap.vercel.app/api/whales", headers=HEADERS).json()
+
+if response.get("status") == "success":
+    print(f"🔥 [{response['tier']}] Live Whale Entry:", response["live_whale_entries"][0])
+else:
+    print("🔒 Paywall:", response.get("message"), "Deficit:", response.get("deficit"))
+```
+
+---
+
+## 🛠️ Quickstart & Local Installation
+
+### Prerequisites
+* Python 3.10 or higher
+* Git
+
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/DIABLOX23/netswap-bot.git
+cd netswap-bot
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### Running the Trade Interceptor
+```bash
+python scripts/failed_trade_interceptor.py --demo
+```
+
+### Running the Telegram Bot Locally
+```bash
+# Set your Telegram Bot token
+export TELEGRAM_BOT_TOKEN="your_botfather_token_here"
+
+# Start the bot
+python bot.py
+```
+
+---
+
+## 🔗 Official Protocol Links
+
+* 🌐 **Web Terminal:** [netswap.vercel.app](https://netswap.vercel.app)
+* 📡 **Interactive API Documentation:** [netswap.vercel.app/docs](https://netswap.vercel.app/docs)
+* 🔓 **Leaked Alpha Stream:** [netswap.vercel.app/alpha-leak](https://netswap.vercel.app/alpha-leak)
+* 🤖 **Telegram Execution Bot:** [@NetSwapBaseBot](https://t.me/NetSwapBaseBot)
+* 📊 **DexScreener Chart:** [0xb5be...44d6](https://dexscreener.com/base/0xb5be5c5559f2864e2504a0e0545169cd1edd3a8d12795b78e916d7220a4c44d6)
+* 📍 **Base Mainnet Contract:** `0xf974469D1C72F198Cb43426509119AfC653abB07`
 
 ---
 
 ## 📄 License
-MIT License. Open source and verifiable on-chain.
+This project is licensed under the [MIT License](LICENSE).
